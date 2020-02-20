@@ -1,0 +1,5 @@
+﻿Modules 目录不能删除 
+
+模块在生成时会自动拷贝到该目录下
+
+xcopy  "$(TargetDir)*.*" "$(SolutionDir)\ConsoleAppTest\Modules\$(ProjectName)\"

@@ -1,0 +1,63 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "我的文档主题管理";
+}
+@model Mango.Module.Account.Areas.Account.Models.MyThemeViewModel
+
+<div class="row">
+    <!--左边菜单部分-->
+    <div class="col-lg-3">
+        @Html.PartialAsync("~/Areas/Account/Views/Menu.cshtml").Result
+    </div>
+    <div class="col-lg-9">
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            @foreach (var item in Model.ListData)
+            {
+                <div class="media pt-2 border-bottom border-gray ">
+                    <div class="row col-lg-12">
+                        <div class="col-lg-8">
+
+                            <div class="media-body pb-3 mb-0 small lh-125">
+                                <a href="/docs/read/@item.ThemeId" target="_blank" style="color:black;"><h6 class="d-block">@item.Title</h6></a>
+                                <span><img src="~/style/bootstrap/dist/icons/clock.svg" style="width:12px;height:12px;" title="发布时间" />：@item.AppendTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+
+                                <span style="margin-left:10px;"><img src="~/style/bootstrap/dist/icons/eye.svg" style="width:12px;height:12px;" title="浏览次数" />：@item.ReadCount</span>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="/docs/edit/theme/@item.ThemeId" class="btn btn-success" target="_blank">编辑</a>
+                                <a href="/docs/release/document/@item.ThemeId" class="btn btn-success" target="_blank">添加文档</a>
+                                <a href="/account/my/document/@item.ThemeId" class="btn btn-success">文档管理</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+            <div class="row" style="margin-top:10px;">
+                <div class="col-lg-12">
+                    <nav aria-label="">
+                        <ul class="pagination">
+                            @Html.Pager(ViewContext.HttpContext.Request, Model.ListData.Count)
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/lib/artdialog/dialog.min.js"></script>
+    <script type="text/javascript">
+    $(window).ready(function () {
+        //选中左边菜单栏
+        $("#leftmenu_Docs").addClass("active");
+    });
+    </script>
+}

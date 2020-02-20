@@ -1,0 +1,341 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "我的个人信息";
+}
+@model Mango.Module.Account.Areas.Account.Models.MyAccountViewModel
+
+<div class="row">
+    <!--左边菜单部分-->
+    <div class="col-lg-3">
+        @Html.PartialAsync("~/Areas/Account/Views/Menu.cshtml").Result
+    </div>
+    <div class="col-lg-9">
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            @*<h5 class="border-bottom border-gray pb-2 mb-0">我的个人信息</h5>*@
+            <table class="table">
+
+                <tbody>
+                    <tr>
+                        <td style="width:100px;">用户名:</td>
+                        <td>
+                            <span>@Model.AccountData.AccountName</span>
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-success btn-sm" value="修改密码" id="btn_EditPassword" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>头像:</td>
+                        <td>
+                            <img src="@Model.AccountData.HeadUrl" style="width:60px;height:60px;" id="avatar" class="avatar" />
+                        </td>
+                        <td>
+                            <input type="file" id="showInputImageFile" style="FILTER: alpha(opacity=0); moz-opacity: 0; opacity: 0;" />
+                            <input type="button" class="btn btn-success btn-sm" value="更换头像" id="showImageFileUploadBtn" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>昵称:</td>
+                        <td>
+                            <span id="showNickName">@Model.AccountData.NickName</span>
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-success btn-sm" value="编辑" id="btn_EditNickName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>性别:</td>
+                        <td>
+                            <span id="showSex">@Model.AccountData.Sex</span>
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-success btn-sm" value="编辑" id="btn_EditSex" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>个人标签:</td>
+                        <td>
+                            <span id="showTags">@Model.AccountData.Tags</span>
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-success btn-sm" value="编辑" id="btn_EditTags" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/lib/artdialog/dialog.js"></script>
+    <script src="~/lib/jquery/jquery.validator.min.js"></script>
+    <script src="~/lib/jquery/jquery.form.js"></script>
+    <script src="~/lib/mango/file/config.js"></script>
+    <script src="~/lib/mango/file/jquery-upload.js"></script>
+    <script type="text/javascript">
+//修改个人标签
+$("#btn_EditTags").click(function () {
+    var html = ' <form class="form-horizontal" id="formTags" method="post">';
+    html += '<div class="form-group">';
+    html += '<div class="col-md-10">';
+    html += '<input type="hidden" class="form-control" id="InformationType" name="InformationType" value="3">';
+    html += '<input type="text" class="form-control" id="InformationValue" name="InformationValue" placeholder="请输入个人标签(签名)(必填)" value="@Model.AccountData.Tags">';
+    html += '</div>';
+    html += '</div>';
+    html += '</form>';
+    var d = dialog({
+        title: '修改个人标签',
+        content: html,
+        cancel: true,
+        cancelValue: '取消',
+        cancelDisplay: false,
+        okValue: '保存',
+        ok: function () {
+            //加载验证
+            var config = new Array();
+            config.push({
+                id: $("#InformationValue"),
+                required: {},
+                length: { min: 1, max: 30 }
+            });
+            var v = $.Validator({
+                items: config
+            });
+            if (v.Create()) {
+                $("#formTags").ajaxSubmit({
+                    url: '/Account/My/Information',
+                    success: function (result) {
+                        if (result.code == 0) {
+                            $("#showTags").text($("#InformationValue").val());
+                            layer.msg("修改成功", function () {
+                                 window.location.href = window.location.href;
+                            });
+                        }
+                        else {
+                            layer.msg(result.message);
+                        }
+                    }
+                });
+            }
+            else {
+                return false;
+            }
+        },
+        width: '380px'
+    });
+    d.showModal();
+});
+//修改性别
+$("#btn_EditSex").click(function () {
+    var html = ' <form class="form-horizontal" id="formSex" method="post">';
+    html += '<div class="form-group">';
+    html += '<div class="col-md-10">';
+    html += '<input type="hidden" class="form-control" id="InformationType" name="InformationType" value="5">';
+    html += '<select type="text" class="form-control" id="InformationValue" name="InformationValue" placeholder="请输入昵称(必填)" ><option value="男" @(Model.AccountData.Sex.Contains("男")?"selected=selected":"")>男</option><option value="女" @(Model.AccountData.Sex.Contains("女")?"selected=selected":"")>女</option></select>';
+    html += '</div>';
+    html += '</div>';
+    html += '</form>';
+    var d = dialog({
+        title: '修改性别',
+        content: html,
+        cancel: true,
+        cancelValue: '取消',
+        cancelDisplay: false,
+        okValue: '保存',
+        ok: function () {
+            //加载验证
+            var config = new Array();
+            config.push({
+                id: $("#InformationValue"),
+                required: {}
+            });
+            var v = $.Validator({
+                items: config
+            });
+            if (v.Create()) {
+                $("#formSex").ajaxSubmit({
+                    url: '/Account/My/Information',
+                    success: function (result) {
+                        if (result.code == 0) {
+                            $("#showSex").text($("#InformationValue").val());
+                            layer.msg("修改成功", function () {
+                                 window.location.href = window.location.href;
+                            });
+                        }
+                        else {
+                            layer.msg(result.message);
+                        }
+                    }
+                });
+            }
+            else {
+                return false;
+            }
+        },
+        width: '380px'
+    });
+    d.showModal();
+});
+//修改昵称
+$("#btn_EditNickName").click(function () {
+    var html = ' <form class="form-horizontal" id="formNickName" method="post">';
+    html += '<div class="form-group">';
+    html += '<div class="col-md-10">';
+    html += '<input type="hidden" class="form-control" id="InformationType" name="InformationType" value="1">';
+    html += '<input type="text" class="form-control" id="InformationValue" name="InformationValue" placeholder="请输入昵称(必填)" value="@Model.AccountData.NickName">';
+    html += '</div>';
+    html += '</div>';
+    html += '</form>';
+    var d = dialog({
+        title: '修改昵称',
+        content: html,
+        cancel: true,
+        cancelValue: '取消',
+        cancelDisplay: false,
+        okValue: '保存',
+        ok: function () {
+            //加载验证
+            var config = new Array();
+            config.push({
+                id: $("#InformationValue"),
+                required: {},
+                length: { min: 2, max: 15 }
+            });
+            var v = $.Validator({
+                items: config
+            });
+            if (v.Create()) {
+                $("#formNickName").ajaxSubmit({
+                    url: '/Account/My/Information',
+                    success: function (result) {
+                        if (result.code == 0) {
+                            $("#showNickName").text($("#InformationValue").val());
+                            layer.msg("修改成功", function () {
+                                 window.location.href = window.location.href;
+                            });
+                        }
+                        else {
+                            layer.msg(result.message);
+                        }
+                    }
+                });
+            }
+            else {
+                return false;
+            }
+        },
+        width: '380px'
+    });
+    d.showModal();
+});
+//修改密码
+$("#btn_EditPassword").click(function () {
+
+    var html = ' <form class="form-horizontal" id="formPassword" method="post">';
+
+    html += '<div class="form-group">';
+    html += '<label for="exampleInputAccount4" class="col-sm-2">原密码:</label>';
+    html += '<div class="col-md-10">';
+    html += '<input type="text" class="form-control" id="Password" name="Password" placeholder="请输入原登录密码(必填)">';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="form-group">';
+    html += '<label for="exampleInputPassword4" class="col-sm-2">新密码:</label>';
+    html += '<div class="col-md-10">';
+    html += '<input type="text" class="form-control" id="NewPassword" name="NewPassword" placeholder="请输入新的登录密码(必填)">';
+    html += '</div>';
+    html += '</div>';
+
+    html += '</form>';
+    var d = dialog({
+        title: '修改密码:',
+        content: html,
+        cancel: true,
+        cancelValue: '取消',
+        cancelDisplay: false,
+        okValue: '保存',
+        ok: function () {
+            //加载验证
+            var config = new Array();
+            config.push({
+                id: $("#Password"),
+                required: {},
+                length: { min: 6, max: 20 }
+            });
+            config.push({
+                id: $("#NewPassword"),
+                required: {},
+                length: { min: 6, max: 20 }
+            });
+            var v = $.Validator({
+                items: config
+            });
+            if (v.Create()) {
+                $("#formPassword").ajaxSubmit({
+                    url: '/Account/My/Password',
+                    success: function (result) {
+                        if (result) {
+                            alert("修改成功");
+                            window.location.href = window.location.href;
+                        }
+                    }
+                });
+            }
+            else {
+                return false;
+            }
+        },
+        width: '380px'
+    });
+    d.showModal();
+});
+    </script>
+    <script type="text/javascript">
+    $(window).ready(function () {
+        //选中左边菜单栏
+        $("#leftmenu_Info").addClass("active");
+    });
+    //处理图片上传
+    $("#showImageFileUploadBtn").click(function () {
+        $('#showInputImageFile').trigger('click');
+    });
+    var oldAvatar = '@Model.AccountData.HeadUrl';
+    var headUrlIndex;
+    $.FlyUpload({
+        url: '',
+        id: 'showInputImageFile',
+        auto: true,
+        preview: function (url) {
+            headUrlIndex = layer.load(1, {
+                shade: [0.1, '#fff'] //0.1透明度的白色背景
+            });
+        },
+        success: function (url) {
+            url = ImageServerUrl + url;
+            $.ajax({
+                type: 'post',
+                url: '/Account/My/Information',
+                data: 'InformationType=2&InformationValue=' + url,
+                success: function (result) {
+                    if (result.code==0) {
+                        $("#avatar").attr('src', url);
+                        $("#avatar").attr('style', 'width:60px;height:60px;');
+                    }
+                    else {
+                        $("#avatar").attr('src', oldAvatar);
+                        $("#avatar").attr('style', 'width:60px;height:60px;');
+                    }
+                    layer.close(headUrlIndex);
+                },
+                error: function (ex) {
+                    $("#avatar").attr('src', oldAvatar);
+                    $("#avatar").attr('style', 'width:60px;height:60px;');
+                }
+            });
+        }
+    });
+    </script>
+}

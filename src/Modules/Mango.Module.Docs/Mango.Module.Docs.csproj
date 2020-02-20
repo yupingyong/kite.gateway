@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Mango.Module.Docs.xml</DocumentationFile>
+    <OutputPath></OutputPath>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Mango.Module.Docs.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Mango.Module.Docs.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Mango.Framework\Mango.Framework.csproj" />
+    <ProjectReference Include="..\Mango.Module.Core\Mango.Module.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="module.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Areas\Docs\Views\Edit\Document.cshtml" />
+    <None Include="Areas\Docs\Views\Edit\Theme.cshtml" />
+    <None Include="Areas\Docs\Views\Read\Index.cshtml" />
+    <None Include="Areas\Docs\Views\Release\Document.cshtml" />
+    <None Include="Areas\Docs\Views\Release\Theme.cshtml" />
+    <None Include="Areas\Docs\Views\Theme\Index.cshtml" />
+  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="del /S /Q &quot;$(SolutionDir)\Mango.WebHost\Modules\$(ProjectName)\&quot;&#xD;&#xA;xcopy  &quot;$(TargetDir)*.*&quot; &quot;$(SolutionDir)\Mango.WebHost\Modules\$(ProjectName)\&quot;" />
+  </Target>
+</Project>

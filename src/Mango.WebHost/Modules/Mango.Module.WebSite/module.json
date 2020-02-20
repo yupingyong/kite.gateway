@@ -1,0 +1,8 @@
+{
+  "Id": "Mango.Module.WebSite",
+  "Name": "WebSite",
+  "Version": "v1.0.0",
+  "Description": "系统基础数据模块",
+  "IsApplicationPart": true
+}
+

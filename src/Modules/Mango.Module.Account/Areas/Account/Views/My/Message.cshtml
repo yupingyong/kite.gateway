@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Message";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <!--左边菜单部分-->
+    <div class="col-lg-3">
+        @Html.PartialAsync("~/Areas/Account/Views/Menu.cshtml").Result
+    </div>
+    <div class="col-lg-9">
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            我是尚未完成的功能
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/lib/artdialog/dialog.min.js"></script>
+    <script type="text/javascript">
+    $(window).ready(function () {
+        //选中左边菜单栏
+        $("#leftmenu_Message").addClass("active");
+    });
+    </script>
+}
+

@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "文档";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Mango.Module.Docs.Areas.Docs.Models.ThemeViewModel
+
+<div class="my-3 p-3 bg-white rounded box-shadow">
+    @foreach (var item in Model.ThemeListData)
+    {
+        <div class="media pt-2 border-bottom border-gray ">
+            <img src="@(item.HeadUrl)" alt="" class="mr-2 rounded" style="width:40px;height:40px;">
+            <div class="media-body pb-3 mb-0 small lh-125">
+                <a href="/docs/read/@item.ThemeId" target="_blank" style="color:black;"><h6 class="d-block">@item.Title</h6></a>
+                <span><img src="~/style/bootstrap/dist/icons/clock.svg" style="width:12px;height:12px;" title="发布时间" />：@item.AppendTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+
+                <span style="margin-left:10px;"><img src="~/style/bootstrap/dist/icons/eye.svg" style="width:12px;height:12px;" title="浏览次数" />：@item.ReadCount</span>
+
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <nav aria-label="">
+            <ul class="pagination">
+                @Html.Pager(ViewContext.HttpContext.Request, Model.ThemeListData.Count)
+            </ul>
+        </nav>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(window).ready(function () {
+            var id = '@Html.Raw(Html.ViewContext.RouteData.Values["id"]!=null? Html.ViewContext.RouteData.Values["id"].ToString() : "0")';
+            $("#channelList").find("a").each(function (i) {
+                if (id == $(this).attr('data-id')) {
+                    $(this).addClass("active");
+                }
+            });
+        });
+    </script>
+}
+
+

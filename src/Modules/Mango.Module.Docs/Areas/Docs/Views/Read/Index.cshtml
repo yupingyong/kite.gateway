@@ -1,0 +1,167 @@
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Mango.Module.Docs.Areas.Docs.Models.DocsReadViewModel
+@{
+    ViewData["Title"] = Model.DocsId == 0 ? Model.DocsThemeData.Title : Model.DocsData.Title;
+}
+
+@section Style{
+    <link href="~/lib/code/prism.css" rel="stylesheet" />
+    <style>
+        pre .comment:before,
+        pre .comment:after {
+            /* 1 */
+            display: table;
+            content: " ";
+            display: none;
+            /* 2 */
+        }
+
+        pre .comment:after {
+            clear: both;
+        }
+
+        pre .comment:before,
+        pre .comment:after {
+            /* 1 */
+            display: table;
+            content: " ";
+            display: none;
+            /* 2 */
+        }
+
+        pre .comment {
+            border: 0;
+        }
+    </style>
+}
+
+
+<div class="row">
+    <!--左边部分-->
+    <div class="col-lg-3" id="box_left_parent">
+        <div class="my-3 p-3 bg-white rounded box-shadow" id="box_left_nav">
+            <h6 class=" border-gray pb-2 mb-0">文档列表...</h6>
+            <div class="list-group list-group-flush" id="box_left_docsitems">
+                <a href="/docs/read/@Model.ThemeId" class="list-group-item list-group-item-action" style="padding:0.15rem 0.15rem;font-size:14px;" data-id="0">简介</a>
+                @foreach (var item in Model.ItemsListData)
+                {
+                    <a href="/docs/read/@item.ThemeId/@item.DocsId" class="list-group-item list-group-item-action" style="padding:0.15rem 0.15rem;font-size:14px;" data-id="@(item.DocsId)">@item.ShortTitle</a>
+                }
+            </div>
+        </div>
+    </div>
+    <!--右边边部分-->
+    <div class="col-lg-9">
+        @if (Model.DocsId == 0)
+        {
+            <div class="my-3 p-3 bg-white rounded box-shadow" id="box_main_contents">
+                <h5 class="border-bottom border-gray pb-2 mb-0">@Model.DocsThemeData.Title</h5>
+                <div class="media pt-3  border-gray ">
+                    <img src="@Model.DocsThemeData.HeadUrl" alt="" class="mr-2 rounded" style="width:40px;height:40px;">
+                    <div class="media-body pb-3 mb-0 small lh-125">
+                        <h6 class="d-block">@Model.DocsThemeData.NickName</h6>
+                        <span><img src="~/style/bootstrap/dist/icons/clock.svg" style="width:12px;height:12px;" title="发布时间" />：@Model.DocsThemeData.AppendTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+
+                        <span style="margin-left:10px;"><img src="~/style/bootstrap/dist/icons/eye.svg" style="width:12px;height:12px;" title="浏览次数" />：@Model.DocsThemeData.ReadCount</span>
+
+                        <span style="margin-left:10px;"><img src="~/style/bootstrap/dist/icons/comment.svg" style="width:12px;height:12px;" title="点赞数" />：@Model.DocsThemeData.PlusCount</span>
+                    </div>
+                </div>
+                <div class="text">
+
+                    @if (Model.DocsThemeData.IsShow)
+                    {
+                        <div style="font-size:15px;">
+                            @Html.Raw(Model.DocsThemeData.Contents)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <div class="content">该内容已经失联,我们在火星发现了Ta的踪迹...</div>
+                        </div>
+                    }
+
+
+                </div>
+
+                <footer id="mfooter">
+                    <p class="center text" style="text-align:center">
+                        <button class="btn btn-info" style="font-size:20px;" onclick="AddUserPlus(@(Model.DocsThemeData.ThemeId), '@(Model.DocsThemeData.Title)', 4, @(Model.DocsThemeData.AccountId), 0,$('#msg_docs_pluscount'))">
+                            <img src="~/style/bootstrap/dist/icons/thumbsup.svg" style="width:20px;height:20px;margin-bottom:2px;" title="给楼主点个赞吧..." />
+                            <span style="margin-left:2px;" class="badge badge-light" id="msg_docs_pluscount">@Model.DocsThemeData.PlusCount</span>
+                        </button>
+                    </p>
+                </footer>
+
+            </div>
+        }
+        else
+        {
+            <div class="my-3 p-3 bg-white rounded box-shadow" id="box_main_contents">
+                <h5 class="border-bottom border-gray pb-2 mb-0">@Model.DocsData.Title</h5>
+                <div class="media pt-3  border-gray ">
+                    <img src="@Model.DocsData.HeadUrl" alt="" class="mr-2 rounded" style="width:40px;height:40px;">
+                    <div class="media-body pb-3 mb-0 small lh-125">
+                        <h6 class="d-block">@Model.DocsData.NickName</h6>
+                        <span><img src="~/style/bootstrap/dist/icons/clock.svg" style="width:12px;height:12px;" title="发布时间" />：@Model.DocsData.AppendTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+
+                        <span style="margin-left:10px;"><img src="~/style/bootstrap/dist/icons/eye.svg" style="width:12px;height:12px;" title="浏览次数" />：@Model.DocsData.ReadCount</span>
+
+                        <span style="margin-left:10px;"><img src="~/style/bootstrap/dist/icons/comment.svg" style="width:12px;height:12px;" title="点赞数" />：@Model.DocsData.PlusCount</span>
+                    </div>
+                </div>
+                <div class="text">
+                    @if (Model.DocsData.IsShow)
+                    {
+                        <div style="font-size:15px;">
+                            @Html.Raw(Model.DocsData.Contents)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <div class="content">该内容已经失联,我们在火星发现了Ta的踪迹...</div>
+                        </div>
+                    }
+
+
+                </div>
+
+                <footer id="mfooter">
+                    <p class="center text" style="text-align:center">
+                        <button class="btn btn-info" style="font-size:20px;" onclick="AddUserPlus(@(Model.DocsData.DocsId), '@(Model.DocsData.Title)', 5, @(Model.DocsData.AccountId), @(Model.DocsData.ThemeId),$('#msg_docs_pluscount'))">
+                            <img src="~/style/bootstrap/dist/icons/thumbsup.svg" style="width:20px;height:20px;margin-bottom:2px;" title="给楼主点个赞吧..." />
+                            <span style="margin-left:2px;" class="badge badge-light" id="msg_docs_pluscount">@Model.DocsData.PlusCount</span>
+                        </button>
+                    </p>
+                </footer>
+
+            </div>
+        }
+    </div>
+
+</div>
+@section Scripts{
+
+    <script src="~/lib/code/prism.js"></script>
+
+    <script type="text/javascript">
+        var docsId =@Model.DocsId;
+        $(window).ready(function () {
+            //设置宽度
+            if ($("#box_main_contents").height() > $("#box_left_nav").height()) {
+                var leftWidth = $("#box_left_parent").width();
+                $("#box_left_nav").attr("style", 'position:fixed;width:' + leftWidth + 'px;');
+            }
+            //设置选中项
+            $("#box_left_docsitems").find("a[data-id='" + docsId + "']").addClass("active");
+        });
+    </script>
+}
+
+

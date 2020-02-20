@@ -1,0 +1,8 @@
+{
+  "Id": "Mango.Module.Account",
+  "Name": "Account",
+  "Version": "v1.0.0",
+  "Description": "账号中心模块",
+  "IsApplicationPart": true
+}
+
