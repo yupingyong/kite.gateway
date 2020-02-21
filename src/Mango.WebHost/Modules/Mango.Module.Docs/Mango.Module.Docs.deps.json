@@ -17,7 +17,7 @@
     "optimize": false,
     "keyFile": "",
     "emitEntryPoint": false,
-    "xmlDoc": true,
+    "xmlDoc": false,
     "debugType": "portable"
   },
   "targets": {

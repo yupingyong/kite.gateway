@@ -3,9 +3,8 @@
     ViewData["Title"] = "新用户注册";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    Mango.Web.Common.WebSite webSite = new Mango.Web.Common.WebSite();
-    Mango.Web.Models.WebSiteConfigModel configData = webSite.GetWebSiteData().WebSiteConfigData;
-    string appId = Mango.Core.Configuration.GetItem("Tencent_VerificationAppId");
+    Mango.Module.Core.Common.WebSite webSite = new Mango.Module.Core.Common.WebSite();
+    Mango.Module.Core.Models.WebSiteConfigModel configData = webSite.GetWebSiteData().WebSiteConfigData;
 }
 <div class="row" style="margin-top:30px;">
 
@@ -30,7 +29,7 @@
                     <div class="input-group-append">
                         <span class="input-group-text" id="btn_SendEmail" style="cursor:pointer;">获取验证码</span>
                     </div>
-                    <button class="btn" id="TencentCaptcha" data-appid="@appId" data-cbfn="callback" type="button" style="display:none;">获取验证码</button>
+                    <button class="btn" id="TencentCaptcha" data-appid="2087295534" data-cbfn="callback" type="button" style="display:none;">获取验证码</button>
                 </div>
                 <div class="form-group  p-2">
                     <div class="checkbox">

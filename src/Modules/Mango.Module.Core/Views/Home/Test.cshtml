@@ -1,0 +1,70 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test</title>
+    <link href="~/style/css/zui.min.css" rel="stylesheet" />
+    <link href="~/lib/code/prism.css" rel="stylesheet" />
+    <script src="~/lib/code/prism.js"></script>
+    <style>
+        pre .comment:before,
+        pre .comment:after {
+            /* 1 */
+            display: table;
+            content: " ";
+            display: none;
+            /* 2 */
+        }
+
+        pre .comment:after {
+            clear: both;
+        }
+
+        pre .comment:before,
+        pre .comment:after {
+            /* 1 */
+            display: table;
+            content: " ";
+            display:none;
+            /* 2 */
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <pre class="language-csharp"><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Mango.Web.ViewModels
+{
+    public class EditPostsRequestModel
+    {
+        /// &lt;summary&gt;
+        /// 帖子标题
+        /// &lt;/summary&gt;
+        public string Title { get; set; }
+        /// &lt;summary&gt;
+        /// 帖子内容
+        /// &lt;/summary&gt;
+        public string Contents { get; set; }
+        /// &lt;summary&gt;
+        /// 标签
+        /// &lt;/summary&gt;
+        public int ChannelId { get; set; }
+        /// &lt;summary&gt;
+        /// 帖子ID
+        /// &lt;/summary&gt;
+        public int PostsId { get; set; }
+    }
+}</code></pre>
+    </div>
+</body>
+</html>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mango.Module.Cms.Areas.Cms.Models
+namespace Mango.Module.CMS.Areas.CMS.Models
 {
     public class EditViewModel
     {

@@ -4,9 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model Mango.Module.Cms.Areas.Cms.Models.ChannelViewModel
+@model Mango.Module.CMS.Areas.CMS.Models.ChannelViewModel
 
-@Html.PartialAsync("~/Views/Template/Channel.cshtml", Model.ChannelListData).Result
+@Html.PartialAsync("~/Areas/CMS/Views/Template/Channel.cshtml", Model.ChannelListData).Result
 <div class="my-3 p-3 bg-white rounded box-shadow">
     @foreach (var item in Model.ContentsListData)
     {

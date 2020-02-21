@@ -1,0 +1,8 @@
+﻿@model Mango.Module.Core.Models.WebSiteViewModel
+
+@foreach (var item in Model.WebSiteNavigationData)
+{
+    <li class="nav-item" data-id="@item.LinkUrl">
+        <a class="nav-link" href="@item.LinkUrl" @(item.IsTarget ? "target=\"_blank\"" : "")>@item.NavigationName</a>
+    </li>
+}    
