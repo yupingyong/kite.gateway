@@ -1,0 +1,7 @@
+{
+  "Id": "Mango.Module.Main",
+  "Name": "Main",
+  "Version": "v1.0.0",
+  "Description": "主要模块(包含布局)",
+  "IsApplicationPart": true
+}

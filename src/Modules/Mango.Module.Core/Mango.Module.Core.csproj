@@ -25,9 +25,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="del /S /Q &quot;$(SolutionDir)\Mango.WebHost\Modules\$(ProjectName)\&quot;&#xD;&#xA;xcopy  &quot;$(TargetDir)*.*&quot; &quot;$(SolutionDir)\Mango.WebHost\Modules\$(ProjectName)\&quot;" />
   </Target>

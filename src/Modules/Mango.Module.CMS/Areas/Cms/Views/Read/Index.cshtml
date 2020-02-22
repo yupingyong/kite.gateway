@@ -35,9 +35,7 @@
         }
     </style>
 }
-@Html.PartialAsync("~/Views/Template/Channel.cshtml", Model.ChannelListData).Result
-
-
+@Html.PartialAsync("~/Areas/CMS/Views/Template/Channel.cshtml", Model.ChannelListData).Result
 
 
 <input type="hidden" data-id="@Model.ContentsData.ContentsId" data-title="@Model.ContentsData.Title" id="msg_posts_data" />
@@ -58,7 +56,7 @@
                 </div>
             </div>
             <div class="text">
-                @if (Model.ContentsData.StateCode==1)
+                @if (Model.ContentsData.StateCode == 1)
                 {
                     <div style="font-size:15px;">@Html.Raw(Model.ContentsData.Contents)</div>
                 }

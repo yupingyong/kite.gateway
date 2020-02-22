@@ -191,6 +191,8 @@ namespace Mango.WebHost.Extensions
         /// <returns></returns>
         public static IServiceCollection AddCustomizedMvc(this IServiceCollection services)
         {
+            services.AddSession();
+
             var mvcBuilder = services.AddControllersWithViews()
                 .AddJsonOptions(options=> {
                     options.JsonSerializerOptions.Converters.Add(new DateTimeToStringConverter());

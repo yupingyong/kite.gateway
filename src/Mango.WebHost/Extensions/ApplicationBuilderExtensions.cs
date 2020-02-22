@@ -54,6 +54,7 @@ namespace Mango.WebHost.Extensions
         /// <returns></returns>
         public static IApplicationBuilder UseCustomizedMvc(this IApplicationBuilder app)
         {
+            app.UseSession();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
@@ -64,10 +65,13 @@ namespace Mango.WebHost.Extensions
                         endpoints.MapAreaControllerRoute(
                             name: "area",
                            areaName: module.Name,
-                           pattern: "{area:exists}/{controller}/{action}/{id?}"
+                           pattern: "{area:exists}/{controller}/{action=Index}/{id?}"
                          );
                     }
                 }
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
             return app;
         }
