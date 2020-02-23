@@ -1,0 +1,7 @@
+{
+  "Id": "Mango.Module.Message",
+  "Name": "Message",
+  "Version": "v1.0.0",
+  "Description": "消息模块",
+  "IsApplicationPart": true
+}

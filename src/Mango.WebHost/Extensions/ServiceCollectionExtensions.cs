@@ -80,7 +80,13 @@ namespace Mango.WebHost.Extensions
                 BucketFileUrl = configuration.GetSection("UPyun:BucketFileUrl").Value,
             }));
             //
-            ServiceContext.RegisterServices(services.BuildServiceProvider());
+            var sp= services.BuildServiceProvider();
+            var moduleInitializers = sp.GetServices<IModuleInitializer>();
+            foreach (var moduleInitializer in moduleInitializers)
+            {
+                moduleInitializer.ConfigureServices(services);
+            }
+            ServiceContext.RegisterServices(services);
             return services;
         }
         /// <summary>

@@ -20,3 +20,5 @@
 /src/Modules/Mango.Module.WebSite
 /src/Modules/Mango.Module.Main/bin/Debug/netcoreapp3.1
 /src/Modules/Mango.Module.Main/obj
+/src/Modules/Mango.Module.Message/bin/Debug/netcoreapp3.1
+/src/Modules/Mango.Module.Message/obj
