@@ -7,6 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Mango.Framework;
 using Mango.Framework.Module;
+
+using System.IO;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 namespace Mango.WebHost.Extensions
 {
     public static class ApplicationBuilderExtensions
@@ -52,8 +56,25 @@ namespace Mango.WebHost.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseCustomizedMvc(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCustomizedMvc(this IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //设置每个模块约定的静态文件目录
+            foreach (var module in GlobalConfiguration.Modules)
+            {
+                if (module.IsApplicationPart)
+                {
+                    var modulePath = $"{env.ContentRootPath}/Modules/{module.Id}/wwwroot";
+                    if (Directory.Exists(modulePath))
+                    {
+                        app.UseStaticFiles(new StaticFileOptions()
+                        {
+                            FileProvider = new PhysicalFileProvider(modulePath),
+                            RequestPath = new PathString($"/{module.Name}")
+                        });
+                    }
+                }
+            }
+            //
             app.UseSession();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
