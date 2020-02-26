@@ -34,7 +34,7 @@ namespace Mango.Module.Message.SignalR
 
                         switch (data.MessageType)
                         {
-                            case MessageType.Line:
+                            case MessageType.BindUser:
                                 //处理连接消息
                                 if (connectionUser == null)
                                 {
@@ -46,7 +46,7 @@ namespace Mango.Module.Message.SignalR
                                 //处理发送回执消息
                                 sendMsg = new MessageData();
                                 sendMsg.MessageBody = "success";
-                                sendMsg.MessageType = MessageType.LineReceipt;
+                                sendMsg.MessageType = MessageType.BindUserReceipt;
                                 sendMsg.SendUserId = "0";
                                 sendMsg.ReceveUserId = data.ReceveUserId;
                                 _objData[0] = JsonConvert.SerializeObject(sendMsg);

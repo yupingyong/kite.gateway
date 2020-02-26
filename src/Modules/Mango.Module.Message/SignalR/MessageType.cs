@@ -8,9 +8,9 @@ namespace Mango.Module.Message.SignalR
     public enum MessageType
     {
         /// <summary>
-        /// 连接消息
+        /// 绑定用户消息
         /// </summary>
-        Line=1,
+        BindUser=1,
         /// <summary>
         /// 回应通知消息
         /// </summary>
@@ -23,5 +23,9 @@ namespace Mango.Module.Message.SignalR
         /// 消息发送回执消息
         /// </summary>
         SendReceipt = 21,
+        /// <summary>
+        /// 绑定用户回执消息
+        /// </summary>
+        BindUserReceipt = 22
     }
 }

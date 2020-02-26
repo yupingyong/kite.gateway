@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 namespace Mango.Module.Message.SignalR
 {
     public class MessageHub:Hub
@@ -22,6 +24,15 @@ namespace Mango.Module.Message.SignalR
         /// <returns></returns>
         public override Task OnConnectedAsync()
         {
+            object[] _objData = new object[1];
+            var sendMsg = new MessageData();
+            sendMsg.MessageBody = "success";
+            sendMsg.MessageType = MessageType.LineReceipt;
+            sendMsg.SendUserId = "0";
+            sendMsg.ReceveUserId = "0";
+            _objData[0] = JsonConvert.SerializeObject(sendMsg);
+
+            this.Clients.Client(this.Context.ConnectionId).SendCoreAsync("ReceiveMessage", _objData, CancellationToken.None);
             return base.OnConnectedAsync();
         }
         /// <summary>

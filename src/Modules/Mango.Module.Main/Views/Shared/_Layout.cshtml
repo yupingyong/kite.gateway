@@ -99,11 +99,10 @@
     @if (Html.ViewContext.HttpContext.Session.GetString("AccountId") != null)
     {
         <script type="text/javascript">
-            var signalrServerUrl = '';
             var signalRUserId ='@Html.ViewContext.HttpContext.Session.GetString("UserId")';
         </script>
-        <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
-        <script src="~/js/message.js"></script>
+        <script src="~/main/lib/signalr/signalr.min.js"></script>
+        <script src="~/main/js/message.js"></script>
         <script type="text/javascript">
             //设置用户登录状态
             isUserLogin = true;

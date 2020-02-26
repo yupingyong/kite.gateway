@@ -2740,9 +2740,7 @@
       },
       "Mango.Module.Core/1.0.0": {
         "dependencies": {
-          "Mango.Framework": "1.0.0",
-          "Microsoft.Extensions.Logging.Debug": "3.1.1",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.1"
+          "Mango.Framework": "1.0.0"
         },
         "runtime": {
           "Mango.Module.Core.dll": {}
