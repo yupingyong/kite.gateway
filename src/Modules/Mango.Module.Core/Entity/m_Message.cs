@@ -31,25 +31,25 @@ namespace Mango.Module.Core.Entity
         /// 提交时间
         /// </summary>
         
-        public DateTime? PostDate { get; set; }
+        public DateTime? PostTime { get; set; }
 		
         /// <summary>
-        /// 消息接收用户
+        /// 消息接收账号ID
         /// </summary>
         
-        public int? UserId { get; set; }
+        public int? AccountId { get; set; }
 		
         /// <summary>
-        /// 产生消息用户
+        /// 产生消息账号ID
         /// </summary>
         
-        public int? AppendUserId { get; set; }
+        public int? AppendAccountId { get; set; }
 		
         /// <summary>
-        /// 存储对象Id(PostId ShareId)
+        /// 存储对象Id
         /// </summary>
         
-        public int? ObjId { get; set; }
+        public int? ObjectId { get; set; }
 		
         /// <summary>
         /// 是否已经阅读

@@ -1,0 +1,1 @@
+public virtual DbSet<m_AccountPlusRecords> m_AccountPlusRecords { get; set; }

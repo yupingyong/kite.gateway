@@ -45,7 +45,7 @@ namespace Mango.Module.Core.Common
             }
             if (messageType >= 10 && messageType < 20)
             {
-                stringBuilder.AppendFormat("<a href=\"/posts/read/{0}\" target=\"_blank\">{1}</a>&nbsp;", objectId, title);
+                stringBuilder.AppendFormat("<a href=\"/cms/read/{0}\" target=\"_blank\">{1}</a>&nbsp;", objectId, title);
             }
             else if (messageType >= 20 && messageType < 30)
             {
