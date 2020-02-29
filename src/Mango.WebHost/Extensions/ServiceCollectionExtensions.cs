@@ -27,6 +27,8 @@ using Mango.Framework.Services.Aliyun.Sms;
 using Mango.Framework.Services.Tencent.Captcha;
 using Mango.Framework.Services.EMail;
 using Mango.Framework.Services.UPyun;
+using Mango.Framework.Services.RabbitMQ;
+
 using Mango.Framework.Converter;
 using Mango.Framework.Module;
 using Mango.Framework.Authorization;
@@ -51,11 +53,7 @@ namespace Mango.WebHost.Extensions
             //添加默认缓存组件
             services.AddMemoryCache();
             //添加Redis缓存组件
-            services.AddSingleton(typeof(ICacheService), new RedisCacheService(new RedisCacheOptions()
-            {
-                Configuration = configuration.GetSection("Cache:ConnectionString").Value,
-                InstanceName = configuration.GetSection("Cache:InstanceName").Value
-            }));
+            services.AddSingleton(typeof(ICacheService), new RedisCacheService(configuration.GetSection("Cache").Get<RedisCacheOptions>()));
             //添加阿里云组件
             services.AddSingleton(typeof(IAliyunSmsSend),new SmsSend(new AliyunOptions() { 
                 AccessKeyId=configuration.GetSection("Aliyun:AccessKeyId").Value,
@@ -64,23 +62,13 @@ namespace Mango.WebHost.Extensions
             //添加腾讯相关组件
             services.AddSingleton(typeof(ITencentCaptcha), new TencentCaptcha(configuration.GetSection("Tencent:Captcha").Get<CaptchaOptions>()));
             //添加邮件发送服务组件
-            services.AddSingleton(typeof(IEMailService),new EMailService(new EMailOptions() { 
-                FromName= configuration.GetSection("Email:FromName").Value,
-                FromEMail= configuration.GetSection("Email:FromEMail").Value,
-                SmtpServerUrl= configuration.GetSection("Email:SmtpServerUrl").Value,
-                SmtpServerPort=Convert.ToInt32(configuration.GetSection("Email:SmtpServerPort").Value),
-                SmtpAuthenticateEmail= configuration.GetSection("Email:SmtpAuthenticateEmail").Value,
-                SmtpAuthenticatePasswordText= configuration.GetSection("Email:SmtpAuthenticatePasswordText").Value
-            }));
+            services.AddSingleton(typeof(IEMailService),new EMailService(configuration.GetSection("Email").Get<EMailOptions>()));
             //添加又拍云文件服务组件
-            services.AddSingleton(typeof(IUPyunService), new UPyunService(new UPyunOptions()
-            {
-                BucketName = configuration.GetSection("UPyun:BucketName").Value,
-                BucketPassword = configuration.GetSection("UPyun:BucketPassword").Value,
-                BucketFileUrl = configuration.GetSection("UPyun:BucketFileUrl").Value,
-            }));
-            //
-            var sp= services.BuildServiceProvider();
+            services.AddSingleton(typeof(IUPyunService), new UPyunService(configuration.GetSection("UPyun").Get<UPyunOptions>()));
+            //添加消息队列(RabbitMQ)组件
+            services.AddSingleton(typeof(IRabbitMQService), new RabbitMQService(configuration.GetSection("RabbitMQ").Get<RabbitMQOptions>()));
+            //每个模块的注入处理
+            var sp = services.BuildServiceProvider();
             var moduleInitializers = sp.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)
             {

@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mango.Module.Main", "Module
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mango.Module.Message", "Modules\Mango.Module.Message\Mango.Module.Message.csproj", "{BECD7C1B-A127-4212-992B-34E00DDCAAE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Module.Core", "Modules\Mango.Module.Core\Mango.Module.Core.csproj", "{199CF2E8-AE2C-4244-BB38-EC8D98D6F574}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mango.Module.Core", "Modules\Mango.Module.Core\Mango.Module.Core.csproj", "{199CF2E8-AE2C-4244-BB38-EC8D98D6F574}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

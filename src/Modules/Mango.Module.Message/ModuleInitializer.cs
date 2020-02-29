@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Mango.Framework.Module;
-
+using Microsoft.AspNetCore.SignalR;
+using Mango.Framework.Services;
+using Mango.Framework.Services.RabbitMQ;
+using Newtonsoft.Json;
 namespace Mango.Module.Message
 {
     public class ModuleInitializer:IModuleInitializer
@@ -23,6 +27,28 @@ namespace Mango.Module.Message
                     UserId = string.Empty
                 });
             }
+            //初始化消息队列信息
+            var sp = serviceCollection.BuildServiceProvider();
+            var rabbitMQService = sp.GetService<IRabbitMQService>();
+            rabbitMQService.CreateQueue("message", false, false, false);
+            rabbitMQService.CreateConsumeEvent("message", false, (obj, args) => 
+            {
+                string msg = System.Text.Encoding.UTF8.GetString(args.Body);
+                string[] msgs = msg.Split('#');
+                if (msgs.Length == 2)
+                {
+                    var hubContext = ServiceContext.GetService<IHubContext<SignalR.MessageHub>>();
+                    object[] _objData = new object[1];
+                    var sendMsg = new SignalR.MessageData();
+                    sendMsg.MessageBody = msgs[1];
+                    sendMsg.MessageType = SignalR.MessageType.RespondNotice;
+                    sendMsg.SendUserId = "0";
+                    sendMsg.ReceveUserId = msgs[0];
+                    _objData[0] = JsonConvert.SerializeObject(sendMsg);
+
+                    hubContext.Clients.Group(msgs[0]).SendCoreAsync("ReceiveMessage", _objData, CancellationToken.None);
+                }
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -30,6 +56,7 @@ namespace Mango.Module.Message
             app.UseEndpoints(options=> {
                 options.MapHub<SignalR.MessageHub>("/MessageHub");
             });
+           
         }
     }
 }

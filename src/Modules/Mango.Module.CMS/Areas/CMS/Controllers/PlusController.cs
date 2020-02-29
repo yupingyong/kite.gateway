@@ -8,21 +8,23 @@ using Mango.Framework.Infrastructure;
 using Mango.Framework.Data;
 using Mango.Module.Core.Entity;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.SignalR;
+using Mango.Framework.Services.RabbitMQ;
 namespace Mango.Module.CMS.Areas.CMS.Controllers
 {
     public class PlusController : Controller
     {
         private IUnitOfWork<MangoDbContext> _unitOfWork;
-        public PlusController(IUnitOfWork<MangoDbContext> unitOfWork)
+        private IRabbitMQService _rabbitMQService;
+        public PlusController(IUnitOfWork<MangoDbContext> unitOfWork, IRabbitMQService rabbitMQService)
         {
             _unitOfWork = unitOfWork;
+            _rabbitMQService = rabbitMQService;
         }
         [HttpPost]
         public IActionResult Add(Models.PlusRequestModel requestModel)
         {
             int accountId= HttpContext.Session.GetInt32("AccountId").GetValueOrDefault(0);
-
+            var messageRepository = _unitOfWork.GetRepository<m_Message>();
             var plusRepository = _unitOfWork.GetRepository<m_AccountPlusRecords>();
             var plusCount = plusRepository.Query().Where(q => q.AccountId == accountId && q.ObjectId == requestModel.ContentsId && q.RecordsType == 1).Select(q => q.RecordsId).Count();
 
@@ -40,7 +42,7 @@ namespace Mango.Module.CMS.Areas.CMS.Controllers
                 }
                 else
                 {
-                    
+
                     //添加新点赞记录
                     m_AccountPlusRecords model = new m_AccountPlusRecords();
                     model.ObjectId = requestModel.ContentsId;
@@ -54,20 +56,29 @@ namespace Mango.Module.CMS.Areas.CMS.Controllers
                     //消息通知
                     m_Message message = new m_Message();
                     message.AppendAccountId = accountId;
-                    message.Contents =Mango.Module.Core.Common.MessageHtml.GetMessageContent(HttpContext.Session.GetString("NickName"), requestModel.ContentsId, requestModel.Title, 12, 0);
+                    message.Contents = Mango.Module.Core.Common.MessageHtml.GetMessageContent(HttpContext.Session.GetString("NickName"), requestModel.ContentsId, requestModel.Title, 12, 0);
                     message.IsRead = false;
                     message.MessageType = 12;
                     message.ObjectId = requestModel.ContentsId;
                     message.PostTime = DateTime.Now;
                     message.AccountId = requestModel.ToAccountId;
-                    var messageRepository = _unitOfWork.GetRepository<m_Message>();
+                    
                     messageRepository.Insert(message);
                 }
-                _unitOfWork.SaveChanges();
-                _unitOfWork.Commit();
+                resultCount = _unitOfWork.Commit();
             }
-            catch 
+            catch
             { }
+            finally
+            {
+                if (resultCount > 0)
+                {
+                    var messageCount = messageRepository.Query().Where(q => q.AccountId == accountId && q.IsRead == false).Select(q => q.MessageId).Count();
+                    string sendMsg = $"{accountId}#{messageCount}";
+                    //发送消息
+                    _rabbitMQService.BasicPublish("message",System.Text.Encoding.UTF8.GetBytes(sendMsg));
+                }
+            }
             return APIReturnMethod.ReturnSuccess(resultCount);
         }
     }
