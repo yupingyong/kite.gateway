@@ -1,23 +1,23 @@
-﻿//判断用户是否登录的标识
-var isUserLogin = false;
+﻿
 //用户点赞操作
-function AddUserPlus(objectId, title, plusType, toUserId, id,htmlId) {
-    if (isUserLogin) {
+function AddContentsPlus(contentsId, title, toAccountId, htmlId) {
+    if (isAccountLogin) {
         $.ajax({
             type: 'post',
-            url: '/Main/AddUserPlus',
-            data: 'objectId=' + objectId + '&title=' + title + '&plusType=' + plusType + '&toUserId=' + toUserId+'&id='+id,
+            url: '/CMS/Plus/Add',
+            data: 'ContentsId=' + contentsId + '&Title=' + title + '&ToAccountId=' + toAccountId,
             success: function (res) {
+                console.log(res);
                 var plus = parseInt($(htmlId).text());
-                if (res == 0) {
+                if (res.data == 0) {
                     layer.msg("点赞异常,请稍后尝试");
                 }
-                else if (res == 1) {
+                else if (res.data == 1) {
                     plus = plus + 1;
                     $(htmlId).text(plus);
                     layer.msg("点赞成功");
                 }
-                else if (res == -1) {
+                else if (res.data == -1) {
                     plus = plus - 1;
                     $(htmlId).text(plus);
                     layer.msg("取消点赞成功");

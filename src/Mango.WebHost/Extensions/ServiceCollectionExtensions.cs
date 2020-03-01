@@ -53,7 +53,11 @@ namespace Mango.WebHost.Extensions
             //添加默认缓存组件
             services.AddMemoryCache();
             //添加Redis缓存组件
-            services.AddSingleton(typeof(ICacheService), new RedisCacheService(configuration.GetSection("Cache").Get<RedisCacheOptions>()));
+            services.AddSingleton(typeof(ICacheService), new RedisCacheService(new RedisCacheOptions()
+            {
+                Configuration = configuration.GetSection("Cache:ConnectionString").Value,
+                InstanceName = configuration.GetSection("Cache:InstanceName").Value
+            }));
             //添加阿里云组件
             services.AddSingleton(typeof(IAliyunSmsSend),new SmsSend(new AliyunOptions() { 
                 AccessKeyId=configuration.GetSection("Aliyun:AccessKeyId").Value,

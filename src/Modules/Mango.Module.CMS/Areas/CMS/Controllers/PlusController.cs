@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Mango.Framework.Services.RabbitMQ;
 namespace Mango.Module.CMS.Areas.CMS.Controllers
 {
+    [Area("CMS")]
     public class PlusController : Controller
     {
         private IUnitOfWork<MangoDbContext> _unitOfWork;
@@ -67,8 +68,10 @@ namespace Mango.Module.CMS.Areas.CMS.Controllers
                 }
                 resultCount = _unitOfWork.Commit();
             }
-            catch
-            { }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
             finally
             {
                 if (resultCount > 0)

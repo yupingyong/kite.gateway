@@ -31,7 +31,6 @@ connection.on("ReceiveMessage", function (message) {
 
             break;
     }
-    console.log(message);
     
 });
 //开始连接

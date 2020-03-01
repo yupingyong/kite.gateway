@@ -70,7 +70,7 @@
 
             <footer id="mfooter">
                 <p class="center text" style="text-align:center">
-                    <button class="btn btn-info" style="font-size:20px;" onclick="AddUserPlus(@(Model.ContentsData.ContentsId), '@(Model.ContentsData.Title)', 1, @(Model.ContentsData.AccountId), 0,$('#msg_posts_pluscount'))">
+                    <button class="btn btn-info" style="font-size:20px;" onclick="AddContentsPlus(@(Model.ContentsData.ContentsId), '@(Model.ContentsData.Title)', @(Model.ContentsData.AccountId), $('#msg_posts_pluscount'))">
                         <img src="~/style/bootstrap/dist/icons/thumbsup.svg" style="width:20px;height:20px;margin-bottom:2px;" title="给Ta点个赞吧..." />
                         <span style="margin-left:2px;" class="badge badge-light" id="msg_posts_pluscount"> @(Model.ContentsData.PlusCount)</span>
                     </button>
@@ -96,6 +96,7 @@
     </div>
 </div>
 @section Scripts{
+
     <script type="text/javascript">
         var id =@Html.ViewContext.RouteData.Values["id"];
         $(window).ready(function () {
@@ -105,6 +106,8 @@
         });
 
     </script>
+
+    <script src="~/cms/js/plus.js"></script>
 }
 
 

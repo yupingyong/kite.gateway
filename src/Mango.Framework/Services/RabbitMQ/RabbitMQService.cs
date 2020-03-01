@@ -6,7 +6,7 @@ using RabbitMQ.Client.Events;
 
 namespace Mango.Framework.Services.RabbitMQ
 {
-    public class RabbitMQService
+    public class RabbitMQService:IRabbitMQService
     {
         private IModel _channel;
         public RabbitMQService(RabbitMQOptions options)
@@ -26,8 +26,9 @@ namespace Mango.Framework.Services.RabbitMQ
                 //创建通道
                 var channel = connection.CreateModel();
             }
-            catch
+            catch(Exception ex)
             {
+                throw ex;
             }
         }
         /// <summary>

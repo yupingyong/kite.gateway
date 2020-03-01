@@ -95,17 +95,16 @@
     <script src="~/lib/layer/layer.min.js"></script>
     <script src="~/lib/artdialog/dialog.js"></script>
 
-    <script src="~/js/main.min.js"></script>
     @if (Html.ViewContext.HttpContext.Session.GetString("AccountId") != null)
     {
         <script type="text/javascript">
-            var signalRUserId ='@Html.ViewContext.HttpContext.Session.GetString("UserId")';
+            var signalRUserId ='@Html.ViewContext.HttpContext.Session.GetString("AccountId")';
         </script>
         <script src="~/main/lib/signalr/signalr.min.js"></script>
         <script src="~/main/js/message.js"></script>
         <script type="text/javascript">
             //设置用户登录状态
-            isUserLogin = true;
+            isAccountLogin = true;
             //
             $("#msg_push_showlist").click(function () {
 

@@ -27,11 +27,17 @@ namespace Mango.Module.Message
                     UserId = string.Empty
                 });
             }
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseEndpoints(options=> {
+                options.MapHub<SignalR.MessageHub>("/MessageHub");
+            });
             //初始化消息队列信息
-            var sp = serviceCollection.BuildServiceProvider();
-            var rabbitMQService = sp.GetService<IRabbitMQService>();
+            var rabbitMQService = ServiceContext.GetService<IRabbitMQService>();
             rabbitMQService.CreateQueue("message", false, false, false);
-            rabbitMQService.CreateConsumeEvent("message", false, (obj, args) => 
+            rabbitMQService.CreateConsumeEvent("message", false, (obj, args) =>
             {
                 string msg = System.Text.Encoding.UTF8.GetString(args.Body);
                 string[] msgs = msg.Split('#');
@@ -49,14 +55,6 @@ namespace Mango.Module.Message
                     hubContext.Clients.Group(msgs[0]).SendCoreAsync("ReceiveMessage", _objData, CancellationToken.None);
                 }
             });
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            app.UseEndpoints(options=> {
-                options.MapHub<SignalR.MessageHub>("/MessageHub");
-            });
-           
         }
     }
 }

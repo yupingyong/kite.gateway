@@ -101,19 +101,27 @@ namespace Mango.Framework.Data
 
         protected override Expression VisitMember(MemberExpression m)
         {
-            if (m.Expression != null && m.Expression.NodeType == ExpressionType.Parameter)
-            {
-                strBuilder.Append(m.Member.Name);
+            if (m.Expression == null)
                 return m;
-            }
-            else if (m.Expression != null && m.Expression.NodeType == ExpressionType.Constant)
+
+            switch (m.Expression.NodeType)
             {
-                LambdaExpression lambda = Expression.Lambda(m);
-                var fn = lambda.Compile();
-                this.Visit(Expression.Constant(fn.DynamicInvoke(null), m.Type));
-                return m;
+                case ExpressionType.Parameter:
+                    strBuilder.Append(m.Member.Name);
+                    break;
+                case ExpressionType.Constant:
+                    LambdaExpression lambda = Expression.Lambda(m);
+                    var fn = lambda.Compile();
+                    this.Visit(Expression.Constant(fn.DynamicInvoke(null), m.Type));
+                    break;
+                case ExpressionType.MemberAccess:
+                    var value= Expression.Lambda(m).Compile().DynamicInvoke();
+                    strBuilder.Append(value);
+                    break;
             }
-            throw new NotSupportedException(string.Format("成员{0}不支持", m.Member.Name));
+
+            return m;
+            
         }
     }
 }

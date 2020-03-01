@@ -25,6 +25,6 @@
     </Content>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="del /S /Q &quot;$(SolutionDir)\Mango.WebHost\Modules\$(ProjectName)\&quot;&#xD;&#xA;xcopy  &quot;$(TargetDir)*.*&quot; &quot;$(SolutionDir)\Mango.WebHost\Modules\$(ProjectName)\&quot;" />
+    <Exec Command="del /S /Q &quot;$(SolutionDir)\Mango.WebHost\Modules\$(ProjectName)\&quot;&#xD;&#xA;xcopy  &quot;$(TargetDir)*.*&quot; &quot;$(SolutionDir)\Mango.WebHost\Modules\$(ProjectName)\&quot;&#xD;&#xA;xcopy  &quot;$(ProjectDir)\wwwroot\*.*&quot; &quot;$(SolutionDir)\Mango.WebHost\Modules\$(ProjectName)\wwwroot\&quot;  /S /Y /C /E" />
   </Target>
 </Project>
