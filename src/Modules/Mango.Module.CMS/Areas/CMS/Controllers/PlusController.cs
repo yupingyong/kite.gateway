@@ -30,57 +30,60 @@ namespace Mango.Module.CMS.Areas.CMS.Controllers
             var plusCount = plusRepository.Query().Where(q => q.AccountId == accountId && q.ObjectId == requestModel.ContentsId && q.RecordsType == 1).Select(q => q.RecordsId).Count();
 
             int resultCount = 0;
-            try
+            using (var tran= _unitOfWork.BeginTransaction())
             {
-                _unitOfWork.BeginTransaction();
-                if (plusCount > 0)
-                {
-                    //存在则撤回点赞记录
-                    _unitOfWork.DbContext.MangoRemove<m_AccountPlusRecords>(q => q.ObjectId == requestModel.ContentsId && q.AccountId == accountId && q.RecordsType == 1);
-                    //
-                    _unitOfWork.DbContext.MangoUpdate<Entity.m_CmsContents>(q => q.PlusCount == q.PlusCount - 1, q => q.ContentsId == requestModel.ContentsId);
-                    resultCount = -1;
-                }
-                else
+                try
                 {
 
-                    //添加新点赞记录
-                    m_AccountPlusRecords model = new m_AccountPlusRecords();
-                    model.ObjectId = requestModel.ContentsId;
-                    model.AppendTime = DateTime.Now;
-                    model.RecordsType = 1;
-                    model.AccountId = accountId;
-                    plusRepository.Insert(model);
-                    //
-                    _unitOfWork.DbContext.MangoUpdate<Entity.m_CmsContents>(q => q.PlusCount == q.PlusCount + 1, q => q.ContentsId == requestModel.ContentsId);
-                    //
-                    //消息通知
-                    m_Message message = new m_Message();
-                    message.AppendAccountId = accountId;
-                    message.Contents = Mango.Module.Core.Common.MessageHtml.GetMessageContent(HttpContext.Session.GetString("NickName"), requestModel.ContentsId, requestModel.Title, 12, 0);
-                    message.IsRead = false;
-                    message.MessageType = 12;
-                    message.ObjectId = requestModel.ContentsId;
-                    message.PostTime = DateTime.Now;
-                    message.AccountId = requestModel.ToAccountId;
-                    
-                    messageRepository.Insert(message);
+                    if (plusCount > 0)
+                    {
+                        //存在则撤回点赞记录
+                        _unitOfWork.DbContext.MangoRemove<m_AccountPlusRecords>(q => q.ObjectId == requestModel.ContentsId && q.AccountId == accountId && q.RecordsType == 1);
+                        //
+                        _unitOfWork.DbContext.MangoUpdate<Entity.m_CmsContents>(q => q.PlusCount == q.PlusCount - 1, q => q.ContentsId == requestModel.ContentsId);
+                        resultCount = -1;
+                    }
+                    else
+                    {
+
+                        //添加新点赞记录
+                        m_AccountPlusRecords model = new m_AccountPlusRecords();
+                        model.ObjectId = requestModel.ContentsId;
+                        model.AppendTime = DateTime.Now;
+                        model.RecordsType = 1;
+                        model.AccountId = accountId;
+                        plusRepository.Insert(model);
+                        //
+                        _unitOfWork.DbContext.MangoUpdate<Entity.m_CmsContents>(q => q.PlusCount == q.PlusCount + 1, q => q.ContentsId == requestModel.ContentsId);
+                        //
+                        //消息通知
+                        m_Message message = new m_Message();
+                        message.AppendAccountId = accountId;
+                        message.Contents = Core.Common.MessageHtml.GetMessageContent(HttpContext.Session.GetString("NickName"), requestModel.ContentsId, requestModel.Title, 1, 0);
+                        message.IsRead = false;
+                        message.MessageType = 1;
+                        message.ObjectId = requestModel.ContentsId;
+                        message.PostTime = DateTime.Now;
+                        message.AccountId = requestModel.ToAccountId;
+
+                        messageRepository.Insert(message);
+                        resultCount = 1;
+                    }
+                    _unitOfWork.SaveChanges();
+                    tran.Commit();
                 }
-                resultCount = _unitOfWork.Commit();
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                if (resultCount > 0)
+                catch
                 {
-                    var messageCount = messageRepository.Query().Where(q => q.AccountId == accountId && q.IsRead == false).Select(q => q.MessageId).Count();
-                    string sendMsg = $"{accountId}#{messageCount}";
-                    //发送消息
-                    _rabbitMQService.BasicPublish("message",System.Text.Encoding.UTF8.GetBytes(sendMsg));
+                    tran.Rollback();
+                    resultCount = 0;
                 }
+            }
+            if (resultCount > 0)
+            {
+                var messageCount = messageRepository.Query().Where(q => q.AccountId == requestModel.ToAccountId && q.IsRead == false).Select(q => q.MessageId).Count();
+                string sendMsg = $"{accountId}#{messageCount}";
+                //发送消息
+                _rabbitMQService.BasicPublish("message", System.Text.Encoding.UTF8.GetBytes(sendMsg));
             }
             return APIReturnMethod.ReturnSuccess(resultCount);
         }

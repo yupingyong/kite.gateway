@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Threading.Tasks;
 namespace Mango.Framework.Data
 {
@@ -34,11 +35,6 @@ namespace Mango.Framework.Data
         /// <summary>
         /// 开始事务
         /// </summary>
-        void BeginTransaction();
-        /// <summary>
-        /// 事务提交
-        /// </summary>
-        /// <returns></returns>
-        int Commit();
+        IDbContextTransaction BeginTransaction();
     }
 }

@@ -35,25 +35,39 @@ namespace Mango.Module.Message
                 options.MapHub<SignalR.MessageHub>("/MessageHub");
             });
             //初始化消息队列信息
-            var rabbitMQService = ServiceContext.GetService<IRabbitMQService>();
+            var rabbitMQService = app.ApplicationServices.GetService<IRabbitMQService>();
+
             rabbitMQService.CreateQueue("message", false, false, false);
             rabbitMQService.CreateConsumeEvent("message", false, (obj, args) =>
             {
-                string msg = System.Text.Encoding.UTF8.GetString(args.Body);
-                string[] msgs = msg.Split('#');
-                if (msgs.Length == 2)
+                try
                 {
-                    var hubContext = ServiceContext.GetService<IHubContext<SignalR.MessageHub>>();
-                    object[] _objData = new object[1];
-                    var sendMsg = new SignalR.MessageData();
-                    sendMsg.MessageBody = msgs[1];
-                    sendMsg.MessageType = SignalR.MessageType.RespondNotice;
-                    sendMsg.SendUserId = "0";
-                    sendMsg.ReceveUserId = msgs[0];
-                    _objData[0] = JsonConvert.SerializeObject(sendMsg);
-
-                    hubContext.Clients.Group(msgs[0]).SendCoreAsync("ReceiveMessage", _objData, CancellationToken.None);
+                    string msg = System.Text.Encoding.UTF8.GetString(args.Body);
+                    string[] msgs = msg.Split('#');
+                    if (msgs.Length == 2)
+                    {
+                        var hubContext =app.ApplicationServices.GetService<IHubContext<SignalR.MessageHub>>();
+                        var connUser= SignalR.ConnectionManager.ConnectionUsers.Where(q => q.UserId == msgs[0]).FirstOrDefault();
+                        if (connUser != null)
+                        {
+                            object[] _objData = new object[1];
+                            var sendMsg = new SignalR.MessageData();
+                            sendMsg.MessageBody = msgs[1];
+                            sendMsg.MessageType = SignalR.MessageType.RespondNotice;
+                            sendMsg.SendUserId = "0";
+                            sendMsg.ReceveUserId = msgs[0];
+                            _objData[0] = JsonConvert.SerializeObject(sendMsg);
+                            foreach (var connId in connUser.ConnectionIds)
+                            {
+                                hubContext.Clients.Client(connId).SendCoreAsync("ReceiveMessage", _objData, CancellationToken.None);
+                            }
+                        }
+                    }
+                    //返回消息确认
+                    rabbitMQService.BasicAck(args.DeliveryTag, true);
                 }
+                catch
+                { }
             });
         }
     }

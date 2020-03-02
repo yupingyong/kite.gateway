@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Data.SqlClient;
 using System.Transactions;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 namespace Mango.Framework.Data
 {
@@ -12,7 +12,6 @@ namespace Mango.Framework.Data
     {
         private readonly TContext _context;
         private bool _disposed = false;
-        private TransactionScope _scope;
 
         /// <summary>
         /// 
@@ -59,33 +58,9 @@ namespace Mango.Framework.Data
         /// <summary>
         /// 开始事务
         /// </summary>
-        public void BeginTransaction()
+        public IDbContextTransaction BeginTransaction()
         {
-            if (_scope == null)
-            {
-                _scope = new TransactionScope();
-            }
-        }
-        /// <summary>
-        /// 事务提交
-        /// </summary>
-        /// <returns></returns>
-        public int Commit()
-        {
-            try
-            {
-                int count = this.SaveChanges();
-                _scope.Complete();
-                return count;
-            }
-            catch
-            {
-                return 0;
-            }
-            finally
-            {
-                _scope.Dispose();
-            }
+            return _context.Database.BeginTransaction();
         }
         /// <summary>
         /// 释放资源

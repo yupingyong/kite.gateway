@@ -95,10 +95,10 @@
     <script src="~/lib/layer/layer.min.js"></script>
     <script src="~/lib/artdialog/dialog.js"></script>
 
-    @if (Html.ViewContext.HttpContext.Session.GetString("AccountId") != null)
+    @if (Html.ViewContext.HttpContext.Session.GetInt32("AccountId") != null)
     {
         <script type="text/javascript">
-            var signalRUserId ='@Html.ViewContext.HttpContext.Session.GetString("AccountId")';
+            var signalRUserId ='@Html.ViewContext.HttpContext.Session.GetInt32("AccountId")';
         </script>
         <script src="~/main/lib/signalr/signalr.min.js"></script>
         <script src="~/main/js/message.js"></script>

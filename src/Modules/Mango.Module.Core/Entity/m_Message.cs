@@ -16,7 +16,7 @@ namespace Mango.Module.Core.Entity
         /// <summary>
         /// 消息类型
         /// 系统消息: 0:系统通知
-        /// 帖子消息: 10:帖子回复消息,11:帖子评论消息,12:帖子点赞消息,13:回复点赞消息,14:评论点赞消息
+        /// 其它消息: 1.文章点赞消息,10:文档主题点赞消息,11:文档点赞消息
         /// </summary>
 
         public int? MessageType { get; set; }

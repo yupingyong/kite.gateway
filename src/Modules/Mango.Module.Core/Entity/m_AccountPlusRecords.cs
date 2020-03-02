@@ -32,7 +32,7 @@ namespace Mango.Module.Core.Entity
         public DateTime? AppendTime { get; set; }
 		
         /// <summary>
-        /// 记录类型 1 帖子点赞 2 帖子回答点赞 3 帖子评论点赞 4 文档主题点赞 5 文档点赞
+        /// 记录类型 1.帖子点赞  10.文档主题点赞 11.文档点赞
         /// </summary>
         
         public int? RecordsType { get; set; }

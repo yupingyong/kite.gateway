@@ -30,6 +30,12 @@ namespace Mango.Framework.Services.RabbitMQ
         /// <param name="body"></param>
         void BasicPublish(string exchange, string routingKey, byte[] body);
         /// <summary>
+        /// 手动确认消息已经消费
+        /// </summary>
+        /// <param name="deliveryTag"></param>
+        /// <param name="multiple"></param>
+        void BasicAck(ulong deliveryTag, bool multiple);
+        /// <summary>
         /// 创建消息消费事件
         /// </summary>
         /// <param name="queueName"></param>

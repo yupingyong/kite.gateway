@@ -51,6 +51,7 @@ namespace Mango.Module.Message.SignalR
                     if (connectionUsers.ConnectionIds.Count <= 0)
                     {
                         connectionUsers.UserId = string.Empty;
+                        connectionUsers.ConnectionIds = new List<string>();
                     }
                 }
             }

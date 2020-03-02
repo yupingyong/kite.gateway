@@ -24,7 +24,7 @@ namespace Mango.Framework.Services.RabbitMQ
                 //创建连接
                 var connection = connectionFactory.CreateConnection();
                 //创建通道
-                var channel = connection.CreateModel();
+                _channel = connection.CreateModel();
             }
             catch(Exception ex)
             {
@@ -67,6 +67,17 @@ namespace Mango.Framework.Services.RabbitMQ
             if (_channel == null)
                 return;
             _channel.BasicPublish(exchange: exchange, routingKey: routingKey, null, body: body);
+        }
+        /// <summary>
+        /// 手动确认消息已经消费
+        /// </summary>
+        /// <param name="deliveryTag"></param>
+        /// <param name="multiple"></param>
+        public void BasicAck(ulong deliveryTag,bool multiple)
+        {
+            if (_channel == null)
+                return;
+            _channel.BasicAck(deliveryTag: deliveryTag, multiple: multiple);
         }
         /// <summary>
         /// 创建消息消费事件

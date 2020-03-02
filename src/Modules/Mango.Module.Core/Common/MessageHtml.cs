@@ -13,7 +13,7 @@ namespace Mango.Module.Core.Common
         /// 获取消息通知内容
         /// </summary>
         /// <param name="title"></param>
-        /// <param name="messageType">0:系统通知,10:帖子回复消息,11:帖子评论消息,12:帖子点赞消息,13:回复点赞消息,14:评论点赞消息,20:文档主题点赞消息,21:文档点赞消息</param>
+        /// <param name="messageType">0:系统通知,1.帖子点赞消息,10:文档主题点赞消息,11:文档点赞消息</param>
         /// <returns></returns>
         public static string GetMessageContent(string nickName,int objectId,string title,int messageType,int id=0)
         {
@@ -21,25 +21,13 @@ namespace Mango.Module.Core.Common
             stringBuilder.AppendFormat("<a href=\"javascript:void(0)\">{0}</a>&nbsp;", nickName);
             switch (messageType)
             {
+                case 1:
+                    stringBuilder.Append("点赞了你的文章&nbsp;");
+                    break;
                 case 10:
-                    stringBuilder.Append("回复了你的帖子&nbsp;");
-                    break;
-                case 11:
-                    stringBuilder.Append("评论了你的帖子回复&nbsp;");
-                    break;
-                case 12:
-                    stringBuilder.Append("点赞了你的帖子&nbsp;");
-                    break;
-                case 13:
-                    stringBuilder.Append("点赞了你的帖子回复&nbsp;");
-                    break;
-                case 14:
-                    stringBuilder.Append("点赞了你的帖子评论&nbsp;");
-                    break;
-                case 20:
                     stringBuilder.Append("点赞了你的文档主题&nbsp;");
                     break;
-                case 21:
+                case 11:
                     stringBuilder.Append("点赞了你的文档&nbsp;");
                     break;
             }

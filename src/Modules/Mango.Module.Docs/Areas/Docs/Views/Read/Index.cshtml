@@ -91,7 +91,7 @@
 
                 <footer id="mfooter">
                     <p class="center text" style="text-align:center">
-                        <button class="btn btn-info" style="font-size:20px;" onclick="AddUserPlus(@(Model.DocsThemeData.ThemeId), '@(Model.DocsThemeData.Title)', 4, @(Model.DocsThemeData.AccountId), 0,$('#msg_docs_pluscount'))">
+                        <button class="btn btn-info" style="font-size:20px;" onclick="AddThemePlus(@(Model.DocsThemeData.ThemeId), '@(Model.DocsThemeData.Title)', @(Model.DocsThemeData.AccountId), $('#msg_docs_pluscount'))">
                             <img src="~/style/bootstrap/dist/icons/thumbsup.svg" style="width:20px;height:20px;margin-bottom:2px;" title="给楼主点个赞吧..." />
                             <span style="margin-left:2px;" class="badge badge-light" id="msg_docs_pluscount">@Model.DocsThemeData.PlusCount</span>
                         </button>
@@ -134,7 +134,7 @@
 
                 <footer id="mfooter">
                     <p class="center text" style="text-align:center">
-                        <button class="btn btn-info" style="font-size:20px;" onclick="AddUserPlus(@(Model.DocsData.DocsId), '@(Model.DocsData.Title)', 5, @(Model.DocsData.AccountId), @(Model.DocsData.ThemeId),$('#msg_docs_pluscount'))">
+                        <button class="btn btn-info" style="font-size:20px;" onclick="AddDocsPlus(@(Model.DocsData.DocsId),@(Model.DocsData.ThemeId), '@(Model.DocsData.Title)', @(Model.DocsData.AccountId),$('#msg_docs_pluscount'))">
                             <img src="~/style/bootstrap/dist/icons/thumbsup.svg" style="width:20px;height:20px;margin-bottom:2px;" title="给楼主点个赞吧..." />
                             <span style="margin-left:2px;" class="badge badge-light" id="msg_docs_pluscount">@Model.DocsData.PlusCount</span>
                         </button>
@@ -162,6 +162,8 @@
             $("#box_left_docsitems").find("a[data-id='" + docsId + "']").addClass("active");
         });
     </script>
+
+    <script src="~/docs/js/plus.js"></script>
 }
 
 

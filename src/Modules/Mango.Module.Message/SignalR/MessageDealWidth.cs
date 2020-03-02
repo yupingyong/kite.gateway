@@ -39,10 +39,9 @@ namespace Mango.Module.Message.SignalR
                                 if (connectionUser == null)
                                 {
                                     connectionUser = ConnectionManager.ConnectionUsers.Where(q => q.UserId == string.Empty).FirstOrDefault();
-                                    connectionUser.UserId = data.ReceveUserId;
+                                    connectionUser.UserId = data.SendUserId;
                                 }
                                 connectionUser.ConnectionIds.Add(hub.Context.ConnectionId);
-                                hub.Groups.AddToGroupAsync(hub.Context.ConnectionId, connectionUser.UserId);
                                 //处理发送回执消息
                                 sendMsg = new MessageData();
                                 sendMsg.MessageBody = "success";
@@ -51,7 +50,7 @@ namespace Mango.Module.Message.SignalR
                                 sendMsg.ReceveUserId = data.ReceveUserId;
                                 _objData[0] = JsonConvert.SerializeObject(sendMsg);
 
-                                hub.Clients.Group(connectionUser.UserId).SendCoreAsync("ReceiveMessage", _objData, CancellationToken.None);
+                                hub.Clients.Client(hub.Context.ConnectionId).SendCoreAsync("ReceiveMessage", _objData, CancellationToken.None);
                                 break;
                             default:
                                 break;
