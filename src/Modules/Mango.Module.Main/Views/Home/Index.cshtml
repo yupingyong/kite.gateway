@@ -1,70 +1,69 @@
-﻿
-@{
-    Layout = null;
+﻿@{
+    ViewData["Title"] = "首页";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Test</title>
-    <link href="~/style/css/zui.min.css" rel="stylesheet" />
-    <link href="~/lib/code/prism.css" rel="stylesheet" />
-    <script src="~/lib/code/prism.js"></script>
+@model Mango.Module.Core.Models.WebSiteViewModel
+@section Style{
     <style>
-        pre .comment:before,
-        pre .comment:after {
-            /* 1 */
-            display: table;
-            content: " ";
-            display: none;
-            /* 2 */
-        }
-
-        pre .comment:after {
-            clear: both;
-        }
-
-        pre .comment:before,
-        pre .comment:after {
-            /* 1 */
-            display: table;
-            content: " ";
-            display:none;
-            /* 2 */
+        .jumbotron {
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            border-radius: .3rem;
         }
     </style>
-</head>
-<body>
-    <div>
-        <pre class="language-csharp"><code>using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="my-3 p-2 bg-white rounded box-shadow">
+            <h5 class="border-bottom border-gray pb-1 mb-0">求职中...</h5>
+            <div class="media pt-2 border-bottom border-gray ">
+                <h6>名字:喻平勇</h6>
+            </div>       
+        </div>
 
-namespace Mango.Web.ViewModels
-{
-    public class EditPostsRequestModel
-    {
-        /// &lt;summary&gt;
-        /// 帖子标题
-        /// &lt;/summary&gt;
-        public string Title { get; set; }
-        /// &lt;summary&gt;
-        /// 帖子内容
-        /// &lt;/summary&gt;
-        public string Contents { get; set; }
-        /// &lt;summary&gt;
-        /// 标签
-        /// &lt;/summary&gt;
-        public int ChannelId { get; set; }
-        /// &lt;summary&gt;
-        /// 帖子ID
-        /// &lt;/summary&gt;
-        public int PostsId { get; set; }
-    }
-}</code></pre>
     </div>
-</body>
-</html>
+    <div class="col-lg-4">
+
+        <div class="my-3 p-2 bg-white rounded box-shadow">
+            <h5 class="border-bottom border-gray pb-2 mb-0">最新版开源地址</h5>
+            <div class="media pt-2 border-bottom border-gray ">
+                <div class="media-body pb-3 mb-0 small lh-125">
+                    <a href="https://github.com/yupingyong/mango-open" target="_blank" style="color:black;"><h6 class="d-block">Mango模块化开发框架</h6></a>
+                    <p>
+                        <a class="github-button" href="https://github.com/yupingyong/mango-open" data-size="large" data-show-count="true" aria-label="Star yupingyong/mango-open on GitHub">Star</a>
+
+                        <a class="github-button" href="https://github.com/yupingyong/mango-open/archive/master.zip" data-size="large" aria-label="Download yupingyong/mango-open on GitHub">Download</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="my-3 p-2 bg-white rounded box-shadow">
+            <h5 class="border-bottom border-gray pb-2 mb-0">开源GitHub地址</h5>
+            <div class="media pt-2 border-bottom border-gray ">
+                <div class="media-body pb-3 mb-0 small lh-125">
+                    <a href="https://github.com/51core/mango-sns-open" target="_blank" style="color:black;"><h6 class="d-block">51Core技术网源代码</h6></a>
+                    <p>
+                        <a class="github-button" href="https://github.com/51core/mango-sns-open" data-size="large" data-show-count="true" aria-label="Star 51core/mango-sns-open on GitHub">Star</a>
+
+                        <a class="github-button" href="https://github.com/51core/mango-sns-open/archive/master.zip" data-size="large" aria-label="Download 51core/mango-sns-open on GitHub">Download</a>
+                    </p>
+                </div>
+            </div>
+            <div class="media pt-2 border-bottom border-gray ">
+                <div class="media-body pb-3 mb-0 small lh-125">
+                    <a href="https://github.com/51core/mango-docs" target="_blank" style="color:black;"><h6 class="d-block">51Core技术网教程案例源代码</h6></a>
+                    <p>
+                        <a class="github-button" href="https://github.com/51core/mango-docs" data-size="large" data-show-count="true" aria-label="Star 51core/mango-docs on GitHub">Star</a>
+                        <a class="github-button" href="https://github.com/51core/mango-docs/archive/master.zip" data-size="large" aria-label="Download 51core/mango-docs on GitHub">Download</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script type="text/javascript">
+    </script>
+}
+

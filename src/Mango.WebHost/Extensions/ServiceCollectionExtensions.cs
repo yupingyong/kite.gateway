@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Mango.Framework;
 using Mango.Framework.Data;
+using Mango.Framework.Authorization;
 using Mango.Framework.Services;
 using Mango.Framework.Services.Cache;
 using Mango.Framework.Services.Aliyun;
@@ -31,7 +32,6 @@ using Mango.Framework.Services.RabbitMQ;
 
 using Mango.Framework.Converter;
 using Mango.Framework.Module;
-using Mango.Framework.Authorization;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.AspNetCore.Hosting;
@@ -88,18 +88,7 @@ namespace Mango.WebHost.Extensions
         /// <returns></returns>
         public static IServiceCollection AddCustomizedAuthorization(this IServiceCollection services, IWebHostEnvironment webHostEnvironment)
         {
-            var builder = services.AddIdentityServer()
-                .AddInMemoryIdentityResources(IdentityServer4Config.GetIdentityResources())
-                .AddInMemoryApiResources(IdentityServer4Config.GetApis())
-                .AddInMemoryClients(IdentityServer4Config.GetClients());
-            if (webHostEnvironment.IsDevelopment())
-            {
-                builder.AddDeveloperSigningCredential();
-            }
-            else
-            {
-                throw new Exception("need to configure key material");
-            }
+            
             return services;
         }
         /// <summary>
@@ -191,7 +180,10 @@ namespace Mango.WebHost.Extensions
         {
             services.AddSession();
 
-            var mvcBuilder = services.AddControllersWithViews()
+            var mvcBuilder = services.AddControllersWithViews(options=> {
+                //添加访问授权过滤器
+                options.Filters.Add(new AuthorizationComponentFilter());
+            })
                 .AddJsonOptions(options=> {
                     options.JsonSerializerOptions.Converters.Add(new DateTimeToStringConverter());
                 });    

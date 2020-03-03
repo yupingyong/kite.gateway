@@ -76,7 +76,7 @@ namespace Mango.Module.Account.Areas.Account.Controllers
             }
             //将登陆的用户Id存储到会话中
             HttpContext.Session.SetInt32("AccountId", accountData.AccountId);
-            HttpContext.Session.SetInt32("GroupId", accountData.GroupId);
+            HttpContext.Session.SetInt32("RoleId", accountData.GroupId);
             HttpContext.Session.SetString("AccountName", accountData.AccountName);
             HttpContext.Session.SetString("NickName", accountData.NickName);
             HttpContext.Session.SetString("HeadUrl", accountData.HeadUrl);

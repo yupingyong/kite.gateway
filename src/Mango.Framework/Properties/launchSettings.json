@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:53871/",
-      "sslPort": 44372
+      "applicationUrl": "http://localhost:50793/",
+      "sslPort": 44396
     }
   },
   "profiles": {
@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Mango.Module.Main": {
+    "Mango.Framework": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

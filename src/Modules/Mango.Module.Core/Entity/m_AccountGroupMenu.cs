@@ -11,13 +11,13 @@ namespace Mango.Module.Core.Entity
         /// 
         /// </summary>
         [Key]
-        public int? MId { get; set; }
+        public int? MenuId { get; set; }
 		
         /// <summary>
         /// 
         /// </summary>
         
-        public string MName { get; set; }
+        public string MenuName { get; set; }
 		
         /// <summary>
         /// 
@@ -41,13 +41,13 @@ namespace Mango.Module.Core.Entity
         /// 
         /// </summary>
         
-        public int? ParentId { get; set; }
+        public int? ModuleId { get; set; }
 		
         /// <summary>
         /// 
         /// </summary>
         
-        public bool? IsPower { get; set; }
+        public string ParentCode { get; set; }
 		
     }
 }

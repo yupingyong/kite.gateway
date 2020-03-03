@@ -11,6 +11,7 @@ using Mango.Framework.Module;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
+using Mango.Framework.Authorization;
 namespace Mango.WebHost.Extensions
 {
     public static class ApplicationBuilderExtensions
@@ -31,24 +32,12 @@ namespace Mango.WebHost.Extensions
             return app;
         }
         /// <summary>
-        /// 启用Swagger组件
+        /// 启用自定义中间件
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseCustomizedSwagger(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCustomizedMiddleware(this IApplicationBuilder app)
         {
-            app.UseSwaggerUI(c =>
-            {
-                foreach (var module in GlobalConfiguration.Modules)
-                {
-                    if (module.IsApplicationPart)
-                    {
-                        c.SwaggerEndpoint($"/swagger/{module.Name}/swagger.json", $"{module.Name} API");
-                    }
-                }
-                c.RoutePrefix = "swagger";
-            });
-            app.UseSwagger();
             return app;
         }
         /// <summary>

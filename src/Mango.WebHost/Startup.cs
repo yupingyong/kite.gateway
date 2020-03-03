@@ -66,9 +66,11 @@ namespace Mango.WebHost
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
+            
             //
             app.UseCustomizedMvc(env);
             app.UseCustomizedModuleConfigure(env);
+            app.UseCustomizedMiddleware();
         }
     }
 }
