@@ -18,9 +18,36 @@ namespace Mango.Module.Account.Areas.Account.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        public IActionResult Message()
+        [HttpGet]
+        [Route("{area}/{controller}/{action}")]
+        [Route("{area}/{controller}/{action}/{p}")]
+        public IActionResult Message([FromRoute]int p = 1)
         {
-            return View();
+            var accountId= HttpContext.Session.GetInt32("AccountId").GetValueOrDefault(0);
+            var repository = _unitOfWork.GetRepository<m_Message>();
+            var accountRepository= _unitOfWork.GetRepository<m_Account>();
+
+            Models.MyMessageViewModel viewModel = new Models.MyMessageViewModel();
+            viewModel.ListData= repository.Query()
+                .Join(accountRepository.Query(), msg => msg.AccountId, acc =>acc.AccountId, (msg,acc) => new Models.MessageModel()
+                {
+                    AppendAccountId=msg.AppendAccountId.Value,
+                    Contents = msg.Contents,
+                    IsRead = msg.IsRead.Value,
+                    MessageId = msg.MessageId.Value,
+                    MessageType = msg.MessageType.Value,
+                    ObjectId = msg.ObjectId.Value,
+                    PostTime = msg.PostTime.Value,
+                    AccountId = msg.AccountId.Value,
+                    HeadUrl = acc.HeadUrl,
+                    NickName = acc.NickName
+                })
+                .Where(q=>q.AppendAccountId==accountId)
+                .OrderByDescending(q => q.MessageId)
+                .Skip(10 * (p - 1))
+                .Take(10)
+                .ToList();
+            return View(viewModel);
         }
         /// <summary>
         /// 账号信息
@@ -88,71 +115,6 @@ namespace Mango.Module.Account.Areas.Account.Controllers
             repository.Update(accountData);
             var resultCount = _unitOfWork.SaveChanges();
             return resultCount > 0 ? APIReturnMethod.ReturnSuccess() : APIReturnMethod.ReturnFailed();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public IActionResult Article([FromRoute]int p=1)
-        {
-            int accountId = HttpContext.Session.GetInt32("AccountId").GetValueOrDefault(0);
-            Models.MyArticleViewModel viewModel = new Models.MyArticleViewModel();
-            //var repository = _unitOfWork.GetRepository<Entity.m_CmsContents>();
-            //var channelRepository = _unitOfWork.GetRepository<Entity.m_CmsChannel>();
-            //var accountRepository = _unitOfWork.GetRepository<m_Account>();
-            //viewModel.ListData = repository.Query()
-            //    .Join(accountRepository.Query(), c => c.AccountId, account => account.AccountId, (c, account) => new { c, account })
-            //    .Join(channelRepository.Query(), ca => ca.c.ChannelId, channel => channel.ChannelId, (ca, channel) => new Models.ContentsListDataModel()
-            //    {
-            //        AccountId = ca.c.AccountId.Value,
-            //        AnswerCount = ca.c.AnswerCount.Value,
-            //        ChannelId = ca.c.ChannelId.Value,
-            //        ChannelName = channel.ChannelName,
-            //        ContentsId = ca.c.ContentsId.Value,
-            //        HeadUrl = ca.account.HeadUrl,
-            //        LastTime = ca.c.LastTime.Value,
-            //        NickName = ca.account.NickName,
-            //        PlusCount = ca.c.PlusCount.Value,
-            //        PostTime = ca.c.PostTime.Value,
-            //        ReadCount = ca.c.ReadCount.Value,
-            //        StateCode = ca.c.StateCode.Value,
-            //        Title = ca.c.Title
-            //    })
-            //    .Where(q => q.StateCode == 1 && q.AccountId == accountId)
-            //    .OrderByDescending(q => q.ContentsId)
-            //   .Skip(10 * (p - 1))
-            //   .Take(10)
-            //   .ToList();
-            return View(viewModel);
-        }
-        [HttpGet]
-        public IActionResult Theme([FromRoute]int p = 1)
-        {
-            int accountId = HttpContext.Session.GetInt32("AccountId").GetValueOrDefault(0);
-            Models.MyThemeViewModel viewModel = new Models.MyThemeViewModel();
-            //var apiResult = HttpCore.HttpGet($"/api/Docs/Theme/user/{accountId}/{p}");
-
-            //if (apiResult.Code == 0)
-            //{
-            //    viewModel.ListData = JsonConvert.DeserializeObject<List<Models.ThemeDataModel>>(apiResult.Data.ToString());
-            //}
-            return View(viewModel);
-        }
-        [HttpGet("{area}/{controller}/{action}/{themeId}")]
-        [HttpGet("{area}/{controller}/{action}/{themeId}/{p}")]
-        public IActionResult Document([FromRoute]int themeId,[FromRoute]int p=1)
-        {
-            int accountId = HttpContext.Session.GetInt32("AccountId").GetValueOrDefault(0);
-            Models.MyThemeDocumentViewModel viewModel = new Models.MyThemeDocumentViewModel();
-            //var apiResult = HttpCore.HttpGet($"/api/Docs/Theme/user/{accountId}/{themeId}/{p}");
-
-            //if (apiResult.Code == 0)
-            //{
-            //    viewModel.ListData = JsonConvert.DeserializeObject<List<Models.DocumentDataModel>>(apiResult.Data.ToString());
-            //}
-            return View(viewModel);
         }
     }
 }

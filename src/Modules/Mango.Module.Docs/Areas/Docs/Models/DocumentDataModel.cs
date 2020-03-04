@@ -32,5 +32,26 @@ namespace Mango.Module.Docs.Areas.Docs.Models
         /// 是否显示
         /// </summary>
         public bool IsShow { get; set; }
+        /// <summary>
+        /// 添加时间
+        /// </summary>
+
+        public DateTime? AppendTime { get; set; }
+        /// <summary>
+        /// 发布人
+        /// </summary>
+
+        public int? AccountId { get; set; }
+        /// <summary>
+        /// 浏览数
+        /// </summary>
+
+        public int? ReadCount { get; set; }
+
+        /// <summary>
+        /// +1数
+        /// </summary>
+
+        public int? PlusCount { get; set; }
     }
 }

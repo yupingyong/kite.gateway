@@ -29,7 +29,7 @@ namespace Mango.Module.Main.Controllers
         {
             int accountId= HttpContext.Session.GetInt32("AccountId").GetValueOrDefault(0);
             var repository = _unitOfWork.GetRepository<m_Message>();
-            var queryResult = repository.Query().Where(q => q.AccountId == accountId).ToList();
+            var queryResult = repository.Query().Where(q => q.AccountId == accountId).OrderByDescending(q=>q.MessageId).ToList();
 
             return Json(queryResult);
         }
@@ -53,6 +53,18 @@ namespace Mango.Module.Main.Controllers
                 _rabbitMQService.BasicPublish("message", System.Text.Encoding.UTF8.GetBytes(sendMsg));
             }
             return true;
+        }
+        /// <summary>
+        /// 获取消息数量
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public int GetMessageCount()
+        {
+            int accountId = HttpContext.Session.GetInt32("AccountId").GetValueOrDefault(0);
+            var repository = _unitOfWork.GetRepository<m_Message>();
+            int count = _unitOfWork.DbContext.MangoUpdate<m_Message>(q => q.IsRead == true, q => q.AccountId == accountId && q.IsRead == false);
+            return count;
         }
     }
 }

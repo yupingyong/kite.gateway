@@ -1,18 +1,17 @@
-﻿
-@{
-    ViewData["Title"] = "Article";
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "我的文档管理";
 }
-
-@model Mango.Module.Account.Areas.Account.Models.MyArticleViewModel
+@model Mango.Module.Docs.Areas.Docs.Models.MyThemeDocumentViewModel
 
 <div class="row">
     <!--左边菜单部分-->
     <div class="col-lg-3">
-        @Html.PartialAsync("~/Areas/Account/Views/Menu.cshtml").Result
+        @Html.PartialAsync("~/Views/Template/Menu.cshtml").Result
     </div>
     <div class="col-lg-9">
         <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a href="javascript:history.back(-1)" class="border-bottom"><<< 返回我的文档主题列表</a>
             @foreach (var item in Model.ListData)
             {
                 <div class="media pt-2 border-bottom border-gray ">
@@ -20,19 +19,17 @@
                         <div class="col-lg-10">
 
                             <div class="media-body pb-3 mb-0 small lh-125">
-                                <a href="/cms/read/@item.ContentsId" target="_blank" style="color:black;"><h6 class="d-block">@item.Title</h6></a>
-                                <span><img src="~/style/bootstrap/dist/icons/clock.svg" style="width:12px;height:12px;" title="发布时间" />：@item.PostTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                                <a href="/docs/read/@item.ThemeId/@item.DocsId" target="_blank" style="color:black;"><h6 class="d-block">[@item.ShortTitle]@item.Title</h6></a>
+                                <span><img src="~/style/bootstrap/dist/icons/clock.svg" style="width:12px;height:12px;" title="发布时间" />：@item.AppendTime.Value.ToString("yyyy-MM-dd HH:mm:ss")</span>
 
                                 <span style="margin-left:10px;"><img src="~/style/bootstrap/dist/icons/eye.svg" style="width:12px;height:12px;" title="浏览次数" />：@item.ReadCount</span>
 
-                                <span style="margin-left:10px;"><img src="~/style/bootstrap/dist/icons/comment.svg" style="width:12px;height:12px;" title="回复数" />：@item.AnswerCount</span>
                             </div>
                         </div>
                         <div class="col-lg-2">
-                            <a href="/cms/edit/@item.ContentsId" class="btn btn-success btn-sm">编辑</a>
+                            <a href="/docs/edit/document/@item.ThemeId/@item.DocsId" target="_blank" class="btn btn-success btn-sm">编辑</a>
                         </div>
                     </div>
-
                 </div>
 
             }
@@ -55,9 +52,7 @@
     <script type="text/javascript">
     $(window).ready(function () {
         //选中左边菜单栏
-        $("#leftmenu_Posts").addClass("active");
+        $("#leftmenu_Docs").addClass("active");
     });
     </script>
 }
-
-

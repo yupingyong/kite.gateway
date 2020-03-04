@@ -143,6 +143,16 @@
                     }
                 });
             });
+            $(body).ready(function () {
+                //更改未读消息状态
+                $.ajax({
+                    type: 'post',
+                    url: '/Message/GetMessageCount',
+                    success: function (res) {
+                        $("#msg_push_count").text(res);
+                    }
+                });        
+            });
         </script>
     }
     <script type="text/javascript">

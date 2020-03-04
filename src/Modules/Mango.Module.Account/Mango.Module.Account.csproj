@@ -34,12 +34,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Areas\Account\Views\Login\Index.cshtml" />
-    <None Include="Areas\Account\Views\Menu.cshtml" />
-    <None Include="Areas\Account\Views\My\Article.cshtml" />
-    <None Include="Areas\Account\Views\My\Document.cshtml" />
     <None Include="Areas\Account\Views\My\Info.cshtml" />
     <None Include="Areas\Account\Views\My\Message.cshtml" />
-    <None Include="Areas\Account\Views\My\Theme.cshtml" />
     <None Include="Areas\Account\Views\Register\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
