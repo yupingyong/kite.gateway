@@ -7,6 +7,7 @@ namespace Mango.Module.CMS.Areas.CMS.Models
 {
     public class ChannelViewModel
     {
+        public int TotalCount { get; set; }
         /// <summary>
         /// 分页数据返回集合
         /// </summary>

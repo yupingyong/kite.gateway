@@ -145,7 +145,12 @@
                     url: '/Account/Authorization/SendEmailValidateCode',
                     data: 'email=' + email + '&ticket=' + res.ticket + '&randstr=' + res.randstr,
                     success: function (result) {
-                        layer.msg(result);
+                        if (result.code == 0) {
+                            layer.msg("验证码已经发送,请您注意查收!");
+                        }
+                        else {
+                            layer.msg(result.message);
+                        }
                     }
                 });
                 //alert(res.ticket)   // 票据

@@ -52,7 +52,7 @@ namespace Mango.Module.CMS.Areas.CMS.Controllers
                .Skip(10 * (p - 1))
                .Take(10)
                .ToList();
-
+            viewModel.TotalCount = repository.Query().Where(q => q.StateCode == 1 && q.AccountId == accountId).Select(q=>q.ContentsId).Count();
             return View(viewModel);
         }
     }

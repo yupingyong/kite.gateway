@@ -47,6 +47,7 @@ namespace Mango.Module.Account.Areas.Account.Controllers
                 .Skip(10 * (p - 1))
                 .Take(10)
                 .ToList();
+            viewModel.TotalCount = repository.Query().Where(q => q.AppendAccountId == accountId).Select(q => q.MessageId).Count();
             return View(viewModel);
         }
         /// <summary>

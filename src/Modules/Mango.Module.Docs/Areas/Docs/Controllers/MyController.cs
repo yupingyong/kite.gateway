@@ -48,6 +48,7 @@ namespace Mango.Module.Docs.Areas.Docs.Controllers
                 .Skip(10 * (p - 1))
                 .Take(10)
                 .ToList();
+            viewModel.TotalCount = repository.Query().Where(q => q.AccountId == accountId).Select(q=>q.ThemeId).Count();
             return View(viewModel);
         }
         [HttpGet("{area}/{controller}/{action}/{themeId}")]
@@ -77,6 +78,7 @@ namespace Mango.Module.Docs.Areas.Docs.Controllers
                      .Skip(10 * (p - 1))
                      .Take(10)
                      .ToList();
+            viewModel.TotalCount = docRepository.Query().Where(q => q.ThemeId == themeId && q.IsShow == true && q.AccountId == accountId).Select(q=>q.DocsId).Count();
             return View(viewModel);
         }
     }

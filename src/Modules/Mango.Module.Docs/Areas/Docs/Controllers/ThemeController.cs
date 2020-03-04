@@ -47,6 +47,7 @@ namespace Mango.Module.Docs.Areas.Docs.Controllers
                 .Skip(10 * (p - 1))
                 .Take(10)
                 .ToList();
+            viewModel.TotalCount = repository.Query().Select(q => q.ThemeId).Count();
             return View(viewModel);
         }
     }
