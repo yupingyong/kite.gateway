@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using NLog.Web;
+using System.Net;
 namespace Mango.WebHost
 {
     public class Program
@@ -26,8 +28,20 @@ namespace Mango.WebHost
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    //webBuilder.UseKestrel();
+                    //webBuilder.ConfigureKestrel(serverOptions =>
+                    //{
+                    //    serverOptions.Listen(IPAddress.Loopback, 8080);
+                    //    //
+                    //    serverOptions.Listen(IPAddress.Loopback, 443, listenOptnios => {
+                    //        listenOptnios.UseHttps("2336227_www.51core.net.pfx", "GWWXEFUe");
+                    //    });
+                    //});
+
+                    webBuilder.UseUrls("http://*:8080");
                     webBuilder.UseStartup<Startup>();
                 })
+                
                 .UseNLog();
     }
 }

@@ -24,6 +24,12 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="2336227_www.51core.net.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

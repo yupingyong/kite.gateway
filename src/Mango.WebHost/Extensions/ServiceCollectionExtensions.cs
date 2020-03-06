@@ -92,39 +92,6 @@ namespace Mango.WebHost.Extensions
             return services;
         }
         /// <summary>
-        /// 添加Swagger组件
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="contentRootPath"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddCustomizedSwagger(this IServiceCollection services, string contentRootPath)
-        {
-            services.AddSwaggerGen(doc =>
-            {
-                //添加每个模块的XML文档
-                foreach (var module in GlobalConfiguration.Modules)
-                {
-                    if (module.IsApplicationPart)
-                    {
-                        doc.SwaggerDoc(module.Name, new OpenApiInfo
-                        {
-                            Title = $"{module.Name} API",
-                            Version = module.Version,
-                            Description = module.Description
-                        });
-
-                        var xmlPath = Path.Combine(contentRootPath, $@"Modules/{module.Id}/{module.Id}.xml");
-                        doc.IncludeXmlComments(xmlPath);
-                    }
-                }
-                doc.DocInclusionPredicate((docName, apiDescription) => {
-                    return docName == apiDescription.ActionDescriptor.RouteValues.Where(q => q.Key == "area").FirstOrDefault().Value;
-                });
-                //doc.OperationFilter<AddAuthorizationTokenHeaderParameter>();
-            });
-            return services;
-        }
-        /// <summary>
         /// 添加模块
         /// </summary>
         /// <param name="services"></param>
