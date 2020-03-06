@@ -23,21 +23,11 @@ namespace Mango.WebHost
             Host.CreateDefaultBuilder(args)
                 .ConfigureLogging(logging =>
                 {
-                    logging.ClearProviders(); //ÒÆ³ýÒÑ¾­×¢²áµÄÆäËûÈÕÖ¾´¦Àí³ÌÐò
-                    logging.SetMinimumLevel(LogLevel.Trace); //ÉèÖÃ×îÐ¡µÄÈÕÖ¾¼¶±ð
+                    logging.ClearProviders(); //ç§»é™¤å·²ç»æ³¨å†Œçš„å…¶ä»–æ—¥å¿—å¤„ç†ç¨‹åº
+                    logging.SetMinimumLevel(LogLevel.Trace); //è®¾ç½®æœ€å°çš„æ—¥å¿—çº§åˆ«
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    //webBuilder.UseKestrel();
-                    //webBuilder.ConfigureKestrel(serverOptions =>
-                    //{
-                    //    serverOptions.Listen(IPAddress.Loopback, 8080);
-                    //    //
-                    //    serverOptions.Listen(IPAddress.Loopback, 443, listenOptnios => {
-                    //        listenOptnios.UseHttps("2336227_www.51core.net.pfx", "GWWXEFUe");
-                    //    });
-                    //});
-
                     webBuilder.UseUrls("http://*:8080");
                     webBuilder.UseStartup<Startup>();
                 })
