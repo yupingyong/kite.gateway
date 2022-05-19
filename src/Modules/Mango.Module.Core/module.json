@@ -1,7 +1,0 @@
-{
-  "Id": "Mango.Module.Core",
-  "Name": "Core",
-  "Version": "v1.0.0",
-  "Description": "核心模块",
-  "IsApplicationPart": true
-}

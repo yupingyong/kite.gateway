@@ -1,3 +1,0 @@
-public virtual DbSet<m_AccountGroup> m_AccountGroup { get; set; }
-public virtual DbSet<m_AccountGroupMenu> m_AccountGroupMenu { get; set; }
-public virtual DbSet<m_AccountGroupPower> m_AccountGroupPower { get; set; }
