@@ -1,0 +1,80 @@
+﻿
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item disabled">
+      <span class="page-link">
+          总记录条数:&nbsp;@(TotalCount)&nbsp;&nbsp;@(PageIndex)/@(PageCount) 页
+      </span>
+    </li>
+    <li class="page-item"><a class="page-link" @onclick="@(e=>OnClickAsync(1))">首页</a></li>
+    <li class="page-item"><a class="page-link" @onclick="@(e=>OnClickAsync(PreviousPage))">上一页</a></li>
+    <li class="page-item"><a class="page-link" @onclick="@(e=>OnClickAsync(NextPage))">下一页</a></li>
+    <li class="page-item"><a class="page-link" @onclick="@(e=>OnClickAsync(PageCount))">最后一页</a></li>
+  </ul>
+</nav>
+
+@code {
+    /// <summary>
+    /// 当前页码
+    /// </summary>
+    [Parameter]
+    public int PageIndex { get; set; }
+    /// <summary>
+    /// 每页记录数
+    /// </summary>
+
+    [Parameter]
+    public int PageSize { get; set; }
+    /// <summary>
+    /// 总记录数
+    /// </summary>
+    [Parameter]
+    public int TotalCount { get; set; }
+    /// <summary>
+    /// 点击分页页码时回调事件
+    /// </summary>
+    [Parameter]
+    public EventCallback<int> OnClickCallback { get; set; }
+
+    private int PageCount { get; set; }
+    private int PreviousPage { get; set; }
+    private int NextPage { get; set; }
+
+    protected override void OnInitialized()
+    {
+        HandlePagination();
+        base.OnInitialized();
+    }
+    private async void OnClickAsync(int page)
+    {
+        PageIndex = page;
+        await OnClickCallback.InvokeAsync(page);
+        HandlePagination();
+    }
+    /// <summary>
+    /// 处理页码信息
+    /// </summary>
+    private void HandlePagination()
+    {
+        if (TotalCount % PageSize == 0)
+        {
+            PageCount = TotalCount / PageSize;
+        }
+        else
+        {
+            PageCount = TotalCount / PageSize + 1;
+        }
+        PreviousPage = 1;
+        if (PageIndex >1)
+        {
+
+            PreviousPage = PageIndex - 1;
+        }
+        NextPage = PageCount;
+        if (PageCount < PageIndex )
+        {
+            NextPage = PageIndex + 1;
+        }
+        StateHasChanged();
+    }
+}

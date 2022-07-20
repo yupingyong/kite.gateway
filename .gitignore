@@ -7,6 +7,9 @@
 *.userosscache
 *.sln.docstates
 
+#屏蔽本地配置文件
+appsettings.Development.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

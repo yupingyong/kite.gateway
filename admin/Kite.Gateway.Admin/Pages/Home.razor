@@ -1,0 +1,37 @@
+﻿@page "/"
+
+<div role="alert" class="alert fade show alert-info is-bar">
+    <div class="alert-content">
+        <h4><i class="fa fa-lightbulb-o"></i>有言</h4><!--!-->
+        <p>
+            基于.Net 6 + Blazor + Yarp + Abp Vnext
+        </p>
+        <p>
+            怕什么真理无穷，进一寸有一寸的欢喜--胡适
+        </p>
+    </div>
+</div>
+
+<Timeline Items="AlternateTimelineItems" />
+
+@code {
+    private List<TimelineItem> AlternateTimelineItems { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        AlternateTimelineItems = new List<TimelineItem>()
+        {
+            new TimelineItem()
+            {
+                Description="2022-06",
+                Content="开始尝试使用blazor作为后台管理框架"
+            }   
+            ,new TimelineItem()
+            {
+                Description="2022-07",
+                Content="完成第一个版本的更替"
+            }
+        };
+    }
+}
