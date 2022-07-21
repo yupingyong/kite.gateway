@@ -1,0 +1,80 @@
+﻿@page "/Login"
+@layout SimpleLayout
+
+@using Kite.Gateway.Admin.Core
+@using Kite.Gateway.Application.Contracts
+@using Kite.Gateway.Application.Contracts.Dtos.Administrator
+@using Mapster
+@using Kite.Gateway.Domain.Shared.Enums
+@inject ToastService ToastService
+@inject NavigationManager NavigationManager
+@inject IAdministratorAppService AdministratorAppService
+@inject AuthorizationServerStorage AuthorizationServerStorage
+
+
+<main class="form-signin text-center">
+  <ValidateForm Model="@LoginAdministrator"  OnValidSubmit="@OnLoginAsync" OnInvalidSubmit="@OnInvalidSubmitAsync">
+    <img class="mb-4" src="/images/kitelogo.png" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Kite Gateway</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" @bind-value="LoginAdministrator.AdminName" id="floatingInput" placeholder="请输入管理员账号名">
+      <label for="floatingInput">账号名:<em style="color:red">*</em></label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" @bind-value="LoginAdministrator.Password" id="floatingPassword" placeholder="请输入管理员密码">
+      <label for="floatingPassword">登录密码:<em style="color:red">*</em></label>
+    </div>
+    <Button ButtonType="ButtonType.Submit"  class="w-100 btn btn-lg btn-primary" IsAsync="true" Color="Color.Primary">登 录</Button>
+@*    <button class="w-100 btn btn-lg btn-primary" type="submit">登录</button>*@
+  </ValidateForm>
+</main>
+
+@code {
+    //表单数据
+    private LoginAdministratorDto LoginAdministrator { get; set; }= new LoginAdministratorDto();
+    private EditContext? editContext;
+    /// <summary>
+    /// OnInitialized 方法
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        editContext = new(LoginAdministrator);
+        base.OnInitialized();
+    }
+    private Task OnInvalidSubmitAsync(EditContext editContext)
+    {
+        return Task.CompletedTask;
+    }
+    private async Task OnLoginAsync(EditContext editContext)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(LoginAdministrator.AdminName) || LoginAdministrator.AdminName.Trim() == "")
+            {
+                await ToastService.Warning("系统警告","管理员账号名不能为空");
+                return;
+            }
+            if (string.IsNullOrEmpty(LoginAdministrator.Password) || LoginAdministrator.Password.Trim() == "")
+            {
+                await ToastService.Warning("系统警告","管理员密码不能为空");
+                return;
+            }
+            var result = await AdministratorAppService.LoginAsync(LoginAdministrator);
+            if (result.Code != 0)
+            {
+                await ToastService.Warning("系统警告",result.Message);
+            }
+            else
+            {
+                AuthorizationServerStorage.SetServerStorage(result.Data);
+                NavigationManager.NavigateTo("/");
+            }
+            await Task.CompletedTask;    
+        }
+        catch (Exception ex)
+        {
+            await ToastService.Warning("系统警告", ex.Message);
+        }
+    }
+}

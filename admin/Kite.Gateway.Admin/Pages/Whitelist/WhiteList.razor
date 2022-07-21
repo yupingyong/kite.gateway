@@ -1,0 +1,211 @@
+﻿@page "/Whitelist"
+
+@using Kite.Gateway.Application.Contracts
+@using Kite.Gateway.Application.Contracts.Dtos.Whitelist
+@using Mapster
+@using Kite.Gateway.Domain.Shared.Enums
+@inject ToastService ToastService
+@inject IWhitelistAppService WhitelistAppService
+@inject NavigationManager NavigationManager
+
+<div class="row">
+    <div class="col-4">
+        <BootstrapInputGroup>
+            <BootstrapInput @bind-Value="@SearchKw" PlaceHolder="白名单名称/过滤文本值" />
+            <Button Icon="fa fa-search" IsAsync="true" @onclick="OnSearchAsync"></Button>
+        </BootstrapInputGroup>
+    </div>
+    <div class="col-2">
+        <Button OnClick="@OnAddAsync" Color="Color.Primary">添加白名单</Button>
+    </div>
+</div>
+<div class="row" style="margin-top:10px;">
+    <table class="table">
+      <thead class="table-light">
+        <tr>
+            <th>白名单名称</th>
+            <th>作用域</th>
+            <th>过滤类型</th>
+            <th>过滤文本值</th>
+            <th>请求方式</th>
+            <th>状态</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+          @if(Whitelists!=null&&Whitelists.Any())
+          {
+              foreach(var item in Whitelists)
+              {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.RouteName</td>
+                    <td>
+                        @switch(item.FilterType)
+                        {
+                            case FilterTypeEnum.Regular:
+                                <div>正则过滤</div>
+                            break;
+                            default:
+                                <div>路径过滤</div>
+                            break;
+                        }
+                    </td>
+                    <td>@item.FilterText</td>
+                    <td>@item.RequestMethod</td>
+                    <td>
+                        <Switch OnValueChanged="@(async (val)=>{ OnUpdateStateAsync(item.Id,val);await Task.CompletedTask; })" OnColor="Color.Success" @bind-Value="item.UseState" ShowLabel="false" style="max-height:18px;"  ></Switch>
+                    </td>
+                    
+                    <td>@item.Created</td>
+                    
+                    <td>
+                        <div class="btn-group" role="group">
+                            <Button Color="Color.Info" Size="Size.ExtraSmall" OnClick="@(e=>OnUpdateAsync(item.Id))">编辑</Button>
+                            <PopConfirmButton  Size="Size.ExtraSmall" Placement="Placement.Bottom" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"
+                  ConfirmButtonColor="Color.Danger" Text="删除" Content="确定删除数据吗？" Icon="fa fa-fa fa-fw" IsAsync="true"
+                  OnConfirm="@(()=>OnDeleteAsync(item.Id))" />
+                        </div>
+                    </td>
+                </tr>
+              }
+            }
+        </tbody>
+    </table>
+    
+</div>
+<div class="row col-12"  style="margin-top:15px;">
+     <Pagination PageItems="@PageSize" PageItemsSource="@(new int[] { 10,20 })" TotalCount="@TotalCount" OnPageClick="@OnPageClick" OnPageItemsChanged="@OnPageItemsChanged"></Pagination>
+</div>
+<Modal @ref="Modal">
+    <ModalDialog  IsScrolling="true" Title="新增白名单" IsCentered="true" Size="Size.Large" ShowCloseButton="false">
+        <BodyTemplate >
+           <NewWhitelist OnClickCallback="OnAddCallbackAsync"></NewWhitelist>
+        </BodyTemplate>
+    </ModalDialog>
+</Modal>
+
+<Modal @ref="UpdateModal">
+    <ModalDialog  IsScrolling="true" Title="白名单编辑" IsCentered="true" Size="Size.Large" ShowCloseButton="false">
+        <BodyTemplate >
+           <UpdateWhitelist Model="@UpdateModel" OnClickCallback="OnUpdateCallbackAsync"></UpdateWhitelist>
+        </BodyTemplate>
+    </ModalDialog>
+</Modal>
+
+@code {
+    private Modal Modal;
+
+    private Modal UpdateModal;
+
+    public UpdateWhitelistDto UpdateModel { get; set; }
+    //分页数据
+
+    private List<WhitelistDto> Whitelists { get; set; }
+
+    private int TotalCount { get; set; } = 0;
+    private int PageSize { get; set; } = 10;
+    private int PageIndex { get; set; } = 1;
+    private string SearchKw { get; set; } = "";
+
+    /// <summary>
+    /// OnInitialized 方法
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        OnQueryAsync();
+        base.OnInitialized();
+    }
+    #region 白名单编辑更新
+    private async void OnUpdateStateAsync(Guid id,bool val)
+    {
+        var result = await WhitelistAppService.UpdateUseStateAsync(id, val);
+        if (result.Code != 0)
+        {
+            await ToastService.Warning("系统警告",result.Message);
+        }
+        else
+        {
+            await ToastService.Success("系统通知","保存成功");
+        }
+    }
+    private async void OnUpdateAsync(Guid id)
+    {
+        UpdateModel= await GetAsync(id);
+        await UpdateModal.Toggle();
+    }
+    private async Task<UpdateWhitelistDto> GetAsync(Guid id)
+    {
+        var result = await WhitelistAppService.GetAsync(id);
+        if (result.Code != 0 || result.Data == null)
+        {
+            await ToastService.Warning("系统警告", "数据不存在");
+        }
+        var model= TypeAdapter.Adapt<UpdateWhitelistDto>(result.Data);
+        return model;
+    }
+    private async void OnUpdateCallbackAsync()
+    {
+        await UpdateModal.Close();
+        OnQueryAsync();
+    }
+    #endregion
+    #region 新增白名单
+    private async void OnAddAsync()
+    {
+        await Modal.Toggle();
+    }
+    private async void OnAddCallbackAsync()
+    {
+        await Modal.Close();
+        OnQueryAsync();
+    }
+    #endregion
+    private async Task OnDeleteAsync(Guid routeId)
+    {
+        var result= await WhitelistAppService.DeleteAsync(routeId);
+        if (result.Code == 0)
+        {
+            OnQueryAsync();
+            await ToastService.Success("系统通知","数据删除成功!");
+            return;
+        }
+        await ToastService.Warning("系统警告","数据删除失败");
+    }
+
+    private Task OnPageClick(int pageIndex, int pageItems)
+    {
+        PageIndex = pageIndex;
+        OnQueryAsync();
+        return Task.CompletedTask;
+    }
+    private Task OnPageItemsChanged(int pageItems)
+    {
+        PageIndex=1;
+        PageSize = pageItems;
+        OnQueryAsync();
+        return Task.CompletedTask;
+    }
+    private void OnSearchAsync()
+    {
+        PageIndex = 1;
+        OnQueryAsync();
+    }
+    private async void OnQueryAsync()
+    {
+        var result = await WhitelistAppService.GetListAsync(SearchKw, PageIndex, PageSize);
+
+        if (result.Code == 0)
+        {
+            Whitelists = result.Data;
+            TotalCount = result.Count;
+            StateHasChanged();
+        }
+        else
+        {
+            await ToastService.Warning("系统警告", "数据加载失败");
+        }
+    }
+
+}

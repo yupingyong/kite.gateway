@@ -1,0 +1,36 @@
+using Kite.Gateway.Hosting;
+using Microsoft.AspNetCore.Http.Features;
+using Serilog;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Host
+     .ConfigureLogging((context, logBuilder) =>
+     {
+         Log.Logger = new LoggerConfiguration()
+          .Enrich.FromLogContext()
+          .WriteTo.Console()// 日志输出到控制台
+          .MinimumLevel.Information()
+          .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+          .CreateLogger();
+         logBuilder.ClearProviders();
+         logBuilder.AddSerilog(dispose: true);
+     })
+     .UseAutofac();
+
+
+//配置请求体大小
+builder.WebHost.ConfigureKestrel((context, options) =>
+{
+    options.Limits.MaxRequestBodySize = int.MaxValue;
+});
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = int.MaxValue;
+});
+builder.Services.ReplaceConfiguration(builder.Configuration);//修正配置错误
+
+builder.Services.AddApplication<HostingModule>();
+var app = builder.Build();
+app.InitializeApplication();
+app.MapGet("/", context => context.Response.WriteAsync("hello world!!!"));
+app.Run();

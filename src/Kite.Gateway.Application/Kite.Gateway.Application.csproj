@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <BaseOutputPath></BaseOutputPath>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <DocumentationFile>Kite.Gateway.Application.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;8602;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;8602;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="5.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kite.Gateway.Application.Contracts\Kite.Gateway.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Kite.Gateway.Domain\Kite.Gateway.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
