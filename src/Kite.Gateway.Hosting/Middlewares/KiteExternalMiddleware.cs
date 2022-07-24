@@ -30,7 +30,7 @@ namespace Kite.Gateway.Hosting.Middlewares
             {
                 throw new ArgumentNullException(nameof(context));
             }
-            foreach (var middleware in _middlewares.Where(x => x.UseState).OrderByDescending(x => x.ExecWeight).ToList())
+            foreach (var middleware in _middlewares)
             {
                 var middlewareResult = await HttpRequestAsync(middleware, context);
                 if (middlewareResult.HttpStatusCode != 200)

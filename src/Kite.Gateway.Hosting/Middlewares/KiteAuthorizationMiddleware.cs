@@ -20,13 +20,12 @@ namespace Kite.Gateway.Hosting.Middlewares
         private readonly AuthenticationOption _authenticationOption;
         private readonly IJwtTokenManager _jwtTokenManager;
         public KiteAuthorizationMiddleware(RequestDelegate next
-            , IOptions<List<WhitelistOption>> whitelistOptions, IJwtTokenManager jwtTokenManager
-            , IOptions<AuthenticationOption> authenticationOption)
+            , IOptions<List<WhitelistOption>> whitelistOptions, IJwtTokenManager jwtTokenManager, AuthenticationOption authenticationOption)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _whitelistOptions = whitelistOptions.Value;
             _jwtTokenManager = jwtTokenManager;
-            _authenticationOption = authenticationOption.Value;
+            _authenticationOption = authenticationOption;
         }
         public async Task Invoke(HttpContext context)
         {
@@ -34,7 +33,6 @@ namespace Kite.Gateway.Hosting.Middlewares
             {
                 throw new ArgumentNullException(nameof(context));
             }
-            //如果未开启token验证则直接进入下一个中间件
             if (!_authenticationOption.UseState)
             {
                 await _next(context);
@@ -44,7 +42,7 @@ namespace Kite.Gateway.Hosting.Middlewares
             var requestPath = context.Request.Path.Value.ToLower();
             var reqeustMethod = context.Request.Method.ToUpper();
             bool IsWhitelist = false;
-            foreach (var whitelist in _whitelistOptions.Where(x=>x.UseState).ToList())
+            foreach (var whitelist in _whitelistOptions)
             {
                 switch (whitelist.FilterType)
                 {
@@ -53,8 +51,7 @@ namespace Kite.Gateway.Hosting.Middlewares
                             IsWhitelist=true;
                         break;
                     case FilterTypeEnum.Regular:
-                        var reg = new Regex(whitelist.FilterText);
-                        if(reg.IsMatch(requestPath) && reqeustMethod == whitelist.RequestMethod)
+                        if(whitelist.Regex.IsMatch(requestPath) && reqeustMethod == whitelist.RequestMethod)
                             IsWhitelist = true;
                         break;
                 }

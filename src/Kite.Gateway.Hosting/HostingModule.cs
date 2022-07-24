@@ -57,7 +57,10 @@ namespace Kite.Gateway.Hosting
         }
         private void ConfigureCore(ServiceConfigurationContext context)
         {
-            context.Services.Configure<AuthenticationOption>(opt => { });
+            context.Services.Configure<AuthenticationOption>(opt => 
+            {
+                opt.UseState = false;
+            });
             context.Services.Configure<List<WhitelistOption>>(opt => { });
             context.Services.Configure<ServiceGovernanceOption>(opt => { });
             context.Services.Configure<List<MiddlewareOption>>(opt => { });
