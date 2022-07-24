@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Kite.Gateway.Domain.Shared.Options
 {
@@ -33,12 +34,13 @@ namespace Kite.Gateway.Domain.Shared.Options
         /// </summary>
         public string FilterText { get; set; }
         /// <summary>
+        /// 正则过滤对象
+        /// </summary>
+        public Regex Regex { get; set; }
+        /// <summary>
         /// 请求方式(多请求方式使用,分隔)
         /// </summary>
         public string RequestMethod { get; set; }
-        /// <summary>
-        /// 启用状态
-        /// </summary>
-        public bool UseState { get; set; }
+
     }
 }
