@@ -29,19 +29,19 @@ namespace Kite.Gateway.Application
             //加载基础配置
             if (reloadConfigure.IsReloadAuthentication)
             {
-                await _configureManager.ReloadAuthenticationAsync();
+                _configureManager.ReloadAuthentication(reloadConfigure.AuthenticationOption);
             }
             if (reloadConfigure.IsReloadWhitelist)
             {
-                await _configureManager.ReloadWhitelistAsync();
+                _configureManager.ReloadWhitelist(reloadConfigure.WhitelistOptions);
             }
             if (reloadConfigure.IsReloadServiceGovernance)
             {
-                await _configureManager.ReloadServiceGovernanceAsync();
+                _configureManager.ReloadServiceGovernance(reloadConfigure.ServiceGovernanceOption);
             }
             if (reloadConfigure.IsReloadMiddleware)
             {
-                await _configureManager.ReloadMiddlewareAsync();
+                _configureManager.ReloadMiddleware(reloadConfigure.MiddlewareOptions);
             }
             //加载路由等数据
             if (reloadConfigure.IsReloadYarp)
