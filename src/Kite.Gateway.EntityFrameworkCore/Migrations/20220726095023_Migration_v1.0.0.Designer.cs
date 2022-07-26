@@ -12,39 +12,38 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Kite.Gateway.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(KiteDbContext))]
-    [Migration("20220721055855_Migration_v1.0.0")]
+    [Migration("20220726095023_Migration_v1.0.0")]
     partial class Migration_v100
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.MySql)
-                .HasAnnotation("ProductVersion", "6.0.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.Sqlite)
+                .HasAnnotation("ProductVersion", "6.0.7");
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Administrator", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("AdminName")
                         .HasMaxLength(32)
-                        .HasColumnType("varchar(32)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NickName")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Updated")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -54,54 +53,54 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.AuthenticationConfigure", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Audience")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("CertificateFile")
-                        .HasColumnType("longtext");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("CertificateFileName")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("CertificatePassword")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ClockSkew")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Issuer")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("RequireExpirationTime")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SecurityKeyStr")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("UseSSL")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("UseState")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("ValidateAudience")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("ValidateIssuer")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("ValidateIssuerSigningKey")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("ValidateLifetime")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -111,25 +110,25 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Cluster", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClusterName")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LoadBalancingPolicy")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("RouteId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ServiceGovernanceName")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ServiceGovernanceType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -139,18 +138,18 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.ClusterDestination", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("ClusterId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("DestinationAddress")
                         .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("DestinationName")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -160,27 +159,27 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.ClusterHealthCheck", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("ClusterId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Enabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Interval")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Path")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Policy")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Timeout")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -190,34 +189,34 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Middleware", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ExecWeight")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Server")
                         .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("SignalType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("Updated")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("UseState")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -227,29 +226,29 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Node", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NodeName")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Server")
                         .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Token")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Updated")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -259,32 +258,32 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Route", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RouteId")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RouteMatchPath")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RouteName")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Updated")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("UseState")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -294,18 +293,18 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.RouteTransform", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("RouteId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TransformsName")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TransformsValue")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -315,19 +314,19 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.ServiceGovernanceConfigure", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ConsulDatacenter")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ConsulServer")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ConsulToken")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -337,31 +336,31 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Whitelist", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("FilterText")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("FilterType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RequestMethod")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid?>("RouteId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("UseState")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

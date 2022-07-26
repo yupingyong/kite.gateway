@@ -28,7 +28,6 @@ using Consul;
 using Kite.Gateway.Domain.Authorization;
 using Yarp.ReverseProxy.Configuration;
 using Kite.Gateway.Domain.ReverseProxy;
-using Kite.Gateway.EntityFrameworkCore;
 using Kite.Gateway.Domain.Shared.Options;
 using Kite.Gateway.Hosting.Middlewares;
 using Kite.Gateway.Domain.Shared.Enums;
@@ -38,8 +37,7 @@ namespace Kite.Gateway.Hosting
     [DependsOn(
          typeof(AbpAutofacModule),
          typeof(ApplicationModule),
-         typeof(AbpSwashbuckleModule),
-        typeof(EntityFrameworkCoreModule)
+         typeof(AbpSwashbuckleModule)
      )]
     public class HostingModule:AbpModule
     {
