@@ -31,6 +31,7 @@ using Kite.Gateway.Domain.ReverseProxy;
 using Kite.Gateway.Domain.Shared.Options;
 using Kite.Gateway.Hosting.Middlewares;
 using Kite.Gateway.Domain.Shared.Enums;
+using Microsoft.Extensions.Options;
 
 namespace Kite.Gateway.Hosting
 {
@@ -55,14 +56,26 @@ namespace Kite.Gateway.Hosting
         }
         private void ConfigureCore(ServiceConfigurationContext context)
         {
-            context.Services.Configure<AuthenticationOption>(opt => 
+            //注入网关基础配置
+            context.Services.Configure<KiteGatewayOption>(context.Services.GetConfiguration().GetSection("KiteGateway"));
+            //白名单配置
+            context.Services.Configure<List<WhitelistOption>>(opt => { });
+            //服务治理配置
+            context.Services.Configure<ServiceGovernanceOption>(opt => { });
+            //中间件配置
+            context.Services.Configure<List<MiddlewareOption>>(opt => { });
+            //Jwt身份认证配置
+            context.Services.Configure<AuthenticationOption>(opt =>
             {
                 opt.UseState = false;
             });
-            context.Services.Configure<List<WhitelistOption>>(opt => { });
-            context.Services.Configure<ServiceGovernanceOption>(opt => { });
-            context.Services.Configure<List<MiddlewareOption>>(opt => { });
             context.Services.Configure<TokenValidationParameters>(opt => { });
+            //Yarp反向代理配置
+            context.Services.Configure<YarpOption>(opt => 
+            {
+                opt.Routes = new List<RouteConfig>();
+                opt.Clusters = new List<ClusterConfig>();
+            });
         }
         /// <summary>
         /// MVC中间件注入配置
@@ -95,7 +108,6 @@ namespace Kite.Gateway.Hosting
         {
             //注入反向代理
             context.Services.AddSingleton<IProxyConfigProvider, InDatabaseStoreConfigProvider>();
-            context.Services.AddSingleton<IReverseProxyDatabaseStore, ReverseProxyDatabaseStore>();
             context.Services.AddReverseProxy();
         }
         /// <summary>
@@ -159,13 +171,10 @@ namespace Kite.Gateway.Hosting
             using (var scope = context.ServiceProvider.CreateScope())
             {
                 //初始化时刷新所有数据配置项
-                var configureManager = scope.ServiceProvider.GetService<IConfigureManager>();
-                if (configureManager != null)
+                var options = scope.ServiceProvider.GetService<IOptions<KiteGatewayOption>>();
+                if (options != null)
                 {
-                    await configureManager.ReloadAuthenticationAsync();
-                    await configureManager.ReloadWhitelistAsync();
-                    await configureManager.ReloadServiceGovernanceAsync();
-                    await configureManager.ReloadMiddlewareAsync();
+                    
                 }
             }
         }

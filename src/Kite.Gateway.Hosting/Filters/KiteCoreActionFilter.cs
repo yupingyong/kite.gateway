@@ -1,6 +1,8 @@
 ﻿using Kite.Gateway.Application;
+using Kite.Gateway.Domain.Shared.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 namespace Kite.Gateway.Hosting.Filters
 {
@@ -13,10 +15,10 @@ namespace Kite.Gateway.Hosting.Filters
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var configuration = context.HttpContext.RequestServices.GetService<IConfiguration>();
-            if (configuration != null)
+            var options = context.HttpContext.RequestServices.GetService<IOptions<KiteGatewayOption>>();
+            if (options != null)
             {
-                var accessToken = configuration.GetSection("AccessToken").Value;
+                var accessToken = options.Value.AccessToken;
                 if (!context.HttpContext.Request.Headers.Where(x => x.Key == "AccessToken").Any())
                 {
                     context.Result = new ContentResult()

@@ -22,7 +22,7 @@ namespace Kite.Gateway.Application
             _nodeManager = nodeManager;
         }
 
-        public async Task<HttpResponseResult> CreateAsync(CreateNodeDto createNode)
+        public async Task<KiteResult> CreateAsync(CreateNodeDto createNode)
         {
             createNode.Server = createNode.Server.TrimEnd('/');
             var model =await _nodeManager.CreateAsync(createNode.NodeName, createNode.Server);
@@ -31,13 +31,13 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<HttpResponseResult> DeleteAsync(Guid id)
+        public async Task<KiteResult> DeleteAsync(Guid id)
         {
             await _repository.DeleteAsync(x=>x.Id==id);
             return Ok();
         }
 
-        public async Task<HttpResponseResult<List<NodeDto>>> GetAllAsync()
+        public async Task<KiteResult<List<NodeDto>>> GetAllAsync()
         {
             var result = (await _repository.GetQueryableAsync())
                 .OrderByDescending(x => x.Created)
@@ -46,7 +46,7 @@ namespace Kite.Gateway.Application
             return Ok(result);
         }
 
-        public async Task<HttpResponseResult<NodeDto>> GetAsync(Guid id)
+        public async Task<KiteResult<NodeDto>> GetAsync(Guid id)
         {
             var result= (await _repository.GetQueryableAsync())
                 .Where(x => x.Id == id)
@@ -55,7 +55,7 @@ namespace Kite.Gateway.Application
             return Ok(result);
         }
 
-        public async Task<HttpResponsePageResult<List<NodeDto>>> GetListAsync(int page = 1, int pageSize = 10)
+        public async Task<KitePageResult<List<NodeDto>>> GetListAsync(int page = 1, int pageSize = 10)
         {
             var query = await _repository.GetQueryableAsync();
             var result = query
@@ -66,7 +66,7 @@ namespace Kite.Gateway.Application
             return Ok(result, query.Count());
         }
 
-        public async Task<HttpResponseResult> UpdateAsync(UpdateNodeDto updateNode)
+        public async Task<KiteResult> UpdateAsync(UpdateNodeDto updateNode)
         {
             updateNode.Server = updateNode.Server.TrimEnd('/');
             var model =await _nodeManager.UpdateAsync(updateNode.Id, updateNode.NodeName, updateNode.Server);

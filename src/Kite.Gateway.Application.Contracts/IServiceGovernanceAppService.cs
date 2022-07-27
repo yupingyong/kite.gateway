@@ -16,12 +16,12 @@ namespace Kite.Gateway.Application.Contracts
         /// 获取服务治理配置信息
         /// </summary>
         /// <returns></returns>
-        Task<HttpResponseResult<ServiceGovernanceConfigureDto>> GetServiceGovernanceConfigureAsync();
+        Task<KiteResult<ServiceGovernanceConfigureDto>> GetServiceGovernanceConfigureAsync();
         /// <summary>
         /// 保存服务治理相关配置信息
         /// </summary>
         /// <param name="configure"></param>
         /// <returns></returns>
-        Task<HttpResponseResult> SaveServiceGovernanceConfigureAsync(ServiceGovernanceConfigureDto configure);
+        Task<KiteResult> SaveServiceGovernanceConfigureAsync(ServiceGovernanceConfigureDto configure);
     }
 }

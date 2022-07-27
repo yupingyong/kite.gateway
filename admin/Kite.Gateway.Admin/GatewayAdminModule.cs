@@ -38,6 +38,11 @@ namespace Kite.Gateway.Admin
             context.Services.AddMemoryCache();
             context.Services.AddHttpClient();
             ConfigureBlazor(context);
+            ConfigureMvc(context);
+        }
+        private void ConfigureMvc(ServiceConfigurationContext context)
+        {
+            context.Services.AddControllers();
         }
         /// <summary>
         /// Blazor
@@ -87,11 +92,9 @@ namespace Kite.Gateway.Admin
             app.UseRouting();
 
             app.UseExceptionHandler("/Error");
-
-            
-
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });

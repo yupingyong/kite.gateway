@@ -32,7 +32,7 @@ namespace Kite.Gateway.Application
             _routeRepository = routeListRepository;
         }
 
-        public async Task<HttpResponsePageResult<List<WhitelistDto>>> GetListAsync(string kw = "", int page = 1, int pageSize = 10)
+        public async Task<KitePageResult<List<WhitelistDto>>> GetListAsync(string kw = "", int page = 1, int pageSize = 10)
         {
             var query = (await _whiteListRepository.GetQueryableAsync()).WhereIf(!string.IsNullOrEmpty(kw) && kw != "", x => x.Name.Contains(kw) || x.FilterText.Contains(kw));
             var totalCount = query.Count();
@@ -56,7 +56,7 @@ namespace Kite.Gateway.Application
             return Ok(result, totalCount);
         }
 
-        public async Task<HttpResponseResult> DeleteAsync(Guid id)
+        public async Task<KiteResult> DeleteAsync(Guid id)
         {
             var model = await _whiteListRepository.FirstOrDefaultAsync(x => x.Id == id);
             if (model != null)
@@ -66,14 +66,14 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<HttpResponseResult> CreateAsync(CreateWhitelistDto createWhiteList)
+        public async Task<KiteResult> CreateAsync(CreateWhitelistDto createWhiteList)
         {
             var model = await _whiteListManager.CreateAsync(createWhiteList);
             await _whiteListRepository.InsertAsync(model);
             return Ok();
         }
 
-        public async Task<HttpResponseResult> UpdateAsync(UpdateWhitelistDto updateWhiteList)
+        public async Task<KiteResult> UpdateAsync(UpdateWhitelistDto updateWhiteList)
         {
             var model =await _whiteListRepository.FirstOrDefaultAsync(x => x.Id == updateWhiteList.Id);
             if (model==null)
@@ -85,7 +85,7 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<HttpResponseResult<WhitelistDto>> GetAsync(Guid id)
+        public async Task<KiteResult<WhitelistDto>> GetAsync(Guid id)
         {
             var result = (await _whiteListRepository.GetQueryableAsync())
                 .Where(x => x.Id == id)
@@ -94,7 +94,7 @@ namespace Kite.Gateway.Application
             return Ok(result);
         }
 
-        public async Task<HttpResponseResult> UpdateUseStateAsync(Guid id, bool useState)
+        public async Task<KiteResult> UpdateUseStateAsync(Guid id, bool useState)
         {
             var model = await _whiteListRepository.FirstOrDefaultAsync(x => x.Id == id);
             if (model == null)

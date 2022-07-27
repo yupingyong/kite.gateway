@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Kite.Gateway.Domain.Shared.Options;
 
-namespace Kite.Gateway.Application.Contracts.Dtos
+namespace Kite.Gateway.Application.Contracts.Dtos.Node
 {
     public class ReloadConfigureDto
     {
@@ -15,37 +15,25 @@ namespace Kite.Gateway.Application.Contracts.Dtos
         /// </summary>
         [Required]
         public bool IsReloadAuthentication { get; set; }
-        /// <summary>
-        /// 身份认证数据
-        /// </summary>
-        public AuthenticationOption AuthenticationOption { get; set; }
+        
         /// <summary>
         /// 是否重新加载白名单数据
         /// </summary>
         [Required]
         public bool IsReloadWhitelist { get; set; }
-        /// <summary>
-        /// 中间件数据
-        /// </summary>
-        public  List<WhitelistOption> WhitelistOptions { get; set; }
+        
         /// <summary>
         /// 是否重新加载服务治理数据
         /// </summary>
         [Required]
         public bool IsReloadServiceGovernance { get; set; }
-        /// <summary>
-        /// 服务治理数据
-        /// </summary>
-        public ServiceGovernanceOption ServiceGovernanceOption { get; set; }
+        
         /// <summary>
         /// 是否重新加载中间件数据
         /// </summary>
         [Required]
         public bool IsReloadMiddleware { get; set; }
-        /// <summary>
-        /// 中间件数据
-        /// </summary>
-        public List<MiddlewareOption> MiddlewareOptions { get; set; }
+        
         /// <summary>
         /// 是否重新加载Yarp相关数据
         /// </summary>

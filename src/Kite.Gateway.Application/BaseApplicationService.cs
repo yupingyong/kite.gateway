@@ -28,9 +28,9 @@ namespace Kite.Gateway.Application
         /// </summary>
         /// <returns></returns>
         [RemoteService(IsEnabled = false)]
-        public static HttpResponseResult Ok()
+        public static KiteResult Ok()
         {
-            return new HttpResponseResult()
+            return new KiteResult()
             {
                 Code = 0,
                 Message = "success"
@@ -42,9 +42,9 @@ namespace Kite.Gateway.Application
         /// <param name="data">数据</param>
         /// <returns></returns>
         [RemoteService(IsEnabled = false)]
-        public static HttpResponseResult<TResult> Ok<TResult>(TResult data)
+        public static KiteResult<TResult> Ok<TResult>(TResult data)
         {
-            return new HttpResponseResult<TResult>()
+            return new KiteResult<TResult>()
             {
                 Code = 0,
                 Message = "success",
@@ -58,9 +58,9 @@ namespace Kite.Gateway.Application
         /// <param name="totalCount">总记录数</param>
         /// <returns></returns>
         [RemoteService(IsEnabled = false)]
-        public static HttpResponsePageResult<TResult> Ok<TResult>(TResult data, int totalCount)
+        public static KitePageResult<TResult> Ok<TResult>(TResult data, int totalCount)
         {
-            return new HttpResponsePageResult<TResult>()
+            return new KitePageResult<TResult>()
             {
                 Code = 0,
                 Message = "success",
@@ -75,9 +75,9 @@ namespace Kite.Gateway.Application
         /// <param name="message"></param>
         /// <returns></returns>
         [RemoteService(IsEnabled = false)]
-        public static HttpResponseResult Customize(int code, string message = "")
+        public static KiteResult Customize(int code, string message = "")
         {
-            return new HttpResponseResult()
+            return new KiteResult()
             {
                 Code = code,
                 Message = message
@@ -91,9 +91,9 @@ namespace Kite.Gateway.Application
         /// <param name="data"></param>
         /// <returns></returns>
         [RemoteService(IsEnabled = false)]
-        public static HttpResponseResult<TResult> Customize<TResult>(int code, string message, TResult data)
+        public static KiteResult<TResult> Customize<TResult>(int code, string message, TResult data)
         {
-            return new HttpResponseResult<TResult>()
+            return new KiteResult<TResult>()
             {
                 Code = code,
                 Message = message,

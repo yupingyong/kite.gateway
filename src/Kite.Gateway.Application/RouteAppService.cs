@@ -51,7 +51,7 @@ namespace Kite.Gateway.Application
         /// </summary>
         /// <param name="createRouteDto"></param>
         /// <returns></returns>
-        public async Task<HttpResponseResult> CreateAsync(CreateRouteDto createRouteDto)
+        public async Task<KiteResult> CreateAsync(CreateRouteDto createRouteDto)
         {
             var route = await _routeManager.CreateAsync(createRouteDto.RouteName, createRouteDto.RouteMatchPath, createRouteDto.UseState, createRouteDto.Description);
             //插入路由信息
@@ -101,7 +101,7 @@ namespace Kite.Gateway.Application
         /// </summary>
         /// <param name="routeId">路由ID</param>
         /// <returns></returns>
-        public async Task<HttpResponseResult> DeleteAsync(Guid routeId)
+        public async Task<KiteResult> DeleteAsync(Guid routeId)
         {
             await _routeRepository.DeleteAsync(x=>x.Id==routeId);
             return Ok();
@@ -113,7 +113,7 @@ namespace Kite.Gateway.Application
         /// <param name="page">当前页码</param>
         /// <param name="pageSize">每页记录数</param>
         /// <returns></returns>
-        public async Task<HttpResponsePageResult<List<RoutePageDto>>> GetListAsync(string kw = "", int page = 1, int pageSize = 10)
+        public async Task<KitePageResult<List<RoutePageDto>>> GetListAsync(string kw = "", int page = 1, int pageSize = 10)
         {
             var query =(await _routeRepository.GetQueryableAsync()).WhereIf(!string.IsNullOrEmpty(kw) && kw != "", x => x.RouteName.Contains(kw));
             var totalCount = query.Count();
@@ -150,14 +150,14 @@ namespace Kite.Gateway.Application
         /// </summary>
         /// <param name="routeId">路由ID</param>
         /// <returns></returns>
-        public async Task<HttpResponseResult<RouteDto>> GetAsync(Guid routeId)
+        public async Task<KiteResult<RouteDto>> GetAsync(Guid routeId)
         {
             var query = await _routeRepository.GetQueryableAsync();
             //查询基本信息
             var route = query.ProjectToType<RouteDto>().Where(x => x.Id == routeId).FirstOrDefault();
             if (route == null)
             {
-                HttpResponseMethod.Failed("路由数据不存在");
+                ThrownFailed("路由数据不存在");
             }
             route.RouteTransforms = (await _routeTransformRepository.GetQueryableAsync()).ProjectToType<RouteTransformDto>().Where(x => x.RouteId == route.Id).ToList();
 
@@ -175,7 +175,7 @@ namespace Kite.Gateway.Application
         /// </summary>
         /// <param name="updateRouteDto"></param>
         /// <returns></returns>
-        public async Task<HttpResponseResult> UpdateAsync(UpdateRouteDto updateRouteDto)
+        public async Task<KiteResult> UpdateAsync(UpdateRouteDto updateRouteDto)
         {
             //更新路由信息
             var model = await _routeRepository.FirstOrDefaultAsync(x => x.Id == updateRouteDto.RouteId);
@@ -236,7 +236,7 @@ namespace Kite.Gateway.Application
         /// <param name="routeId">路由ID</param>
         /// <param name="useState">路由状态(1.开启 0.关闭)</param>
         /// <returns></returns>
-        public async Task<HttpResponseResult> UpdateStateAsync(Guid routeId, bool useState)
+        public async Task<KiteResult> UpdateStateAsync(Guid routeId, bool useState)
         {
             var model = await _routeRepository.FindAsync(x => x.Id == routeId);
             model.UseState = useState;
@@ -246,7 +246,7 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<HttpResponseResult<List<RouteMainDto>>> GetListAsync()
+        public async Task<KiteResult<List<RouteMainDto>>> GetListAsync()
         {
             var result = (await _routeRepository.GetQueryableAsync())
                 .OrderByDescending(x => x.Created)

@@ -1,10 +1,11 @@
 ﻿using Kite.Gateway.Application;
 using Kite.Gateway.Application.Contracts;
-using Kite.Gateway.Application.Contracts.Dtos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Kite.Gateway.Application.Contracts.Dtos;
+
 namespace Kite.Gateway.Hosting.Controllers
 {
     [Route("api/[controller]")]
@@ -19,10 +20,10 @@ namespace Kite.Gateway.Hosting.Controllers
             _configuration = configuration;
         }
         [HttpPost("/api/kite/refresh/configure")]
-        public async Task<HttpResponseResult> ReloadConfigureAsync(ReloadConfigureDto reloadConfigure)
+        public async Task<KiteResult> ReloadConfigureAsync(RefreshConfigureDto reloadConfigure)
         {
             
-            return await _refreshAppService.ReloadConfigureAsync(reloadConfigure);
+            return await _refreshAppService.RefreshConfigureAsync(reloadConfigure);
         }
     }
 }

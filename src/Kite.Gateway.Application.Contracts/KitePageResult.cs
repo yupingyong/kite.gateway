@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kite.Gateway.Application
 {
-    public class HttpResponsePageResult<TResult> : HttpResponseResult<TResult>
+    public class KitePageResult<TResult> : KiteResult<TResult>
     {
         /// <summary>
         /// 分页获取数据时有作用

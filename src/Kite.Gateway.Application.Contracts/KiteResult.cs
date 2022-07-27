@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Kite.Gateway.Application
 {
-    public class HttpResponseResult<TResult>
+    public class KiteResult<TResult>
     {
         /// <summary>
         /// 结果码(为0则表示请求成功)
@@ -21,7 +21,7 @@ namespace Kite.Gateway.Application
         public TResult Data { get; set; }
 
     }
-    public class HttpResponseResult
+    public class KiteResult
     {
         /// <summary>
         /// 结果码(为0则表示请求成功)

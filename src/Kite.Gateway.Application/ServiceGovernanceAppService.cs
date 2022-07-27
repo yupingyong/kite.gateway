@@ -20,7 +20,7 @@ namespace Kite.Gateway.Application
             _repository = repository;
         }
 
-        public async Task<HttpResponseResult<ServiceGovernanceConfigureDto>> GetServiceGovernanceConfigureAsync()
+        public async Task<KiteResult<ServiceGovernanceConfigureDto>> GetServiceGovernanceConfigureAsync()
         {
             var result = (await _repository.GetQueryableAsync())
                 .ProjectToType<ServiceGovernanceConfigureDto>()
@@ -32,7 +32,7 @@ namespace Kite.Gateway.Application
             return Ok(result);
         }
 
-        public async Task<HttpResponseResult> SaveServiceGovernanceConfigureAsync(ServiceGovernanceConfigureDto configure)
+        public async Task<KiteResult> SaveServiceGovernanceConfigureAsync(ServiceGovernanceConfigureDto configure)
         {
             var model = await _repository.FirstOrDefaultAsync();
             if (model == null)

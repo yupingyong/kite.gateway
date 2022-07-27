@@ -27,16 +27,19 @@ namespace Kite.Gateway.Domain
         private readonly List<MiddlewareOption> _middlewareOptions;
         private readonly ServiceGovernanceOption _serviceGovernanceOption;
         private readonly List<WhitelistOption> _whitelistOptions;
+        private readonly YarpOption _yarpOption;
         public ConfigureManager(IOptions<List<MiddlewareOption>> middlewareOptions
             , IOptions<ServiceGovernanceOption> serviceGovernanceOption
             , IOptions<List<WhitelistOption>> whitelistOptions
-            , IOptions<TokenValidationParameters> tokenValidationParameters, AuthenticationOption authenticationOption)
+            , IOptions<TokenValidationParameters> tokenValidationParameters, AuthenticationOption authenticationOption
+            , IOptions<YarpOption> yarpOption)
         {
             _middlewareOptions = middlewareOptions.Value;
             _serviceGovernanceOption = serviceGovernanceOption.Value;
             _whitelistOptions = whitelistOptions.Value;
             _tokenValidationParameters = tokenValidationParameters.Value;
             _authenticationOption = authenticationOption;
+            _yarpOption = yarpOption.Value;
         }
 
         public void ReloadAuthentication(AuthenticationOption authenticationOption)
@@ -77,13 +80,12 @@ namespace Kite.Gateway.Domain
         {
             //删除原有中间件配置信息
             _middlewareOptions.Clear();
-            if (middlewareOptions.Any())
+
+            foreach (var middlewareOption in middlewareOptions)
             {
-                foreach (var middlewareOption in middlewareOptions)
-                {
-                    _middlewareOptions.Add(middlewareOption);
-                }
+                _middlewareOptions.Add(middlewareOption);
             }
+            
         }
 
         public void ReloadServiceGovernance(ServiceGovernanceOption serviceGovernanceOption)
@@ -93,19 +95,25 @@ namespace Kite.Gateway.Domain
 
         public void ReloadWhitelist(List<WhitelistOption> whitelistOptions)
         {
-           
-            if (whitelistOptions.Any())
+            _whitelistOptions.Clear();
+            foreach (var whitelistOption in whitelistOptions)
             {
-                _whitelistOptions.Clear();
-                foreach (var whitelistOption in whitelistOptions)
+                if (whitelistOption.FilterType == FilterTypeEnum.Regular)
                 {
-                    if (whitelistOption.FilterType == FilterTypeEnum.Regular)
-                    {
-                        whitelistOption.Regex = new Regex(whitelistOption.FilterText);
-                    }
-                    _whitelistOptions.Add(whitelistOption);
+                    whitelistOption.Regex = new Regex(whitelistOption.FilterText);
                 }
+                _whitelistOptions.Add(whitelistOption);
             }
+        }
+
+        public void ReloadYayp(YarpOption yarpOption)
+        {
+            //集群数据
+            _yarpOption.Clusters.Clear();
+            _yarpOption.Clusters.AddRange(yarpOption.Clusters);
+            //路由数据
+            _yarpOption.Routes.Clear();
+            _yarpOption.Routes.AddRange(yarpOption.Routes);
         }
     }
 }

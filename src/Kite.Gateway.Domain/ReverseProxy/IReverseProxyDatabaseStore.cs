@@ -10,7 +10,7 @@ namespace Kite.Gateway.Domain.ReverseProxy
         /// 获取反向代理配置
         /// </summary>
         /// <returns></returns>
-        Task<IProxyConfig> GetConfig();
+        InDatabaseStoreConfig GetConfig();
         /// <summary>
         /// 重新加载配置
         /// </summary>

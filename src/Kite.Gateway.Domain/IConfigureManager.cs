@@ -14,6 +14,11 @@ namespace Kite.Gateway.Domain
     public interface IConfigureManager
     {
         /// <summary>
+        /// 重新加载Yarp反向代理配置数据
+        /// </summary>
+        /// <param name="yarpOption"></param>
+        void ReloadYayp(YarpOption yarpOption);
+        /// <summary>
         /// 重新加载身份认证配置信息
         /// </summary>
         /// <returns></returns>
