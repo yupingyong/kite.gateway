@@ -35,6 +35,7 @@ using Microsoft.Extensions.Options;
 using Kite.Gateway.Application.Contracts.Dtos;
 using Kite.Gateway.Application.Contracts;
 using Serilog;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Kite.Gateway.Hosting
 {
@@ -48,6 +49,11 @@ namespace Kite.Gateway.Hosting
         #region 中间件注入
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            context.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
             context.Services.AddHttpClient();
             //注入会话
             context.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -153,6 +159,7 @@ namespace Kite.Gateway.Hosting
             {
                 app.UseExceptionHandler("/Error");
             }
+            app.UseForwardedHeaders();
             app.UseCors();
             app.UseRouting();
            
