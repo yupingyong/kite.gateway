@@ -36,7 +36,7 @@ namespace Kite.Gateway.Domain.Node
                 Description = "",
                 NodeName = nodeName,
                 Server = server,
-                Token = ""
+                AccessToken = ""
             };
         }
 

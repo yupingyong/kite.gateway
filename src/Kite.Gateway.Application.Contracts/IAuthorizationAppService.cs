@@ -17,13 +17,13 @@ namespace Kite.Gateway.Application.Contracts
         /// 获取身份认证配置信息
         /// </summary>
         /// <returns></returns>
-        Task<HttpResponseResult<SaveAuthenticationDto>> GetAuthenticationAsync();
+        Task<KiteResult<SaveAuthenticationDto>> GetAuthenticationAsync();
         
         /// <summary>
         /// 保存身份认证配置信息
         /// </summary>
         /// <param name="authenticationDto"></param>
         /// <returns></returns>
-        Task<HttpResponseResult> SaveAuthenticationAsync(SaveAuthenticationDto authenticationDto);
+        Task<KiteResult> SaveAuthenticationAsync(SaveAuthenticationDto authenticationDto);
     }
 }

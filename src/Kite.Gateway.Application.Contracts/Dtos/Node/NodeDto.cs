@@ -27,7 +27,7 @@ namespace Kite.Gateway.Application.Contracts.Dtos.Node
         /// <summary>
         /// 访问Token
         /// </summary>
-        public string Token { get; set; }
+        public string AccessToken { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

@@ -1,31 +1,17 @@
 ﻿using Kite.Gateway.Domain.Shared.Enums;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Volo.Abp.Domain.Entities;
 
-namespace Kite.Gateway.Domain.Entities
+namespace Kite.Gateway.Domain.Shared.Options
 {
-    /// <summary>
-    /// 集群配置表
-    /// </summary>
-    public class Cluster : Entity<Guid>
+    public class ClusterOption
     {
-        public Cluster() { }
-        public Cluster(Guid id) : base(id)
-        {
-        }
-        /// <summary>
-        /// 关联路由ID
-        /// </summary>
-        public Guid RouteId { get; set; }
         /// <summary>
         /// 集群名称
         /// </summary>
-        [MaxLength(128)]
         public string ClusterName { get; set; }
         /// <summary>
         /// 负载均衡策略
@@ -35,16 +21,14 @@ namespace Kite.Gateway.Domain.Entities
         /// RoundRobin: 通过按顺序循环选择目的地。
         /// LeastRequests: 选择分配的请求最少的目标。这需要检查所有目的地。
         /// </summary>
-        [MaxLength(128)]
         public string LoadBalancingPolicy { get; set; }
         /// <summary>
-        /// 服务治理类型(0.Default  1.Consul  2.Nacos)
+        /// 集群目的地配置项
         /// </summary>
-        public ServiceGovernanceType ServiceGovernanceType { get; set; }
+        public List<ClusterDestinationOption> ClusterDestinations { get; set; }
         /// <summary>
-        /// 服务治理名称
+        /// 集群健康检查配置项
         /// </summary>
-        [MaxLength(128)]
-        public string ServiceGovernanceName { get; set; }
+        public ClusterHealthCheckOption ClusterHealthCheck { get; set; }
     }
 }

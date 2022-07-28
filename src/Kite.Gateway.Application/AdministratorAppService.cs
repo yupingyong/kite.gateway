@@ -23,7 +23,7 @@ namespace Kite.Gateway.Application
             _administratorManager = administratorManager;
             _repository = repository;
         }
-        public async Task<HttpResponseResult<AdministratorDto>> LoginAsync(LoginAdministratorDto loginAdministrator)
+        public async Task<KiteResult<AdministratorDto>> LoginAsync(LoginAdministratorDto loginAdministrator)
         {
             //如果账号未初始化则默认初始化一个账号
             if (await _repository.CountAsync() <= 0)
@@ -43,7 +43,7 @@ namespace Kite.Gateway.Application
             return Ok(result);
         }
 
-        public async Task<HttpResponseResult> CreateAsync(CreateAdministratorDto createAdministrator)
+        public async Task<KiteResult> CreateAsync(CreateAdministratorDto createAdministrator)
         {
             var model =await _administratorManager.CreateAsync(createAdministrator.AdminName);
             model.AdminName = createAdministrator.AdminName;
@@ -53,13 +53,13 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<HttpResponseResult> DeleteAsync(Guid id)
+        public async Task<KiteResult> DeleteAsync(Guid id)
         {
             await _repository.DeleteAsync(x => x.Id == id);
             return Ok();
         }
 
-        public async Task<HttpResponseResult<AdministratorDto>> GetAsync(Guid id)
+        public async Task<KiteResult<AdministratorDto>> GetAsync(Guid id)
         {
             var result = (await _repository.GetQueryableAsync())
                 .Where(x => x.Id == id)
@@ -68,7 +68,7 @@ namespace Kite.Gateway.Application
             return Ok(result);
         }
 
-        public async Task<HttpResponsePageResult<List<AdministratorDto>>> GetListAsync(int page = 1, int pageSize = 10)
+        public async Task<KitePageResult<List<AdministratorDto>>> GetListAsync(int page = 1, int pageSize = 10)
         {
             var query = (await _repository.GetQueryableAsync());
             var result = query.OrderByDescending(x => x.Created)
@@ -80,7 +80,7 @@ namespace Kite.Gateway.Application
 
         
 
-        public async Task<HttpResponseResult> UpdateAsync(UpdateAdministratorDto updateAdministrator)
+        public async Task<KiteResult> UpdateAsync(UpdateAdministratorDto updateAdministrator)
         {
             var model = await _administratorManager.UpdateAsync(updateAdministrator.Id, updateAdministrator.AdminName);
             model.AdminName = updateAdministrator.AdminName;

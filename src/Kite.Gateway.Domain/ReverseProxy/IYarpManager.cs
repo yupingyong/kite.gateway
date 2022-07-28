@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Kite.Gateway.Domain.ReverseProxy.Models;
+using Kite.Gateway.Domain.Shared.Options;
+
 namespace Kite.Gateway.Domain.ReverseProxy
 {
-    public interface IDatabaseStoreService
+    public interface IYarpManager
     {
         /// <summary>
-        /// 获取加载数据
+        /// 获取Yarp配置数据
         /// </summary>
         /// <returns></returns>
-        Task<List<YarpDataModel>> GetServiceConfig();
+        Task<YarpOption> GetConfigureAsync();
     }
 }

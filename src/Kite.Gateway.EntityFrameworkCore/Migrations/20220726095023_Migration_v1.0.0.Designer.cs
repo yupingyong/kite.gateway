@@ -3,6 +3,7 @@ using System;
 using Kite.Gateway.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Kite.Gateway.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(KiteDbContext))]
-    partial class KiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220726095023_Migration_v1.0.0")]
+    partial class Migration_v100
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,10 +228,6 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AccessToken")
-                        .HasMaxLength(512)
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
@@ -243,6 +241,10 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
                     b.Property<string>("Server")
                         .HasMaxLength(1024)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Token")
+                        .HasMaxLength(512)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Updated")

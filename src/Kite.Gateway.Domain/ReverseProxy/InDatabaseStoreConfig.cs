@@ -9,7 +9,7 @@ using Yarp.ReverseProxy.Configuration;
 
 namespace Kite.Gateway.Domain.ReverseProxy
 {
-    internal class InDatabaseStoreConfig : IProxyConfig
+    public class InDatabaseStoreConfig : IProxyConfig
     {
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
         public InDatabaseStoreConfig(IReadOnlyList<RouteConfig> routes, IReadOnlyList<ClusterConfig> clusters)

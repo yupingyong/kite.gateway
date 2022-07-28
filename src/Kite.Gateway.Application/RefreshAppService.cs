@@ -1,52 +1,56 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Volo.Abp.Application.Services;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.DependencyInjection;
 using Kite.Gateway.Domain.ReverseProxy;
 using Volo.Abp;
 using Kite.Gateway.Application.Contracts;
 using Kite.Gateway.Domain;
+using Kite.Gateway.Application.Contracts.Dtos.Node;
 using Kite.Gateway.Application.Contracts.Dtos;
+using Mapster;
+using Kite.Gateway.Domain.Shared.Options;
+using Kite.Gateway.Domain.Entities;
 
 namespace Kite.Gateway.Application
 {
     public class RefreshAppService : BaseApplicationService, IRefreshAppService
     {
-        private readonly IRefreshManager _refreshDomainService;
+        private readonly IRefreshManager _refreshManager;
         private readonly IConfigureManager _configureManager;
-        public RefreshAppService(IRefreshManager refreshDomainService, IConfigureManager configureManager)
+        public RefreshAppService( IConfigureManager configureManager, IRefreshManager refreshManager)
         {
-            _refreshDomainService = refreshDomainService;
             _configureManager = configureManager;
+            _refreshManager = refreshManager;
         }
-
-        public async Task<HttpResponseResult> ReloadConfigureAsync(ReloadConfigureDto reloadConfigure)
+        public async Task<KiteResult> RefreshConfigureAsync(RefreshConfigureDto refreshConfigure)
         {
             //加载基础配置
-            if (reloadConfigure.IsReloadAuthentication)
+            if (refreshConfigure.Authentication != null)
             {
-                await _configureManager.ReloadAuthenticationAsync();
+                _configureManager.ReloadAuthentication(refreshConfigure.Authentication);
             }
-            if (reloadConfigure.IsReloadWhitelist)
+            if (refreshConfigure.Whitelists!=null)
             {
-                await _configureManager.ReloadWhitelistAsync();
+                _configureManager.ReloadWhitelist(refreshConfigure.Whitelists);
             }
-            if (reloadConfigure.IsReloadServiceGovernance)
+            if (refreshConfigure.ServiceGovernance!=null)
             {
-                await _configureManager.ReloadServiceGovernanceAsync();
+                _configureManager.ReloadServiceGovernance(refreshConfigure.ServiceGovernance);
             }
-            if (reloadConfigure.IsReloadMiddleware)
+            if (refreshConfigure.Middlewares != null)
             {
-                await _configureManager.ReloadMiddlewareAsync();
+                _configureManager.ReloadMiddleware(refreshConfigure.Middlewares);
             }
             //加载路由等数据
-            if (reloadConfigure.IsReloadYarp)
+            if (refreshConfigure.Yarp != null)
             {
-                await _refreshDomainService.ReloadConfigAsync();
+                _configureManager.ReloadYayp(refreshConfigure.Yarp);
+                await _refreshManager.ReloadConfigAsync();
             }
             return Ok();
         }

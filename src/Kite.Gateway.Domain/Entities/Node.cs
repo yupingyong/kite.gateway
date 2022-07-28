@@ -37,7 +37,7 @@ namespace Kite.Gateway.Domain.Entities
         /// 访问Token
         /// </summary>
         [MaxLength(512)]
-        public string Token { get; set; }
+        public string AccessToken { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

@@ -14,37 +14,37 @@ namespace Kite.Gateway.Application.Contracts
         /// 获取所有节点数据
         /// </summary>
         /// <returns></returns>
-        Task<HttpResponseResult<List<NodeDto>>> GetAllAsync();
+        Task<KiteResult<List<NodeDto>>> GetAllAsync();
         /// <summary>
         /// 获取节点详情信息
         /// </summary>
         /// <param name="id">节点ID</param>
         /// <returns></returns>
-        Task<HttpResponseResult<NodeDto>> GetAsync(Guid id);
+        Task<KiteResult<NodeDto>> GetAsync(Guid id);
         /// <summary>
         /// 更新节点数据
         /// </summary>
         /// <param name="updateNode"></param>
         /// <returns></returns>
-        Task<HttpResponseResult> UpdateAsync(UpdateNodeDto updateNode);
+        Task<KiteResult> UpdateAsync(UpdateNodeDto updateNode);
         /// <summary>
         /// 获取节点列表
         /// </summary>
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<HttpResponsePageResult<List<NodeDto>>> GetListAsync(int page = 1, int pageSize = 10);
+        Task<KitePageResult<List<NodeDto>>> GetListAsync(int page = 1, int pageSize = 10);
         /// <summary>
         /// 删除节点
         /// </summary>
         /// <param name="id">节点ID</param>
         /// <returns></returns>
-        Task<HttpResponseResult> DeleteAsync(Guid id);
+        Task<KiteResult> DeleteAsync(Guid id);
         /// <summary>
         /// 创建节点
         /// </summary>
         /// <param name="createNode"></param>
         /// <returns></returns>
-        Task<HttpResponseResult> CreateAsync(CreateNodeDto createNode);
+        Task<KiteResult> CreateAsync(CreateNodeDto createNode);
     }
 }

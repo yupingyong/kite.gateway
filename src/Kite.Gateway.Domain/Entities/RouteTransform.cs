@@ -18,7 +18,7 @@ namespace Kite.Gateway.Domain.Entities
         {
         }
         /// <summary>
-        /// 关联服务ID
+        /// 关联路由ID
         /// </summary>
         public Guid RouteId { get; set; }
         /// <summary>

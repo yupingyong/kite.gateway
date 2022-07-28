@@ -12,7 +12,7 @@ namespace Kite.Gateway.Hosting.Filters
         {
             Log.Error(context.Exception,context.Exception.Message);
 
-            context.Result = new JsonResult(new HttpResponseResult() 
+            context.Result = new JsonResult(new KiteResult() 
             {
                 Code = 500,
                 Message = context.Exception.Message

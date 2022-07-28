@@ -11,15 +11,16 @@ using Yarp.ReverseProxy.Health;
 using Consul;
 using Volo.Abp.Uow;
 using Serilog;
-using Kite.Gateway.Domain.ReverseProxy.Models;
 using Kite.Gateway.Domain.Entities;
 using Kite.Gateway.Domain.Shared.Enums;
 using Kite.Gateway.Domain.Shared.Options;
 using Microsoft.Extensions.Options;
+using Yarp.ReverseProxy.Configuration;
+using Volo.Abp.Domain.Services;
 
 namespace Kite.Gateway.Domain.ReverseProxy
 {
-    internal class DatabaseStoreService : ITransientDependency, IDatabaseStoreService
+    internal class YarpManager : DomainService, IYarpManager
     {
         private readonly IRepository<Route> _routeRepository;
         private readonly IRepository<RouteTransform> _routeTransformRepository;
@@ -28,13 +29,12 @@ namespace Kite.Gateway.Domain.ReverseProxy
         private readonly IRepository<ClusterHealthCheck> _clusterHealthCheckRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         //
-        private readonly IConfigureManager _configureManager;
         private ServiceGovernanceOption _serviceGovernanceOption;
         private ConsulClient _consulClient;
-        public DatabaseStoreService(IRepository<Route> routeRepository, IRepository<RouteTransform> routeTransformRepository
+        public YarpManager(IRepository<Route> routeRepository, IRepository<RouteTransform> routeTransformRepository
             , IRepository<Cluster> clusterRepository, IRepository<ClusterDestination> clusterDestinationRepository
             , IUnitOfWorkManager unitOfWorkManager, IRepository<ClusterHealthCheck> clusterHealthCheckRepository
-            , IOptions<ServiceGovernanceOption> options, IConfigureManager configureManager)
+            , IOptions<ServiceGovernanceOption> options)
         {
             _routeRepository = routeRepository;
             _routeTransformRepository = routeTransformRepository;
@@ -43,28 +43,44 @@ namespace Kite.Gateway.Domain.ReverseProxy
             _unitOfWorkManager = unitOfWorkManager;
             _clusterHealthCheckRepository = clusterHealthCheckRepository;
             _serviceGovernanceOption = options.Value;
-            _configureManager = configureManager;
         }
-        public async Task<List<YarpDataModel>> GetServiceConfig()
+        public async Task<YarpOption> GetConfigureAsync()
         {
+            var result = new YarpOption()
+            {
+                Routes=new List<RouteOption>()
+            };
             using var unitOfWork = _unitOfWorkManager.Begin();
             //获取所有数据
             var routes = await _routeRepository.GetListAsync(x => x.UseState);
-            var routeTransforms =await _routeTransformRepository.GetListAsync();
-            var clusters =await _clusterRepository.GetListAsync();
-            var clusterDestinations =await _clusterDestinationRepository.GetListAsync();
+            var routeTransforms = await _routeTransformRepository.GetListAsync();
+            var clusters = await _clusterRepository.GetListAsync();
+            var clusterDestinations = await _clusterDestinationRepository.GetListAsync();
             var clusterHealthChecks = await _clusterHealthCheckRepository.GetListAsync();
             //处理数据集
-            var result = new List<YarpDataModel>();
+            RouteOption routeOption;
+            Cluster cluster;
             foreach (var route in routes)
             {
-                var cluster = clusters.Where(x => x.RouteId == route.Id).FirstOrDefault();
-                var yarpDataModel = new YarpDataModel();
-                //路由相关数据
-                yarpDataModel.Route = route;
-                yarpDataModel.RouteTransforms = routeTransforms.Where(x => x.RouteId == route.Id).ToList();
+                routeOption = new RouteOption()
+                {
+                    RouteId = route.RouteId,
+                    RouteMatchPath = route.RouteMatchPath,
+                    RouteName = route.RouteName,
+                    RouteTransforms = routeTransforms.Where(x => x.RouteId == route.Id).Select(x => new RouteTransformOption()
+                    {
+                        TransformsName = x.TransformsName,
+                        TransformsValue = x.TransformsValue
+                    })
+                    .ToList()
+                };
                 //集群相关数据
-                yarpDataModel.Cluster = cluster;
+                cluster = clusters.Where(x => x.RouteId == route.Id).FirstOrDefault();
+                routeOption.Cluster = new ClusterOption() 
+                {
+                    ClusterName= cluster.ClusterName,
+                    LoadBalancingPolicy= cluster.LoadBalancingPolicy
+                };
                 if (cluster.ServiceGovernanceType == ServiceGovernanceType.Consul)
                 {
                     var consulDestinations = await GetConsulServiceAsync(cluster.ServiceGovernanceName);
@@ -72,24 +88,38 @@ namespace Kite.Gateway.Domain.ReverseProxy
                     {
                         continue;
                     }
-                    yarpDataModel.ClusterDestinations = consulDestinations;
+                    routeOption.Cluster.ClusterDestinations = consulDestinations;
                 }
                 else
                 {
-                    yarpDataModel.ClusterDestinations = clusterDestinations.Where(x => x.ClusterId == cluster?.Id).ToList();
+                    routeOption.Cluster.ClusterDestinations = clusterDestinations.Where(x => x.ClusterId == cluster?.Id)
+                        .Select(x=>new ClusterDestinationOption() 
+                        {
+                            DestinationAddress = x.DestinationAddress,
+                            DestinationName = x.DestinationName
+                        })
+                        .ToList();
                 }
-                yarpDataModel.ClusterHealthCheck = clusterHealthChecks.Where(x => x.ClusterId == cluster?.Id).FirstOrDefault();
+                routeOption.Cluster.ClusterHealthCheck = clusterHealthChecks.Where(x => x.ClusterId == cluster?.Id)
+                    .Select(x => new ClusterHealthCheckOption()
+                    {
+                        Enabled = x.Enabled,
+                        Interval = x.Interval,
+                        Path = x.Path,
+                        Policy = x.Policy,
+                        Timeout = x.Timeout
+                    })
+                    .FirstOrDefault();
                 //
-                result.Add(yarpDataModel);
+                result.Routes.Add(routeOption);
             }
-            Log.Information($"GetServiceConfig:{JsonSerializer.Serialize(result)}");
             return result;
         }
-        private async Task<List<ClusterDestination>> GetConsulServiceAsync(string serviceGovernanceName)
+        private async Task<List<ClusterDestinationOption>> GetConsulServiceAsync(string serviceGovernanceName)
         {
             if (!_serviceGovernanceOption.Id.HasValue)
             {
-                await _configureManager.ReloadServiceGovernanceAsync();
+                //await _configureManager.ReloadServiceGovernance();
             }
             if (_consulClient == null)
             {
@@ -116,10 +146,9 @@ namespace Kite.Gateway.Domain.ReverseProxy
                     Log.Error(new NotImplementedException(), $"名称为{serviceGovernanceName}的服务未包含任何节点");
                     return null;
                 }
-                var destinations = servcies.Select(x => new ClusterDestination()
+                var destinations = servcies.Select(x => new ClusterDestinationOption()
                 {
                     DestinationAddress = $"http://{x.ServiceAddress}:{x.ServicePort}",
-                    ClusterId = Guid.NewGuid(),
                     DestinationName = Guid.NewGuid().ToString().Replace("-", "")
                 })
                 .ToList();
@@ -131,5 +160,7 @@ namespace Kite.Gateway.Domain.ReverseProxy
                 return null;
             }
         }
+
+       
     }
 }

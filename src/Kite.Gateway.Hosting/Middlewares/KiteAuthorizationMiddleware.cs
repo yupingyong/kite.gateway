@@ -20,12 +20,12 @@ namespace Kite.Gateway.Hosting.Middlewares
         private readonly AuthenticationOption _authenticationOption;
         private readonly IJwtTokenManager _jwtTokenManager;
         public KiteAuthorizationMiddleware(RequestDelegate next
-            , IOptions<List<WhitelistOption>> whitelistOptions, IJwtTokenManager jwtTokenManager, AuthenticationOption authenticationOption)
+            , IOptions<List<WhitelistOption>> whitelistOptions, IJwtTokenManager jwtTokenManager, IOptions<AuthenticationOption> authenticationOption)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _whitelistOptions = whitelistOptions.Value;
             _jwtTokenManager = jwtTokenManager;
-            _authenticationOption = authenticationOption;
+            _authenticationOption = authenticationOption.Value;
         }
         public async Task Invoke(HttpContext context)
         {

@@ -52,7 +52,7 @@ namespace Kite.Gateway.Domain.ReverseProxy
                 InDatabaseStoreConfig newConfig = null;
                 try
                 {
-                    newConfig = _strore.GetConfig().Result as InDatabaseStoreConfig;
+                    newConfig = _strore.GetConfig();
                 }
                 catch (Exception ex)
                 {

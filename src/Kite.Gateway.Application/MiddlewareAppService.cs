@@ -25,7 +25,7 @@ namespace Kite.Gateway.Application
             _repository = repository;
         }
 
-        public async Task<HttpResponseResult> CreateAsync(CreateMiddlewareDto middlewareDto)
+        public async Task<KiteResult> CreateAsync(CreateMiddlewareDto middlewareDto)
         {
             var model =await _middlewareManager.CreateAsync(middlewareDto.Name, middlewareDto.Server);
             TypeAdapter.Adapt(middlewareDto, model);
@@ -33,13 +33,13 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<HttpResponseResult> DeleteAsync(Guid id)
+        public async Task<KiteResult> DeleteAsync(Guid id)
         {
             await _repository.DeleteAsync(x => x.Id == id);
             return Ok();
         }
 
-        public async Task<HttpResponseResult<MiddlewareDto>> GetAsync(Guid id)
+        public async Task<KiteResult<MiddlewareDto>> GetAsync(Guid id)
         {
             var result = (await _repository.GetQueryableAsync())
                 .Where(x => x.Id == id)
@@ -48,7 +48,7 @@ namespace Kite.Gateway.Application
             return Ok(result);
         }
 
-        public async Task<HttpResponsePageResult<List<MiddlewareListDto>>> GetListAsync(string kw = "", int page = 1, int pageSize = 10)
+        public async Task<KitePageResult<List<MiddlewareListDto>>> GetListAsync(string kw = "", int page = 1, int pageSize = 10)
         {
             var query = (await _repository.GetQueryableAsync())
                 .WhereIf(!string.IsNullOrEmpty(kw) && kw != "", x => x.Name.Contains(kw) || x.Server.Contains(kw));
@@ -61,7 +61,7 @@ namespace Kite.Gateway.Application
             return Ok(result, totalCount);
         }
 
-        public async Task<HttpResponseResult> UpdateAsync(UpdateMiddlewareDto middlewareDto)
+        public async Task<KiteResult> UpdateAsync(UpdateMiddlewareDto middlewareDto)
         {
             var model =await _middlewareManager.UpdateAsync(middlewareDto.Id, middlewareDto.Name, middlewareDto.Server);
             TypeAdapter.Adapt(middlewareDto, model);
@@ -70,7 +70,7 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<HttpResponseResult> UpdateUseStateAsync(Guid id, bool useState)
+        public async Task<KiteResult> UpdateUseStateAsync(Guid id, bool useState)
         {
             var model = await _repository.FirstOrDefaultAsync(x=>x.Id==id);
             model.UseState = useState;

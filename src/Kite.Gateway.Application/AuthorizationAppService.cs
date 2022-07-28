@@ -20,7 +20,7 @@ namespace Kite.Gateway.Application
 
         }
 
-        public async Task<HttpResponseResult<SaveAuthenticationDto>> GetAuthenticationAsync()
+        public async Task<KiteResult<SaveAuthenticationDto>> GetAuthenticationAsync()
         {
             var result= (await _authenticationRepository.GetQueryableAsync())
                 .ProjectToType<SaveAuthenticationDto>()
@@ -35,7 +35,7 @@ namespace Kite.Gateway.Application
             return Ok(result);
         }
 
-        public async Task<HttpResponseResult> SaveAuthenticationAsync(SaveAuthenticationDto authenticationDto)
+        public async Task<KiteResult> SaveAuthenticationAsync(SaveAuthenticationDto authenticationDto)
         {
             var model =await _authenticationRepository.FirstOrDefaultAsync();
             if (model == null)

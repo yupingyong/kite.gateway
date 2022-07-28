@@ -28,24 +28,32 @@ using Consul;
 using Kite.Gateway.Domain.Authorization;
 using Yarp.ReverseProxy.Configuration;
 using Kite.Gateway.Domain.ReverseProxy;
-using Kite.Gateway.EntityFrameworkCore;
 using Kite.Gateway.Domain.Shared.Options;
 using Kite.Gateway.Hosting.Middlewares;
 using Kite.Gateway.Domain.Shared.Enums;
+using Microsoft.Extensions.Options;
+using Kite.Gateway.Application.Contracts.Dtos;
+using Kite.Gateway.Application.Contracts;
+using Serilog;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Kite.Gateway.Hosting
 {
     [DependsOn(
          typeof(AbpAutofacModule),
          typeof(ApplicationModule),
-         typeof(AbpSwashbuckleModule),
-        typeof(EntityFrameworkCoreModule)
+         typeof(AbpSwashbuckleModule)
      )]
     public class HostingModule:AbpModule
     {
         #region 中间件注入
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            context.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
             context.Services.AddHttpClient();
             //注入会话
             context.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -55,16 +63,31 @@ namespace Kite.Gateway.Hosting
             ConfigureMvc(context);
             ConfigureReverseProxy(context);
         }
+        /// <summary>
+        /// 网关核心配置项
+        /// </summary>
+        /// <param name="context"></param>
         private void ConfigureCore(ServiceConfigurationContext context)
         {
-            context.Services.Configure<AuthenticationOption>(opt => 
+            //注入网关基础配置
+            context.Services.Configure<KiteGatewayOption>(context.Services.GetConfiguration().GetSection("KiteGateway"));
+            //白名单配置
+            context.Services.Configure<List<WhitelistOption>>(opt => { });
+            //服务治理配置
+            context.Services.Configure<ServiceGovernanceOption>(opt => { });
+            //中间件配置
+            context.Services.Configure<List<MiddlewareOption>>(opt => { });
+            //Jwt身份认证配置
+            context.Services.Configure<AuthenticationOption>(opt =>
             {
                 opt.UseState = false;
             });
-            context.Services.Configure<List<WhitelistOption>>(opt => { });
-            context.Services.Configure<ServiceGovernanceOption>(opt => { });
-            context.Services.Configure<List<MiddlewareOption>>(opt => { });
             context.Services.Configure<TokenValidationParameters>(opt => { });
+            //Yarp反向代理配置
+            context.Services.Configure<YarpOption>(opt => 
+            {
+                opt.Routes = new List<RouteOption>();
+            });
         }
         /// <summary>
         /// MVC中间件注入配置
@@ -97,7 +120,6 @@ namespace Kite.Gateway.Hosting
         {
             //注入反向代理
             context.Services.AddSingleton<IProxyConfigProvider, InDatabaseStoreConfigProvider>();
-            context.Services.AddSingleton<IReverseProxyDatabaseStore, ReverseProxyDatabaseStore>();
             context.Services.AddReverseProxy();
         }
         /// <summary>
@@ -137,6 +159,7 @@ namespace Kite.Gateway.Hosting
             {
                 app.UseExceptionHandler("/Error");
             }
+            app.UseForwardedHeaders();
             app.UseCors();
             app.UseRouting();
            
@@ -156,19 +179,32 @@ namespace Kite.Gateway.Hosting
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        private async void LoadMainConfigureAsync(ApplicationInitializationContext context)
+        private void LoadMainConfigureAsync(ApplicationInitializationContext context)
         {
-            using (var scope = context.ServiceProvider.CreateScope())
+            try
             {
+
                 //初始化时刷新所有数据配置项
-                var configureManager = scope.ServiceProvider.GetService<IConfigureManager>();
-                if (configureManager != null)
+                var options = context.ServiceProvider.GetService<IOptions<KiteGatewayOption>>();
+                if (options != null)
                 {
-                    await configureManager.ReloadAuthenticationAsync();
-                    await configureManager.ReloadWhitelistAsync();
-                    await configureManager.ReloadServiceGovernanceAsync();
-                    await configureManager.ReloadMiddlewareAsync();
+                    var httpClientFactory = context.ServiceProvider.GetService<IHttpClientFactory>();
+                    var httpClient = httpClientFactory.CreateClient();
+                    var configureResult =  httpClient.GetFromJsonAsync<KiteResult<RefreshConfigureDto>>($"{options.Value.AdminServer}/api/kite/refresh/configure").Result;
+                    if (configureResult != null && configureResult.Code == 0)
+                    {
+                        var refreshAppService = context.ServiceProvider.GetService<IRefreshAppService>();
+                        if (refreshAppService != null)
+                        {
+                           var res= refreshAppService.RefreshConfigureAsync(configureResult.Data).Result;
+                        }
+                    }
                 }
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, ex.Message);
             }
         }
     }
