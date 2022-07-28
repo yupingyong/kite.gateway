@@ -6,7 +6,7 @@
 @inject ToastService ToastService
 @inject IHttpClientFactory HttpClientFactory
 @inject INodeAppService NodeAppService
-@inject IRefreshAppService RefreshAppService;
+@inject IConfigureAppService ConfigureAppService;
 
 <div class="row">
     <ValidateForm Model="@Model" OnValidSubmit="@OnSaveAsync" OnInvalidSubmit="@OnInvalidSubmitAsync">
@@ -66,7 +66,7 @@
             var nodeResult = await NodeAppService.GetAllAsync();
             if (nodeResult.Code == 0 && nodeResult.Data.Any())
             {
-                var configureResult = await RefreshAppService.GetConfigureAsync(Model);
+                var configureResult = await ConfigureAppService.GetConfigureAsync(Model);
                 foreach (var node in nodeResult.Data)
                 {
                     var httpClient = HttpClientFactory.CreateClient();

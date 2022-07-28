@@ -12,10 +12,6 @@ namespace Kite.Gateway.Domain.Shared.Options
         /// <summary>
         /// 路由配置数据
         /// </summary>
-        public List<RouteConfig> Routes { get; set; } 
-        /// <summary>
-        /// 集群配置数据
-        /// </summary>
-        public List<ClusterConfig> Clusters { get; set; }
+        public List<RouteOption> Routes { get; set; } 
     }
 }

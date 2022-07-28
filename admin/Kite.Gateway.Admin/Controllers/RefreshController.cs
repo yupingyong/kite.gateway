@@ -13,15 +13,15 @@ namespace Kite.Gateway.Admin.Controllers
     [ApiController]
     public class RefreshController : ControllerBase
     {
-        private readonly IRefreshAppService _refreshAppService;
-        public RefreshController(IRefreshAppService refreshAppService)
+        private readonly IConfigureAppService _configureAppService;
+        public RefreshController(IConfigureAppService configureAppService)
         {
-            _refreshAppService = refreshAppService;
+            _configureAppService = configureAppService;
         }
         [HttpGet("/api/kite/refresh/configure")]
         public async Task<KiteResult<RefreshConfigureDto>> GetConfigureAsync()
         {
-            var result= await _refreshAppService.GetConfigureAsync(new ReloadConfigureDto() 
+            var result= await _configureAppService.GetConfigureAsync(new ReloadConfigureDto() 
             {
                 IsReloadAuthentication = true,
                 IsReloadMiddleware = true,

@@ -9,14 +9,13 @@ using Volo.Abp.Application.Services;
 
 namespace Kite.Gateway.Application.Contracts
 {
-    public interface IRefreshAppService: IApplicationService
+    public interface IConfigureAppService : IApplicationService
     {
-        
         /// <summary>
-        /// 刷新配置数据
+        /// 根据推送配置获取配置项数据
         /// </summary>
-        /// <param name="refreshConfigure"></param>
+        /// <param name="reloadConfigure"></param>
         /// <returns></returns>
-        Task<KiteResult> RefreshConfigureAsync(RefreshConfigureDto refreshConfigure);
+        Task<KiteResult<RefreshConfigureDto>> GetConfigureAsync(ReloadConfigureDto reloadConfigure);
     }
 }

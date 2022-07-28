@@ -5,9 +5,9 @@
         <h4><i class="fa fa-lightbulb-o"></i>有言</h4><!--!-->
         <p>
             .Net版本: .Net 6  <br/>
-            数据库:   MySql 8.0+ <br/>
+            数据库:   Sqlite <br/>
             后台管理: Blazor (<a href="https://www.blazor.zone">Bootstrap Blazor UI</a>)  <br/>
-            开发框架: Abp Vnext 5.3.X <br/>
+            开发框架: Abp Vnext 5.3.3 <br/>
             反向代理组件: Yarp
         </p>
         <p>
@@ -29,6 +29,12 @@
         base.OnInitialized();
         AlternateTimelineItems = new List<TimelineItem>()
         {
+            new TimelineItem()
+            {
+                Description="2022-07-28",
+                Content="第一个小迭代版本(数据库更换成Sqlite、调整配置数据热更新功能)"
+            }
+            ,
             new TimelineItem()
             {
                 Description="2022-07-21",

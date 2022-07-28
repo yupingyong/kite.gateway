@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Kite.Gateway.Domain.ReverseProxy.Models;
 using Kite.Gateway.Domain.Shared.Options;
 
 namespace Kite.Gateway.Domain.ReverseProxy

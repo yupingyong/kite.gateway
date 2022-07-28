@@ -13,17 +13,14 @@ namespace Kite.Gateway.Hosting.Controllers
     public class RefreshController : ControllerBase
     {
         private readonly IRefreshAppService _refreshAppService;
-        private readonly IConfiguration _configuration;
-        public RefreshController(IRefreshAppService refreshAppService, IConfiguration configuration)
+        public RefreshController(IRefreshAppService refreshAppService)
         {
             _refreshAppService = refreshAppService;
-            _configuration = configuration;
         }
         [HttpPost("/api/kite/refresh/configure")]
-        public async Task<KiteResult> ReloadConfigureAsync(RefreshConfigureDto reloadConfigure)
+        public async Task<KiteResult> ReloadConfigureAsync(RefreshConfigureDto refreshConfigure)
         {
-            
-            return await _refreshAppService.RefreshConfigureAsync(reloadConfigure);
+            return await _refreshAppService.RefreshConfigureAsync(refreshConfigure);
         }
     }
 }

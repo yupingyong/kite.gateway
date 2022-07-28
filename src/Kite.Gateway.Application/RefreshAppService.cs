@@ -22,56 +22,11 @@ namespace Kite.Gateway.Application
     {
         private readonly IRefreshManager _refreshManager;
         private readonly IConfigureManager _configureManager;
-        private readonly IServiceProvider _serviceProvider;
-        public RefreshAppService( IConfigureManager configureManager, IServiceProvider serviceProvider, IRefreshManager refreshManager)
+        public RefreshAppService( IConfigureManager configureManager, IRefreshManager refreshManager)
         {
             _configureManager = configureManager;
-            _serviceProvider = serviceProvider;
             _refreshManager = refreshManager;
         }
-
-        public async Task<KiteResult<RefreshConfigureDto>> GetConfigureAsync(ReloadConfigureDto reloadConfigure)
-        {
-            var result = new RefreshConfigureDto();
-            if (reloadConfigure.IsReloadAuthentication)
-            {
-                var repository = _serviceProvider.GetService<IRepository<AuthenticationConfigure>>();
-                result.Authentication = (await repository.GetQueryableAsync())
-                    .ProjectToType<AuthenticationOption>()
-                    .FirstOrDefault();
-            }
-            if (reloadConfigure.IsReloadMiddleware)
-            {
-                var repository = _serviceProvider.GetService<IRepository<Middleware>>();
-                result.Middlewares = (await repository.GetQueryableAsync())
-                    .Where(x => x.UseState)
-                    .OrderByDescending(x => x.ExecWeight)
-                    .ProjectToType<MiddlewareOption>()
-                    .ToList();
-            }
-            if (reloadConfigure.IsReloadServiceGovernance)
-            {
-                var repository = _serviceProvider.GetService<IRepository<ServiceGovernanceConfigure>>();
-                result.ServiceGovernance = (await repository.GetQueryableAsync())
-                    .ProjectToType<ServiceGovernanceOption>()
-                    .FirstOrDefault();
-            }
-            if (reloadConfigure.IsReloadWhitelist)
-            {
-                var repository = _serviceProvider.GetService<IRepository<Whitelist>>();
-                result.Whitelists = (await repository.GetQueryableAsync())
-                    .Where(x => x.UseState)
-                    .ProjectToType<WhitelistOption>()
-                    .ToList();
-            }
-            if (reloadConfigure.IsReloadYarp)
-            {
-                var yarpManager = _serviceProvider.GetService<IYarpManager>();
-                result.Yarp = await yarpManager.GetConfigureAsync();
-            }
-            return Ok(result);
-        }
-
         public async Task<KiteResult> RefreshConfigureAsync(RefreshConfigureDto refreshConfigure)
         {
             //加载基础配置

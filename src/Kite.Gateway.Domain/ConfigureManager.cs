@@ -31,14 +31,14 @@ namespace Kite.Gateway.Domain
         public ConfigureManager(IOptions<List<MiddlewareOption>> middlewareOptions
             , IOptions<ServiceGovernanceOption> serviceGovernanceOption
             , IOptions<List<WhitelistOption>> whitelistOptions
-            , IOptions<TokenValidationParameters> tokenValidationParameters, AuthenticationOption authenticationOption
+            , IOptions<TokenValidationParameters> tokenValidationParameters, IOptions<AuthenticationOption> authenticationOption
             , IOptions<YarpOption> yarpOption)
         {
             _middlewareOptions = middlewareOptions.Value;
             _serviceGovernanceOption = serviceGovernanceOption.Value;
             _whitelistOptions = whitelistOptions.Value;
             _tokenValidationParameters = tokenValidationParameters.Value;
-            _authenticationOption = authenticationOption;
+            _authenticationOption = authenticationOption.Value;
             _yarpOption = yarpOption.Value;
         }
 
@@ -108,9 +108,6 @@ namespace Kite.Gateway.Domain
 
         public void ReloadYayp(YarpOption yarpOption)
         {
-            //集群数据
-            _yarpOption.Clusters.Clear();
-            _yarpOption.Clusters.AddRange(yarpOption.Clusters);
             //路由数据
             _yarpOption.Routes.Clear();
             _yarpOption.Routes.AddRange(yarpOption.Routes);

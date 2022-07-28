@@ -32,6 +32,9 @@ using Kite.Gateway.Domain.Shared.Options;
 using Kite.Gateway.Hosting.Middlewares;
 using Kite.Gateway.Domain.Shared.Enums;
 using Microsoft.Extensions.Options;
+using Kite.Gateway.Application.Contracts.Dtos;
+using Kite.Gateway.Application.Contracts;
+using Serilog;
 
 namespace Kite.Gateway.Hosting
 {
@@ -54,6 +57,10 @@ namespace Kite.Gateway.Hosting
             ConfigureMvc(context);
             ConfigureReverseProxy(context);
         }
+        /// <summary>
+        /// 网关核心配置项
+        /// </summary>
+        /// <param name="context"></param>
         private void ConfigureCore(ServiceConfigurationContext context)
         {
             //注入网关基础配置
@@ -73,8 +80,7 @@ namespace Kite.Gateway.Hosting
             //Yarp反向代理配置
             context.Services.Configure<YarpOption>(opt => 
             {
-                opt.Routes = new List<RouteConfig>();
-                opt.Clusters = new List<ClusterConfig>();
+                opt.Routes = new List<RouteOption>();
             });
         }
         /// <summary>
@@ -166,16 +172,32 @@ namespace Kite.Gateway.Hosting
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        private async void LoadMainConfigureAsync(ApplicationInitializationContext context)
+        private void LoadMainConfigureAsync(ApplicationInitializationContext context)
         {
-            using (var scope = context.ServiceProvider.CreateScope())
+            try
             {
+
                 //初始化时刷新所有数据配置项
-                var options = scope.ServiceProvider.GetService<IOptions<KiteGatewayOption>>();
+                var options = context.ServiceProvider.GetService<IOptions<KiteGatewayOption>>();
                 if (options != null)
                 {
-                    
+                    var httpClientFactory = context.ServiceProvider.GetService<IHttpClientFactory>();
+                    var httpClient = httpClientFactory.CreateClient();
+                    var configureResult =  httpClient.GetFromJsonAsync<KiteResult<RefreshConfigureDto>>($"{options.Value.AdminServer}/api/kite/refresh/configure").Result;
+                    if (configureResult != null && configureResult.Code == 0)
+                    {
+                        var refreshAppService = context.ServiceProvider.GetService<IRefreshAppService>();
+                        if (refreshAppService != null)
+                        {
+                           var res= refreshAppService.RefreshConfigureAsync(configureResult.Data).Result;
+                        }
+                    }
                 }
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, ex.Message);
             }
         }
     }
