@@ -46,7 +46,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\upload\" />
-    <Folder Include="database\" />
+    <Folder Include="data\" />
   </ItemGroup>
 
 </Project>
