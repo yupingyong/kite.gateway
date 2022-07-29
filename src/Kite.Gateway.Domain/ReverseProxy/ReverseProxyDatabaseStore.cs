@@ -13,7 +13,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace Kite.Gateway.Domain.ReverseProxy
 {
-    public class ReverseProxyDatabaseStore : ITransientDependency, IReverseProxyDatabaseStore
+    public class ReverseProxyDatabaseStore : ISingletonDependency, IReverseProxyDatabaseStore
     {
         private InDatabaseReloadToken _reloadToken=new InDatabaseReloadToken();
         private YarpOption _yarpOption;

@@ -45,10 +45,10 @@
         base.OnInitialized();
         Model = new ReloadConfigureDto()
         {
-            IsReloadAuthentication=true,
-            IsReloadMiddleware=true,
-            IsReloadWhitelist=true,
-            IsReloadYarp=true
+            IsReloadAuthentication=false,
+            IsReloadMiddleware=false,
+            IsReloadWhitelist=false,
+            IsReloadYarp=false
         };
     }
     private Task OnInvalidSubmitAsync(EditContext context)
