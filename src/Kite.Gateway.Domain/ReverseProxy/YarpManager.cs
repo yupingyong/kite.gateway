@@ -27,14 +27,14 @@ namespace Kite.Gateway.Domain.ReverseProxy
         private readonly IRepository<Cluster> _clusterRepository;
         private readonly IRepository<ClusterDestination> _clusterDestinationRepository;
         private readonly IRepository<ClusterHealthCheck> _clusterHealthCheckRepository;
+        private readonly IRepository<ServiceGovernanceConfigure> _serviceGovernanceRepository;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         //
         private ServiceGovernanceOption _serviceGovernanceOption;
         private ConsulClient _consulClient;
         public YarpManager(IRepository<Route> routeRepository, IRepository<RouteTransform> routeTransformRepository
             , IRepository<Cluster> clusterRepository, IRepository<ClusterDestination> clusterDestinationRepository
-            , IUnitOfWorkManager unitOfWorkManager, IRepository<ClusterHealthCheck> clusterHealthCheckRepository
-            , IOptions<ServiceGovernanceOption> options)
+            , IUnitOfWorkManager unitOfWorkManager, IRepository<ClusterHealthCheck> clusterHealthCheckRepository, IRepository<ServiceGovernanceConfigure> serviceGovernanceRepository)
         {
             _routeRepository = routeRepository;
             _routeTransformRepository = routeTransformRepository;
@@ -42,7 +42,7 @@ namespace Kite.Gateway.Domain.ReverseProxy
             _clusterDestinationRepository = clusterDestinationRepository;
             _unitOfWorkManager = unitOfWorkManager;
             _clusterHealthCheckRepository = clusterHealthCheckRepository;
-            _serviceGovernanceOption = options.Value;
+            _serviceGovernanceRepository = serviceGovernanceRepository;
         }
         public async Task<YarpOption> GetConfigureAsync()
         {
@@ -117,9 +117,15 @@ namespace Kite.Gateway.Domain.ReverseProxy
         }
         private async Task<List<ClusterDestinationOption>> GetConsulServiceAsync(string serviceGovernanceName)
         {
-            if (!_serviceGovernanceOption.Id.HasValue)
+            if (_serviceGovernanceOption==null)
             {
-                //await _configureManager.ReloadServiceGovernance();
+                _serviceGovernanceOption = (await _serviceGovernanceRepository.GetQueryableAsync())
+                    .ProjectToType<ServiceGovernanceOption>()
+                    .FirstOrDefault();
+            }
+            if (_serviceGovernanceOption == null)
+            {
+                return null;
             }
             if (_consulClient == null)
             {

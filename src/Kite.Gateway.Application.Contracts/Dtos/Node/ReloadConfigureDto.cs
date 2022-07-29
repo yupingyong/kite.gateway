@@ -22,11 +22,6 @@ namespace Kite.Gateway.Application.Contracts.Dtos.Node
         [Required]
         public bool IsReloadWhitelist { get; set; }
         
-        /// <summary>
-        /// 是否重新加载服务治理数据
-        /// </summary>
-        [Required]
-        public bool IsReloadServiceGovernance { get; set; }
         
         /// <summary>
         /// 是否重新加载中间件数据

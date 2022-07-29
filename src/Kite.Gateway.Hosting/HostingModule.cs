@@ -73,8 +73,6 @@ namespace Kite.Gateway.Hosting
             context.Services.Configure<KiteGatewayOption>(context.Services.GetConfiguration().GetSection("KiteGateway"));
             //白名单配置
             context.Services.Configure<List<WhitelistOption>>(opt => { });
-            //服务治理配置
-            context.Services.Configure<ServiceGovernanceOption>(opt => { });
             //中间件配置
             context.Services.Configure<List<MiddlewareOption>>(opt => { });
             //Jwt身份认证配置

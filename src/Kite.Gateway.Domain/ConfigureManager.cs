@@ -25,17 +25,14 @@ namespace Kite.Gateway.Domain
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly AuthenticationOption _authenticationOption;
         private readonly List<MiddlewareOption> _middlewareOptions;
-        private readonly ServiceGovernanceOption _serviceGovernanceOption;
         private readonly List<WhitelistOption> _whitelistOptions;
         private readonly YarpOption _yarpOption;
         public ConfigureManager(IOptions<List<MiddlewareOption>> middlewareOptions
-            , IOptions<ServiceGovernanceOption> serviceGovernanceOption
             , IOptions<List<WhitelistOption>> whitelistOptions
             , IOptions<TokenValidationParameters> tokenValidationParameters, IOptions<AuthenticationOption> authenticationOption
             , IOptions<YarpOption> yarpOption)
         {
             _middlewareOptions = middlewareOptions.Value;
-            _serviceGovernanceOption = serviceGovernanceOption.Value;
             _whitelistOptions = whitelistOptions.Value;
             _tokenValidationParameters = tokenValidationParameters.Value;
             _authenticationOption = authenticationOption.Value;
@@ -86,11 +83,6 @@ namespace Kite.Gateway.Domain
                 _middlewareOptions.Add(middlewareOption);
             }
             
-        }
-
-        public void ReloadServiceGovernance(ServiceGovernanceOption serviceGovernanceOption)
-        {
-            TypeAdapter.Adapt(serviceGovernanceOption, _serviceGovernanceOption);
         }
 
         public void ReloadWhitelist(List<WhitelistOption> whitelistOptions)

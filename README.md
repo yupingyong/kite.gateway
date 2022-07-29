@@ -5,7 +5,7 @@
 
 
 #### 软件架构
-开发框架 .Net 6 + Abp Vnext 5.3.2 + Blazor(UI框架:BootstrapBlazor)
+开发框架 .Net 6 + Abp Vnext 5.3.3 + Blazor(UI框架:BootstrapBlazor)
 ![输入图片说明](%E5%9B%BE%E7%89%87.png)
 admin 目录为网关管理后台
 simples 目录为测试服务
@@ -33,6 +33,7 @@ Kite.Gateway.Domain.Shared :
 Kite.Gateway.EntityFrameworkCore : 
     仓储实现层,依赖于领域服务,基于EF Core实现 
 
+#### 使用说明
 
 #### 参与贡献
 

@@ -33,10 +33,5 @@ namespace Kite.Gateway.Domain
         /// </summary>
         /// <returns></returns>
         void ReloadMiddleware(List<MiddlewareOption> middlewareOptions);
-        /// <summary>
-        /// 重新加载服务治理配置信息
-        /// </summary>
-        /// <returns></returns>
-        void ReloadServiceGovernance(ServiceGovernanceOption serviceGovernanceOption);
     }
 }
