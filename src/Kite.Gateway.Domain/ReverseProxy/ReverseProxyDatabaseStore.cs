@@ -89,7 +89,7 @@ namespace Kite.Gateway.Domain.ReverseProxy
         public IChangeToken GetReloadToken()
         {
             return _reloadToken;
-    }
+        }
 
         public void Reload()
         {
