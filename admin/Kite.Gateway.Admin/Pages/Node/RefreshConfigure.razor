@@ -16,9 +16,6 @@
              <div class="col-12"  style="margin-top:5px;" >
                    <Switch OnColor="Color.Success" @bind-Value="Model.IsReloadMiddleware" DisplayText="是否重新加载中间件数据" OnText="开启" OffText="关闭"></Switch>
              </div>
-              <div class="col-12"  style="margin-top:5px;" >
-                   <Switch OnColor="Color.Success" @bind-Value="Model.IsReloadServiceGovernance" DisplayText="是否重新加载服务治理数据" OnText="开启" OffText="关闭"></Switch>
-             </div>
             <div class="col-12"  style="margin-top:5px;" >
                  <Switch OnColor="Color.Success" @bind-Value="Model.IsReloadWhitelist" DisplayText="是否重新加载白名单数据" OnText="开启" OffText="关闭"></Switch>
             </div>
@@ -50,7 +47,6 @@
         {
             IsReloadAuthentication=true,
             IsReloadMiddleware=true,
-            IsReloadServiceGovernance=true,
             IsReloadWhitelist=true,
             IsReloadYarp=true
         };

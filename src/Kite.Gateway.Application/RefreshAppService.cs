@@ -38,10 +38,6 @@ namespace Kite.Gateway.Application
             {
                 _configureManager.ReloadWhitelist(refreshConfigure.Whitelists);
             }
-            if (refreshConfigure.ServiceGovernance!=null)
-            {
-                _configureManager.ReloadServiceGovernance(refreshConfigure.ServiceGovernance);
-            }
             if (refreshConfigure.Middlewares != null)
             {
                 _configureManager.ReloadMiddleware(refreshConfigure.Middlewares);

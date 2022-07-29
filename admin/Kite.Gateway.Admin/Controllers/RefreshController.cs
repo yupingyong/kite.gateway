@@ -25,7 +25,6 @@ namespace Kite.Gateway.Admin.Controllers
             {
                 IsReloadAuthentication = true,
                 IsReloadMiddleware = true,
-                IsReloadServiceGovernance = true,
                 IsReloadWhitelist = true,
                 IsReloadYarp = true,
             });

@@ -21,11 +21,6 @@ namespace Kite.Gateway.Application.Contracts.Dtos
         [ValidateNever]
         public List<WhitelistOption> Whitelists { get; set; }
         /// <summary>
-        /// 服务治理数据
-        /// </summary>
-        [ValidateNever]
-        public ServiceGovernanceOption ServiceGovernance { get; set; }
-        /// <summary>
         /// 中间件数据
         /// </summary>
         [ValidateNever]

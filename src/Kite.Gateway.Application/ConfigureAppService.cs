@@ -42,13 +42,6 @@ namespace Kite.Gateway.Application
                     .ProjectToType<MiddlewareOption>()
                     .ToList();
             }
-            if (reloadConfigure.IsReloadServiceGovernance)
-            {
-                var repository = _serviceProvider.GetService<IRepository<ServiceGovernanceConfigure>>();
-                result.ServiceGovernance = (await repository.GetQueryableAsync())
-                    .ProjectToType<ServiceGovernanceOption>()
-                    .FirstOrDefault();
-            }
             if (reloadConfigure.IsReloadWhitelist)
             {
                 var repository = _serviceProvider.GetService<IRepository<Whitelist>>();
