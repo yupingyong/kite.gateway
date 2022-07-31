@@ -15,7 +15,15 @@
              <div class="col-5"  style="margin-top:5px;" >
                    <BootstrapInput @bind-Value="Model.ConsulToken" DisplayText="Consul访问令牌" IsTrim="true" />
              </div>
-            
+            <div class="col-5">
+                   <BootstrapInput @bind-Value="Model.NacosServer" DisplayText="Nacos服务端地址" IsTrim="true" />
+             </div>
+             <div class="col-5">
+                   <BootstrapInput @bind-Value="Model.NacosNamespaceId" DisplayText="Nacos命名空间ID" IsTrim="true" />
+             </div>
+             <div class="col-5">
+                   <BootstrapInput @bind-Value="Model.NacosGroupName" DisplayText="Nacos服务端地址" IsTrim="true" />
+             </div>
             <div class="row" style="margin-top:10px;">
                 <div class="col-5">
                     <Button ButtonType="ButtonType.Submit"  IsAsync="true" Color="Color.Primary">保 存</Button>
