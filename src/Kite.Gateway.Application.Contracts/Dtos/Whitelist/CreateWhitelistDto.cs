@@ -21,11 +21,6 @@ namespace Kite.Gateway.Application.Contracts.Dtos.Whitelist
         [Required]
         public string Name { get; set; }
         /// <summary>
-        /// 过滤类型(0.路径过滤 1.正则过滤)
-        /// </summary>
-        [Required]
-        public FilterTypeEnum FilterType { get; set; }
-        /// <summary>
         /// 过滤文本(根据类型保存的值为路径或者正则表达式)
         /// </summary>
         [Required]

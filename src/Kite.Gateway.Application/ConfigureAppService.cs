@@ -47,7 +47,14 @@ namespace Kite.Gateway.Application
                 var repository = _serviceProvider.GetService<IRepository<Whitelist>>();
                 result.Whitelists = (await repository.GetQueryableAsync())
                     .Where(x => x.UseState)
-                    .ProjectToType<WhitelistOption>()
+                    .Select(x => new WhitelistOption()
+                    {
+                        FilterText = x.FilterText,
+                        Id = x.Id,
+                        Name = x.Name,
+                        RequestMethod = x.RequestMethod,
+                        RouteId = x.RouteId.HasValue ? x.RouteId.ToString().ToLower() : "00000000-0000-0000-0000-000000000000"
+                    })
                     .ToList();
             }
             if (reloadConfigure.IsReloadYarp)

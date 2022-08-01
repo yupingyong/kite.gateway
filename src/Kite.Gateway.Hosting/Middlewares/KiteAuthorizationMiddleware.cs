@@ -38,27 +38,7 @@ namespace Kite.Gateway.Hosting.Middlewares
                 await _next(context);
                 return;
             }
-            //白名单验证
-            var requestPath = context.Request.Path.Value.ToLower();
-            var reqeustMethod = context.Request.Method.ToUpper();
-            bool IsWhitelist = false;
-            foreach (var whitelist in _whitelistOptions)
-            {
-                switch (whitelist.FilterType)
-                {
-                    case FilterTypeEnum.Path:
-                        if(requestPath.Contains(whitelist.FilterText.ToLower())&&reqeustMethod==whitelist.RequestMethod)
-                            IsWhitelist=true;
-                        break;
-                    case FilterTypeEnum.Regular:
-                        if(whitelist.Regex.IsMatch(requestPath) && reqeustMethod == whitelist.RequestMethod)
-                            IsWhitelist = true;
-                        break;
-                }
-                if (IsWhitelist)
-                    break;
-            }
-            if (IsWhitelist)
+            if (CheckWhitelist(context))
             {
                 await _next(context);
                 return;
@@ -82,6 +62,46 @@ namespace Kite.Gateway.Hosting.Middlewares
             }
             await _next(context);
             return;
+        }
+        private bool CheckWhitelist(HttpContext context)
+        {
+            var proxyFeature = context.GetReverseProxyFeature();
+            //白名单验证
+            var requestPath = context.Request.Path.Value.ToLower();
+            var reqeustMethod = context.Request.Method.ToUpper();
+
+            //白名单优先匹配局部作用域
+            if (_whitelistOptions.Any(x => x.RouteId == proxyFeature.Route.Config.RouteId))
+            {
+                //如果局部作用域中有带*的项则直接匹配通过
+                if (_whitelistOptions.Any(x => x.RouteId == proxyFeature.Route.Config.RouteId && x.FilterText == "*"))
+                {
+                    return true;
+                }
+                //如果没有带*匹配的则每项都需要匹配
+                if (_whitelistOptions.Any(x => x.RouteId == proxyFeature.Route.Config.RouteId
+                    && requestPath.Contains(x.FilterText.ToLower())
+                    && x.RequestMethod.Contains(reqeustMethod)))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                //如果全局作用域中有带*的项则直接匹配通过
+                if (_whitelistOptions.Any(x => x.RouteId == "00000000-0000-0000-0000-000000000000" && x.FilterText == "*"))
+                {
+                    return true;
+                }
+                //匹配全局
+                if (_whitelistOptions.Any(x => x.RouteId == "00000000-0000-0000-0000-000000000000"
+                    && requestPath.Contains(x.FilterText.ToLower())
+                    && x.RequestMethod.Contains(reqeustMethod)))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
