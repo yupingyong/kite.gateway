@@ -21,6 +21,11 @@ namespace Kite.Gateway.Domain.Shared.Enums
         /// Consul
         /// </summary>
         [Display(Name = "Consul")]
-        Consul = 1
+        Consul = 1,
+        /// <summary>
+        /// Nacos
+        /// </summary>
+        [Display(Name = "Nacos")]
+        Nacos = 2
     }
 }

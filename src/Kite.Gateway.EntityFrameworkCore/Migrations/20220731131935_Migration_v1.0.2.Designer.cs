@@ -3,6 +3,7 @@ using System;
 using Kite.Gateway.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Kite.Gateway.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(KiteDbContext))]
-    partial class KiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220731131935_Migration_v1.0.2")]
+    partial class Migration_v102
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -354,6 +356,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                     b.Property<string>("FilterText")
                         .HasMaxLength(128)
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("FilterType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasMaxLength(64)

@@ -90,10 +90,6 @@ namespace Kite.Gateway.Domain
             _whitelistOptions.Clear();
             foreach (var whitelistOption in whitelistOptions)
             {
-                if (whitelistOption.FilterType == FilterTypeEnum.Regular)
-                {
-                    whitelistOption.Regex = new Regex(whitelistOption.FilterText);
-                }
                 _whitelistOptions.Add(whitelistOption);
             }
         }

@@ -24,7 +24,7 @@ namespace Kite.Gateway.Domain.Whitelist
                 Created = DateTime.Now
             };
             TypeAdapter.Adapt(whiteList, model);
-            if (await _repository.AnyAsync(x => x.RouteId == model.RouteId && x.FilterType == model.FilterType && x.FilterText == model.FilterText))
+            if (await _repository.AnyAsync(x => x.RouteId == model.RouteId  && x.FilterText == model.FilterText))
             {
                 throw new Exception("同一路由下已经存在相同的过滤文本值");
             }

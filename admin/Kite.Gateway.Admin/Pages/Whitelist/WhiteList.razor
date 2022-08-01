@@ -25,8 +25,7 @@
         <tr>
             <th>白名单名称</th>
             <th>作用域</th>
-            <th>过滤类型</th>
-            <th>过滤文本值</th>
+            <th>过滤文本</th>
             <th>请求方式</th>
             <th>状态</th>
             <th>创建时间</th>
@@ -41,17 +40,6 @@
                 <tr>
                     <td>@item.Name</td>
                     <td>@item.RouteName</td>
-                    <td>
-                        @switch(item.FilterType)
-                        {
-                            case FilterTypeEnum.Regular:
-                                <div>正则过滤</div>
-                            break;
-                            default:
-                                <div>路径过滤</div>
-                            break;
-                        }
-                    </td>
                     <td>@item.FilterText</td>
                     <td>@item.RequestMethod</td>
                     <td>
