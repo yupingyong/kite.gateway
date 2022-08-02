@@ -31,24 +31,9 @@ namespace Kite.Simple.Account.Authorization
         /// <returns></returns>
         public JwtTokenResult GenerateToken(List<Claim> claims)
         {
-            SigningCredentials credentials;
-            //判断是否启用
-            if (_options.UseSSL)
-            {
-                var path = Path.Combine(_env.WebRootPath, _options.CertificatePath);
-                if (!File.Exists(path))
-                {
-                    throw new ArgumentNullException($"证书文件在[{path}]下不存在");
-                }
-                var x509Certificate2 = new X509Certificate2(path, _options.CertificatePassword);
-                credentials = new SigningCredentials(new X509SecurityKey(x509Certificate2), SecurityAlgorithms.RsaSha256);
-            }
-            else
-            {
-                //
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecurityKeyStr));
-                credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            }
+
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecurityKeyStr));
+            var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 _options.Issuer,
                 _options.Audience,

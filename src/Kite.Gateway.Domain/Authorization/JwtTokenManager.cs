@@ -79,9 +79,5 @@ namespace Kite.Gateway.Domain.Authorization
                 }
             });
         }
-
-        
-
-        
     }
 }
