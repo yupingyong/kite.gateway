@@ -57,7 +57,8 @@ namespace Kite.Gateway.Hosting.Middlewares
             {
                 if (!context.Request.Headers.ContainsKey(claim.Name))
                 {
-                    context.Request.Headers.Add($"K-{claim.Name}", System.Net.WebUtility.UrlEncode(claim.Value));
+                    context.Request.Headers.Add(claim.Name, System.Net.WebUtility.UrlEncode(claim.Value));
+                    context.Items.Add(claim.Name, System.Net.WebUtility.UrlEncode(claim.Value));
                 }
             }
             await _next(context);

@@ -24,17 +24,5 @@ namespace Kite.Simple.Account.Authorization
         /// 过期时间(单位:秒)
         /// </summary>
         public int ExpiresTime { get; set; }
-        /// <summary>
-        /// 是否启用签名证书
-        /// </summary>
-        public bool UseSSL { get; set; }
-        /// <summary>
-        /// 证书路径
-        /// </summary>
-        public string CertificatePath { get; set; }
-        /// <summary>
-        /// 证书密码
-        /// </summary>
-        public string CertificatePassword { get; set; }
     }
 }

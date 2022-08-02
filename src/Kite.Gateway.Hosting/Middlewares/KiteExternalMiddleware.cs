@@ -59,6 +59,10 @@ namespace Kite.Gateway.Hosting.Middlewares
                 {
                     httpClient.DefaultRequestHeaders.Add(header.Key, header.Value.ToString());
                 }
+                foreach (var item in context.Items)
+                {
+                    httpClient.DefaultRequestHeaders.Add(Convert.ToString(item.Key), item.Value?.ToString());
+                }
                 var response = await httpClient.PostAsync(middleware.Server, null);
                 var responseContent = await response.Content.ReadAsStringAsync();
                 middlewareResult.Result = responseContent;
