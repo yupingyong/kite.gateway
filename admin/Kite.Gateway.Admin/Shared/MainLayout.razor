@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-@inject SwalService SwalService
+@inject SwalService swalService
 @inject NavigationManager navigationManager
 
 <Layout SideWidth="0" IsPage="true" ShowGotoTop="true" ShowCollapseBar="true"
@@ -60,7 +60,7 @@
                 }));
                 builder.CloseComponent();
             });
-            await SwalService.Show(op);
+            await swalService.Show(op);
         }
         await base.OnAfterRenderAsync(firstRender);
 	}
