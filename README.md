@@ -34,7 +34,7 @@ Kite.Gateway.EntityFrameworkCore :
     仓储实现层,依赖于领域服务,基于EF Core实现 
 
 #### 使用说明
-
+Supervision
 #### 参与贡献
 
 1.  Fork 本仓库
