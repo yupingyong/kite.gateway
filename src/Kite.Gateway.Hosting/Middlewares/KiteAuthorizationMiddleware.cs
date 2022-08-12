@@ -70,10 +70,11 @@ namespace Kite.Gateway.Hosting.Middlewares
             //白名单验证
             var requestPath = context.Request.Path.Value.ToLower();
             var reqeustMethod = context.Request.Method.ToUpper();
-
+            
             //白名单优先匹配局部作用域
             if (_whitelistOptions.Any(x => x.RouteId == proxyFeature.Route.Config.RouteId))
             {
+                Log.Warning($"CheckWhitelist:{requestPath}|{reqeustMethod}");
                 //如果局部作用域中有带*的项则直接匹配通过
                 if (_whitelistOptions.Any(x => x.RouteId == proxyFeature.Route.Config.RouteId && x.FilterText == "*"))
                 {
@@ -84,6 +85,7 @@ namespace Kite.Gateway.Hosting.Middlewares
                     && requestPath.Contains(x.FilterText.ToLower())
                     && x.RequestMethod.Contains(reqeustMethod)))
                 {
+                    Log.Warning($"CheckWhitelist:{proxyFeature.Route.Config.RouteId}===>{requestPath}|{reqeustMethod}");
                     return true;
                 }
             }
