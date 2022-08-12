@@ -82,17 +82,9 @@ namespace Kite.Gateway.Hosting.Middlewares
                 }
                 //如果没有带*匹配的则每项都需要匹配
                 if (_whitelistOptions.Any(x => x.RouteId == proxyFeature.Route.Config.RouteId
-                    && requestPath.Contains(x.FilterText.ToLower())
+                    && requestPath == $"/{x.FilterText.ToLower().TrimStart('/')}"
                     && x.RequestMethod.Contains(reqeustMethod)))
                 {
-                    var whitelist = _whitelistOptions.Where(x => x.RouteId == proxyFeature.Route.Config.RouteId
-                    && requestPath.Contains(x.FilterText.ToLower())
-                    && x.RequestMethod.Contains(reqeustMethod)).FirstOrDefault();
-                    if (whitelist != null)
-                    {
-                        Log.Warning($"CheckWhitelist:{proxyFeature.Route.Config.RouteId}===>{requestPath}|{reqeustMethod}|{whitelist.FilterText}");
-                    }
-                    Log.Warning($"CheckWhitelist:{proxyFeature.Route.Config.RouteId}===>{requestPath}|{reqeustMethod}");
                     return true;
                 }
             }
@@ -105,7 +97,7 @@ namespace Kite.Gateway.Hosting.Middlewares
                 }
                 //匹配全局
                 if (_whitelistOptions.Any(x => x.RouteId == "00000000-0000-0000-0000-000000000000"
-                    && requestPath.Contains(x.FilterText.ToLower())
+                    && requestPath == $"/{x.FilterText.ToLower().TrimStart('/')}"
                     && x.RequestMethod.Contains(reqeustMethod)))
                 {
                     return true;
