@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Kite.Gateway.Application.Contracts.Dtos;
 
-namespace Kite.Gateway.Hosting.Controllers
+namespace Kite.Gateway.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

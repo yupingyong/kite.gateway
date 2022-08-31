@@ -10,7 +10,7 @@ using Kite.Gateway.Domain.Shared.Enums;
 using Kite.Gateway.Domain.Middlewares;
 using System.Text;
 
-namespace Kite.Gateway.Hosting.Middlewares
+namespace Kite.Gateway.Web.Middlewares
 {
     public class KiteExternalMiddleware
     {

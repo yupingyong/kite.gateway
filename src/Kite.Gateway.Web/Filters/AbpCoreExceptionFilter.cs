@@ -4,7 +4,7 @@ using Kite.Gateway.Application;
 using Serilog;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Kite.Gateway.Hosting.Filters
+namespace Kite.Gateway.Web.Filters
 {
     public class AbpCoreExceptionFilter : IExceptionFilter
     {
