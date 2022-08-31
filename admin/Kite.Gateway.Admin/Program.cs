@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Http.Features;
 using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +16,9 @@ builder.Host
          Log.Logger = new LoggerConfiguration()
           .Enrich.FromLogContext()
           .WriteTo.Console()// 日志输出到控制台
+          .WriteTo.File($"data/logs/log-.txt", restrictedToMinimumLevel: LogEventLevel.Warning, rollingInterval: RollingInterval.Day)
           .MinimumLevel.Information()
-          .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
+          .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
           .CreateLogger();
          logBuilder.ClearProviders();
          logBuilder.AddSerilog(dispose: true);

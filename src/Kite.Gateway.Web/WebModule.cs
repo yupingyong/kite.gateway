@@ -21,7 +21,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Validation;
 using Volo.Abp.AspNetCore.Mvc.ExceptionHandling;
-using Kite.Gateway.Hosting.Filters;
+using Kite.Gateway.Web.Filters;
 using Newtonsoft.Json;
 using Volo.Abp.Json;
 using Consul;
@@ -29,7 +29,7 @@ using Kite.Gateway.Domain.Authorization;
 using Yarp.ReverseProxy.Configuration;
 using Kite.Gateway.Domain.ReverseProxy;
 using Kite.Gateway.Domain.Shared.Options;
-using Kite.Gateway.Hosting.Middlewares;
+using Kite.Gateway.Web.Middlewares;
 using Kite.Gateway.Domain.Shared.Enums;
 using Microsoft.Extensions.Options;
 using Kite.Gateway.Application.Contracts.Dtos;
@@ -37,14 +37,14 @@ using Kite.Gateway.Application.Contracts;
 using Serilog;
 using Microsoft.AspNetCore.HttpOverrides;
 
-namespace Kite.Gateway.Hosting
+namespace Kite.Gateway.Web
 {
     [DependsOn(
          typeof(AbpAutofacModule),
          typeof(ApplicationModule),
          typeof(AbpSwashbuckleModule)
      )]
-    public class HostingModule:AbpModule
+    public class WebModule:AbpModule
     {
         #region 中间件注入
         public override void ConfigureServices(ServiceConfigurationContext context)

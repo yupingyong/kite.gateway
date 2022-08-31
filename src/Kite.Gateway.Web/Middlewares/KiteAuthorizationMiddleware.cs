@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using Kite.Gateway.Domain.Shared.Enums;
 using Kite.Gateway.Domain.Authorization;
 
-namespace Kite.Gateway.Hosting.Middlewares
+namespace Kite.Gateway.Web.Middlewares
 {
     public class KiteAuthorizationMiddleware
     {

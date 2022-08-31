@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
-namespace Kite.Gateway.Hosting.Filters
+namespace Kite.Gateway.Web.Filters
 {
     public class KiteCoreActionFilter : IActionFilter
     {
