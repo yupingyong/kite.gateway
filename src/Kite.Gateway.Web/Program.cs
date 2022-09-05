@@ -34,5 +34,5 @@ builder.Services.ReplaceConfiguration(builder.Configuration);//ĞŞÕıÅäÖÃ´íÎó
 builder.Services.AddApplication<WebModule>();
 var app = builder.Build();
 app.InitializeApplication();
-app.MapGet("/", context => context.Response.WriteAsync("hello world!!!"));
+app.MapGet("/", context => context.Response.WriteAsync("kite gateway run success!"));
 app.Run();

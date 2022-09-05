@@ -53,6 +53,8 @@ namespace Kite.Gateway.Web
             {
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.KnownNetworks.Clear();
+                options.KnownProxies.Clear();
             });
             context.Services.AddHttpClient();
             //注入会话

@@ -31,11 +31,14 @@ namespace Kite.Gateway.Domain.ReverseProxy
             {
                 var transforms = new List<Dictionary<string, string>>();
                 var transformData = new Dictionary<string, string>();
-                foreach (var transform in route.RouteTransforms)
+                if (route.RouteTransforms.Any())
                 {
-                    transformData.Add(transform.TransformsName, transform.TransformsValue);
+                    foreach (var transform in route.RouteTransforms)
+                    {
+                        transformData.Add(transform.TransformsName, transform.TransformsValue);
+                    }
+                    transforms.Add(transformData);
                 }
-                transforms.Add(transformData);
                 //路由配置
                 routeConfigs.Add(new RouteConfig()
                 {
