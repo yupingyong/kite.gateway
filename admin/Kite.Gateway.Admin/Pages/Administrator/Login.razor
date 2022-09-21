@@ -19,11 +19,11 @@
 
     <div class="form-floating">
       <input type="text" class="form-control" @bind-value="LoginAdministrator.AdminName" id="floatingInput" placeholder="请输入管理员账号名">
-      <label for="floatingInput">账号名:<em style="color:red">*</em></label>
+            <label for="floatingInput" style="text-align:left;">账号名:<em style="color:red">*</em></label>
     </div>
     <div class="form-floating">
       <input type="password" class="form-control" @bind-value="LoginAdministrator.Password" id="floatingPassword" placeholder="请输入管理员密码">
-      <label for="floatingPassword">登录密码:<em style="color:red">*</em></label>
+      <label for="floatingPassword" style="text-align:left;">登录密码:<em style="color:red">*</em></label>
     </div>
     <Button ButtonType="ButtonType.Submit"  class="w-100 btn btn-lg btn-primary" IsAsync="true" Color="Color.Primary">登 录</Button>
 @*    <button class="w-100 btn btn-lg btn-primary" type="submit">登录</button>*@

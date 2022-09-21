@@ -34,9 +34,9 @@ namespace Kite.Gateway.EntityFrameworkCore
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             var dbContext = context.ServiceProvider.GetService<KiteDbContext>();
-            if (dbContext != null&& dbContext.Database.GetMigrations().Any())
+            if (dbContext != null)
             {
-                 dbContext.Database.Migrate();
+                dbContext.Database.Migrate();
             }
         }
     }

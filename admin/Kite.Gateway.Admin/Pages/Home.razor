@@ -4,10 +4,10 @@
     <div class="alert-content">
         <h4><i class="fa fa-lightbulb-o"></i>有言</h4><!--!-->
         <p>
-            .Net版本: .Net 6  <br/>
+            .Net版本: .Net 7  <br/>
             数据库:   Sqlite <br/>
             后台管理: Blazor (<a href="https://www.blazor.zone">Bootstrap Blazor UI</a>)  <br/>
-            开发框架: Abp Vnext 5.3.3 <br/>
+            开发框架: Abp Vnext 6.X <br/>
             反向代理组件: Yarp
         </p>
         <p>
@@ -29,6 +29,12 @@
         base.OnInitialized();
         AlternateTimelineItems = new List<TimelineItem>()
         {
+            new TimelineItem()
+            {
+                Description="2022-09-21",
+                Content="升级到.NET 7"
+            }
+            ,
             new TimelineItem()
             {
                 Description="2022-07-28",
