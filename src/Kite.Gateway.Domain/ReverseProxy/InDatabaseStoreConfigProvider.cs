@@ -27,7 +27,6 @@ namespace Kite.Gateway.Domain.ReverseProxy
         }
         public IProxyConfig GetConfig()
         {
-            // First time load
             if (_config == null)
             {
                 _subscription = ChangeToken.OnChange(_strore.GetReloadToken, UpdateConfig);
@@ -46,7 +45,6 @@ namespace Kite.Gateway.Domain.ReverseProxy
         }
         private void UpdateConfig()
         {
-            // Prevent overlapping updates, especially on startup.
             lock (_lockObject)
             {
                 InDatabaseStoreConfig newConfig = null;

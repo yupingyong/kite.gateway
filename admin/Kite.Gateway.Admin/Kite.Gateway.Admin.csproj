@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;8601;8602;8618</NoWarn>
+    <NoWarn>1701;1702;8601;8602;8618;8625;</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;8601;8602;8618</NoWarn>
+    <NoWarn>1701;1702;8601;8602;8618;8625;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,19 +24,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BootstrapBlazor" Version="6.8.17" />
-    <PackageReference Include="BootstrapBlazor.FontAwesome" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
+    <PackageReference Include="BootstrapBlazor" Version="6.11.7" />
+    <PackageReference Include="BootstrapBlazor.FontAwesome" Version="6.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
-    <PackageReference Include="Volo.Abp.AspNetCore" Version="5.3.3" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.AspNetCore" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

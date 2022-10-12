@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <BaseOutputPath></BaseOutputPath>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <DocumentationFile>Kite.Gateway.Application.xml</DocumentationFile>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Application" Version="5.3.3" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

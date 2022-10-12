@@ -99,8 +99,8 @@ public sealed partial class MainLayout
                    Items=new List<MenuItem>()
                    {
                        new MenuItem() { Text = "服务治理配置", Icon = "fa fa-cogs", Url = "/ServiceGovernance" },
-                       new MenuItem() { Text = "身份认证配置(Jwt)", Icon = "fa fa-address-card-o", Url = "/Authentication" },
-                       new MenuItem() { Text = "白名单管理", Icon = "fa fa-paper-plane-o", Url = "/WhiteList" },
+                       new MenuItem() { Text = "身份认证配置(Jwt)", Icon = "fas fa-user-secret", Url = "/Authentication" },
+                       new MenuItem() { Text = "白名单管理", Icon = "fas fa-paper-plane", Url = "/WhiteList" },
                        new MenuItem() { Text = "路由管理", Icon = "fa fa-external-link", Url = "/Route" },
                        new MenuItem(){ Text="中间件管理", Icon="fa fa-plug",Url="/Middleware"}
                    }
