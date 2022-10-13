@@ -4,19 +4,18 @@ using Serilog;
 using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Host
-     .ConfigureLogging((context, logBuilder) =>
-     {
-         Log.Logger = new LoggerConfiguration()
+
+//日志配置
+builder.Logging.ClearProviders();
+Log.Logger = new LoggerConfiguration()
           .Enrich.FromLogContext()
           .WriteTo.Console()// 日志输出到控制台
           .WriteTo.File($"data/logs/log-.txt", restrictedToMinimumLevel: LogEventLevel.Warning, rollingInterval: RollingInterval.Day)
           .MinimumLevel.Information()
-          .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+          .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
           .CreateLogger();
-         logBuilder.ClearProviders();
-         logBuilder.AddSerilog(dispose: true);
-     })
+builder.Host
+     .UseSerilog(dispose: true)
      .UseAutofac();
 
 
