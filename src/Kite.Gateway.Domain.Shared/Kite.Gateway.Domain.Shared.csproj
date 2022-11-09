@@ -9,10 +9,10 @@
   <ItemGroup>
     <PackageReference Include="Consul" Version="1.6.10.7" />
     <PackageReference Include="Mapster" Version="7.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0-rc.2.22476.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.RateLimiting" Version="7.0.0-rc.2.22476.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0-dev-00285" />
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="6.0.1" />
     <PackageReference Include="Yarp.ReverseProxy" Version="1.1.1" />
   </ItemGroup>
 

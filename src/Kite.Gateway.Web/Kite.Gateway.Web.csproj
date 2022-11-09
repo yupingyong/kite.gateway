@@ -8,10 +8,10 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Volo.Abp.AspNetCore" Version="6.0.0" />
-		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="6.0.0" />
-		<PackageReference Include="Volo.Abp.Autofac" Version="6.0.0" />
-		<PackageReference Include="Volo.Abp.Swashbuckle" Version="6.0.0" />
+		<PackageReference Include="Volo.Abp.AspNetCore" Version="6.0.1" />
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="6.0.1" />
+		<PackageReference Include="Volo.Abp.Autofac" Version="6.0.1" />
+		<PackageReference Include="Volo.Abp.Swashbuckle" Version="6.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
