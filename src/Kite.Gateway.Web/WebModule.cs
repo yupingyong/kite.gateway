@@ -64,6 +64,7 @@ namespace Kite.Gateway.Web
             ConfigureCors(context);
             ConfigureMvc(context);
             ConfigureReverseProxy(context);
+            
         }
         /// <summary>
         /// 网关核心配置项

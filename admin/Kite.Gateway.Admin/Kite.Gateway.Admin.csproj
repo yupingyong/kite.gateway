@@ -24,18 +24,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BootstrapBlazor" Version="6.11.7" />
-    <PackageReference Include="BootstrapBlazor.FontAwesome" Version="6.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+    <PackageReference Include="BootstrapBlazor" Version="7.2.4" />
+    <PackageReference Include="BootstrapBlazor.FontAwesome" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Volo.Abp.AspNetCore" Version="6.0.0" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore" Version="7.0.1" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
