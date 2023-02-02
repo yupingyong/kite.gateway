@@ -14,7 +14,7 @@ namespace Kite.Gateway.Application.Contracts
         /// 获取所有节点数据
         /// </summary>
         /// <returns></returns>
-        Task<KiteResult<List<NodeDto>>> GetAllAsync();
+        Task<KiteResult<List<NodeDto>>> GetAsync();
         /// <summary>
         /// 获取节点详情信息
         /// </summary>
@@ -33,7 +33,8 @@ namespace Kite.Gateway.Application.Contracts
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<KitePageResult<List<NodeDto>>> GetListAsync(int page = 1, int pageSize = 10);
+
+        Task<KitePageResult<List<NodeDto>>> GetNodesAsync(int page = 1, int pageSize = 10);
         /// <summary>
         /// 删除节点
         /// </summary>

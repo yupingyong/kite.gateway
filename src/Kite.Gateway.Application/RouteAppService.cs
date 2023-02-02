@@ -113,7 +113,7 @@ namespace Kite.Gateway.Application
         /// <param name="page">当前页码</param>
         /// <param name="pageSize">每页记录数</param>
         /// <returns></returns>
-        public async Task<KitePageResult<List<RoutePageDto>>> GetListAsync(string kw = "", int page = 1, int pageSize = 10)
+        public async Task<KitePageResult<List<RoutePageDto>>> GetPageAsync(string kw = "", int page = 1, int pageSize = 10)
         {
             var query =(await _routeRepository.GetQueryableAsync()).WhereIf(!string.IsNullOrEmpty(kw) && kw != "", x => x.RouteName.Contains(kw));
             var totalCount = query.Count();
@@ -148,13 +148,13 @@ namespace Kite.Gateway.Application
         /// <summary>
         /// 根据路由ID获取路由信息
         /// </summary>
-        /// <param name="routeId">路由ID</param>
+        /// <param name="id">路由ID</param>
         /// <returns></returns>
-        public async Task<KiteResult<RouteDto>> GetAsync(Guid routeId)
+        public async Task<KiteResult<RouteDto>> GetAsync(Guid id)
         {
             var query = await _routeRepository.GetQueryableAsync();
             //查询基本信息
-            var route = query.ProjectToType<RouteDto>().Where(x => x.Id == routeId).FirstOrDefault();
+            var route = query.ProjectToType<RouteDto>().Where(x => x.Id == id).FirstOrDefault();
             if (route == null)
             {
                 ThrownFailed("路由数据不存在");
@@ -246,7 +246,7 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<KiteResult<List<RouteMainDto>>> GetListAsync()
+        public async Task<KiteResult<List<RouteMainDto>>> GetAsync()
         {
             var result = (await _routeRepository.GetQueryableAsync())
                 .OrderByDescending(x => x.Created)

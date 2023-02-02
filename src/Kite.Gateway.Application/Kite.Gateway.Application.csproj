@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <BaseOutputPath></BaseOutputPath>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <DocumentationFile>Kite.Gateway.Application.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -22,6 +22,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Kite.Gateway.Application.Contracts\Kite.Gateway.Application.Contracts.csproj" />
     <ProjectReference Include="..\Kite.Gateway.Domain\Kite.Gateway.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Kite.Gateway.Application.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

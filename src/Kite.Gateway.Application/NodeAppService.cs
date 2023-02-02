@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
 using Mapster;
+using Microsoft.AspNetCore.Mvc;
+
 namespace Kite.Gateway.Application
 {
     public class NodeAppService : BaseApplicationService, INodeAppService
@@ -37,7 +39,7 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<KiteResult<List<NodeDto>>> GetAllAsync()
+        public async Task<KiteResult<List<NodeDto>>> GetAsync()
         {
             var result = (await _repository.GetQueryableAsync())
                 .OrderByDescending(x => x.Created)
@@ -54,8 +56,7 @@ namespace Kite.Gateway.Application
                 .FirstOrDefault();
             return Ok(result);
         }
-
-        public async Task<KitePageResult<List<NodeDto>>> GetListAsync(int page = 1, int pageSize = 10)
+        public async Task<KitePageResult<List<NodeDto>>> GetNodesAsync(int page = 1, int pageSize = 10)
         {
             var query = await _repository.GetQueryableAsync();
             var result = query

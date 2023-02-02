@@ -47,8 +47,10 @@ namespace Kite.Gateway.Web
     public class WebModule:AbpModule
     {
         #region 中间件注入
+        private ServiceConfigurationContext _context;
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            _context = context;
             context.Services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
@@ -60,32 +62,32 @@ namespace Kite.Gateway.Web
             //注入会话
             context.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //
-            ConfigureCore(context);
-            ConfigureCors(context);
-            ConfigureMvc(context);
-            ConfigureReverseProxy(context);
-            
+            ConfigureConventionalControllers();
+            ConfigureCore();
+            ConfigureCors();
+            ConfigureMvc();
+            ConfigureReverseProxy();
+            ConfigureSwaggerGen();
         }
         /// <summary>
         /// 网关核心配置项
         /// </summary>
-        /// <param name="context"></param>
-        private void ConfigureCore(ServiceConfigurationContext context)
+        private void ConfigureCore()
         {
             //注入网关基础配置
-            context.Services.Configure<KiteGatewayOption>(context.Services.GetConfiguration().GetSection("KiteGateway"));
+            _context.Services.Configure<KiteGatewayOption>(_context.Services.GetConfiguration().GetSection("KiteGateway"));
             //白名单配置
-            context.Services.Configure<List<WhitelistOption>>(opt => { });
+            _context.Services.Configure<List<WhitelistOption>>(opt => { });
             //中间件配置
-            context.Services.Configure<List<MiddlewareOption>>(opt => { });
+            _context.Services.Configure<List<MiddlewareOption>>(opt => { });
             //Jwt身份认证配置
-            context.Services.Configure<AuthenticationOption>(opt =>
+            _context.Services.Configure<AuthenticationOption>(opt =>
             {
                 opt.UseState = false;
             });
-            context.Services.Configure<TokenValidationParameters>(opt => { });
+            _context.Services.Configure<TokenValidationParameters>(opt => { });
             //Yarp反向代理配置
-            context.Services.Configure<YarpOption>(opt => 
+            _context.Services.Configure<YarpOption>(opt => 
             {
                 opt.Routes = new List<RouteOption>();
             });
@@ -93,10 +95,10 @@ namespace Kite.Gateway.Web
         /// <summary>
         /// MVC中间件注入配置
         /// </summary>
-        /// <param name="context"></param>
-        private void ConfigureMvc(ServiceConfigurationContext context)
+        private void ConfigureMvc()
         {
-            context.Services.AddControllers(options =>
+            _context.Services.AddRazorPages();
+            _context.Services.AddControllers(options =>
             {
                 // 移除 AbpValidationActionFilter
                 var filterMetadata = options.Filters.FirstOrDefault(x => x is ServiceFilterAttribute attribute && attribute.ServiceType.Equals(typeof(AbpValidationActionFilter)));
@@ -111,26 +113,31 @@ namespace Kite.Gateway.Web
                 options.Filters.Add<KiteCoreActionFilter>();
             })
             .AddJsonOptions(opt => { });
-            Configure<AbpJsonOptions>(options => options.DefaultDateTimeFormat = "yyyy-MM-dd HH:mm:ss");
+            Configure<AbpJsonOptions>(options => 
+            {
+                options.InputDateTimeFormats = new List<string>() 
+                {
+                    "yyyy-MM-dd HH:mm:ss"
+                };
+                options.OutputDateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+            });
         }
         /// <summary>
         /// 配置反向代理
         /// </summary>
-        /// <param name="context"></param>
-        private void ConfigureReverseProxy(ServiceConfigurationContext context)
+        private void ConfigureReverseProxy()
         {
             //注入反向代理
-            context.Services.AddSingleton<IProxyConfigProvider, InDatabaseStoreConfigProvider>();
-            context.Services.AddReverseProxy();
+            _context.Services.AddSingleton<IProxyConfigProvider, InDatabaseStoreConfigProvider>();
+            _context.Services.AddReverseProxy();
         }
         /// <summary>
         /// 跨域注入
         /// </summary>
-        /// <param name="context"></param>
-        private void ConfigureCors(ServiceConfigurationContext context)
+        private void ConfigureCors()
         {
             //跨域配置
-            context.Services.AddCors(options =>
+            _context.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
                 {
@@ -142,11 +149,49 @@ namespace Kite.Gateway.Web
                 });
             });
         }
+        /// <summary>
+        /// 配置Swagger文档
+        /// </summary>
+        /// <param name="context"></param>
+        private void ConfigureSwaggerGen()
+        {
+            //在此处注入依赖项
+            _context.Services.AddSwaggerGen(
+                options =>
+                {
+                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Kite Gateway Api", Version = "v1" });
+                    var appServicesXmlPath = Path.Combine(AppContext.BaseDirectory, $"Kite.Gateway.Application.xml");
+                    if (File.Exists(appServicesXmlPath))
+                    {
+                        options.IncludeXmlComments(appServicesXmlPath, true);
+                    }
+                    var appContractsServicesXmlPath = Path.Combine(AppContext.BaseDirectory, $"Kite.Gateway.Application.Contracts.xml");
+                    if (File.Exists(appContractsServicesXmlPath))
+                    {
+                        options.IncludeXmlComments(appContractsServicesXmlPath, true);
+                    }
+                    options.DocInclusionPredicate((docName, description) => true);
+                    options.CustomSchemaIds(type => type.FullName);
+                });
+        }
+        /// <summary>
+        /// 自动API控制器
+        /// </summary>
+        private void ConfigureConventionalControllers()
+        {
+            Configure<AbpAspNetCoreMvcOptions>(options =>
+            {
+                options.ConventionalControllers.Create(typeof(ApplicationModule).Assembly, opts =>
+                {
+                    opts.RootPath = "yarp";
+                });
+            });
+        }
         #endregion
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             
-            LoadMainConfigureAsync(context);
+            //LoadMainConfigureAsync(context);
             //
             var app = context.GetApplicationBuilder();
             var env = context.GetEnvironment();
@@ -154,18 +199,24 @@ namespace Kite.Gateway.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("v1/swagger.json", "Kite Gateway Api");
+                });
             }
             else
             {
                 app.UseExceptionHandler("/Error");
             }
+            app.UseStaticFiles();
             app.UseForwardedHeaders();
             app.UseCors();
             app.UseRouting();
            
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 
                 endpoints.MapReverseProxy(proxyPipeline =>

@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kite.Gateway.Application</name>
+    </assembly>
+    <members>
+        <member name="T:Kite.Gateway.Application.BaseApplicationService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kite.Gateway.Application.BaseApplicationService.ThrownFailed(System.String)">
+            <summary>
+            抛出异常
+            </summary>
+            <param name="msg">消息</param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Kite.Gateway.Application.BaseApplicationService.Ok">
+            <summary>
+            成功返回
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.BaseApplicationService.Ok``1(``0)">
+            <summary>
+            成功返回
+            </summary>
+            <param name="data">数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.BaseApplicationService.Ok``1(``0,System.Int32)">
+            <summary>
+            成功返回
+            </summary>
+            <param name="data">数据</param>
+            <param name="totalCount">总记录数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.BaseApplicationService.Customize(System.Int32,System.String)">
+            <summary>
+            返回自定义状态码 
+            </summary>
+            <param name="code">状态码</param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.BaseApplicationService.Customize``1(System.Int32,System.String,``0)">
+            <summary>
+            返回自定义状态码 
+            </summary>
+            <param name="code">状态码</param>
+            <param name="message"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Kite.Gateway.Application.MiddlewareAppService">
+            <summary>
+            中间件管理服务
+            </summary>
+        </member>
+        <member name="T:Kite.Gateway.Application.RouteAppService">
+            <summary>
+            路由相关接口
+            </summary>
+        </member>
+        <member name="M:Kite.Gateway.Application.RouteAppService.CreateAsync(Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto)">
+            <summary>
+            创建路由
+            </summary>
+            <param name="createRouteDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.RouteAppService.DeleteAsync(System.Guid)">
+            <summary>
+            删除路由
+            </summary>
+            <param name="routeId">路由ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.RouteAppService.GetPageAsync(System.String,System.Int32,System.Int32)">
+            <summary>
+            获取路由列表
+            </summary>
+            <param name="kw">关键字</param>
+            <param name="page">当前页码</param>
+            <param name="pageSize">每页记录数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.RouteAppService.GetAsync(System.Guid)">
+            <summary>
+            根据路由ID获取路由信息
+            </summary>
+            <param name="id">路由ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.RouteAppService.UpdateAsync(Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto)">
+            <summary>
+            更新路由信息
+            </summary>
+            <param name="updateRouteDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.RouteAppService.UpdateStateAsync(System.Guid,System.Boolean)">
+            <summary>
+            更新路由状态
+            </summary>
+            <param name="routeId">路由ID</param>
+            <param name="useState">路由状态(1.开启 0.关闭)</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kite.Gateway.Application.WhitelistAppService">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

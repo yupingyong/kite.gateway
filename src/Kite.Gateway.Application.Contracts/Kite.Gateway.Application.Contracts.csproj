@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <DocumentationFile>Kite.Gateway.Application.Contracts.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -22,6 +22,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Kite.Gateway.Domain.Shared\Kite.Gateway.Domain.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Kite.Gateway.Application.Contracts.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

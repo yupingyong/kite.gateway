@@ -17,7 +17,7 @@ namespace Kite.Gateway.Application.Contracts
         /// 获取全部路由数据
         /// </summary>
         /// <returns></returns>
-        Task<KiteResult<List<RouteMainDto>>> GetListAsync();
+        Task<KiteResult<List<RouteMainDto>>> GetAsync();
         /// <summary>
         /// 获取路由列表
         /// </summary>
@@ -25,7 +25,7 @@ namespace Kite.Gateway.Application.Contracts
         /// <param name="page">当前页码</param>
         /// <param name="pageSize">每页记录数</param>
         /// <returns></returns>
-        Task<KitePageResult<List<RoutePageDto>>> GetListAsync(string kw = "", int page = 1, int pageSize = 10);
+        Task<KitePageResult<List<RoutePageDto>>> GetPageAsync(string kw = "", int page = 1, int pageSize = 10);
         /// <summary>
         /// 根据路由ID获取路由信息
         /// </summary>

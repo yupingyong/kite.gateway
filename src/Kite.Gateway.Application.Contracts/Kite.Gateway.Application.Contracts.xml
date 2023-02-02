@@ -1,0 +1,1270 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kite.Gateway.Application.Contracts</name>
+    </assembly>
+    <members>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.AdministratorDto.Id">
+            <summary>
+            账号ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.AdministratorDto.AdminName">
+            <summary>
+            管理员名
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.AdministratorDto.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.AdministratorDto.Created">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.AdministratorDto.Updated">
+            <summary>
+            最后更新时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.CreateAdministratorDto.AdminName">
+            <summary>
+            管理员名
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.CreateAdministratorDto.Password">
+            <summary>
+            登录密码
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.CreateAdministratorDto.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.LoginAdministratorDto.AdminName">
+            <summary>
+            管理员名
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.LoginAdministratorDto.Password">
+            <summary>
+            登录密码
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.UpdateAdministratorDto.Id">
+            <summary>
+            账号ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.UpdateAdministratorDto.AdminName">
+            <summary>
+            管理员名
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.UpdateAdministratorDto.Password">
+            <summary>
+            登录密码
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Administrator.UpdateAdministratorDto.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="T:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.UseState">
+            <summary>
+            是否开启
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.Issuer">
+            <summary>
+            颁发者
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.Audience">
+            <summary>
+            观察者
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.ClockSkew">
+            <summary>
+            时间偏移(秒)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.ValidateIssuerSigningKey">
+            <summary>
+            是否验证签名
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.ValidateIssuer">
+            <summary>
+            是否验证颁发者
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.ValidateAudience">
+            <summary>
+            是否验证观察者
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.ValidateLifetime">
+            <summary>
+            是否验证失效时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.RequireExpirationTime">
+            <summary>
+            是否需要过期时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.UseSSL">
+            <summary>
+            是否启用SSL证书
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.SecurityKeyStr">
+            <summary>
+            秘钥字符串
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.CertificateFile">
+            <summary>
+            证书文件(BASE64:文件后缀名.pfx或者.cer 文件内容)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.CertificateFileName">
+            <summary>
+            证书文件名(文件后缀名.pfx或者.cer 文件内容)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto.CertificatePassword">
+            <summary>
+            证书密码
+            </summary>
+        </member>
+        <member name="T:Kite.Gateway.Application.Contracts.Dtos.Middleware.CreateMiddlewareDto">
+            <summary>
+            创建中间件DTO
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.CreateMiddlewareDto.Name">
+            <summary>
+            中间件名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.CreateMiddlewareDto.Server">
+            <summary>
+            服务端地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.CreateMiddlewareDto.SignalType">
+            <summary>
+            通信类型
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.CreateMiddlewareDto.UseState">
+            <summary>
+            启用状态
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.CreateMiddlewareDto.ExecWeight">
+            <summary>
+            执行权重(数字越大越靠前)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.CreateMiddlewareDto.Description">
+            <summary>
+            中间件描述
+            </summary>
+        </member>
+        <member name="T:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareDto.Id">
+            <summary>
+            中间件ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareDto.Name">
+            <summary>
+            中间件名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareDto.Server">
+            <summary>
+            服务端地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareDto.SignalType">
+            <summary>
+            通信类型
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareDto.UseState">
+            <summary>
+            启用状态
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareDto.ExecWeight">
+            <summary>
+            执行权重(数字越大越靠前)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareDto.Description">
+            <summary>
+            中间件描述
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareDto.Created">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareDto.Updated">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="T:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareListDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareListDto.Id">
+            <summary>
+            中间件ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareListDto.Name">
+            <summary>
+            中间件名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareListDto.Server">
+            <summary>
+            服务端地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareListDto.SignalType">
+            <summary>
+            通信类型
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareListDto.UseState">
+            <summary>
+            启用状态
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareListDto.ExecWeight">
+            <summary>
+            执行权重(数字越大越靠前)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareListDto.Description">
+            <summary>
+            中间件描述
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareListDto.Created">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.MiddlewareListDto.Updated">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.UpdateMiddlewareDto.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.UpdateMiddlewareDto.Name">
+            <summary>
+            中间件名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.UpdateMiddlewareDto.Server">
+            <summary>
+            服务端地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.UpdateMiddlewareDto.SignalType">
+            <summary>
+            通信类型
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.UpdateMiddlewareDto.UseState">
+            <summary>
+            启用状态
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.UpdateMiddlewareDto.ExecWeight">
+            <summary>
+            执行权重(数字越大越靠前)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Middleware.UpdateMiddlewareDto.Description">
+            <summary>
+            中间件描述
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.CreateNodeDto.NodeName">
+            <summary>
+            节点名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.CreateNodeDto.Description">
+            <summary>
+            节点描述
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.CreateNodeDto.Server">
+            <summary>
+            节点服务端地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.CreateNodeDto.AccessToken">
+            <summary>
+            访问Token
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.NodeDto.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.NodeDto.NodeName">
+            <summary>
+            节点名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.NodeDto.Description">
+            <summary>
+            节点描述
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.NodeDto.Server">
+            <summary>
+            节点服务端地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.NodeDto.AccessToken">
+            <summary>
+            访问Token
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.NodeDto.Created">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.NodeDto.Updated">
+            <summary>
+            最后更新时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.ReloadConfigureDto.IsReloadAuthentication">
+            <summary>
+            是否重新加载身份认证数据
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.ReloadConfigureDto.IsReloadWhitelist">
+            <summary>
+            是否重新加载白名单数据
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.ReloadConfigureDto.IsReloadMiddleware">
+            <summary>
+            是否重新加载中间件数据
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.ReloadConfigureDto.IsReloadYarp">
+            <summary>
+            是否重新加载Yarp相关数据
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.UpdateNodeDto.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.UpdateNodeDto.NodeName">
+            <summary>
+            节点名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.UpdateNodeDto.Description">
+            <summary>
+            节点描述
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.UpdateNodeDto.Server">
+            <summary>
+            节点服务端地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Node.UpdateNodeDto.AccessToken">
+            <summary>
+            访问Token
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.RefreshConfigureDto.Authentication">
+            <summary>
+            身份认证数据
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.RefreshConfigureDto.Whitelists">
+            <summary>
+            中间件数据
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.RefreshConfigureDto.Middlewares">
+            <summary>
+            中间件数据
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.RefreshConfigureDto.Yarp">
+            <summary>
+            Yarp反向代理配置数据
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDestinationDto.Id">
+            <summary>
+            集群目的地ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDestinationDto.ClusterId">
+            <summary>
+            集群ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDestinationDto.DestinationName">
+            <summary>
+            目的地名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDestinationDto.DestinationAddress">
+            <summary>
+            目的地地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDto.Id">
+            <summary>
+            集群ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDto.RouteId">
+            <summary>
+            关联服务ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDto.ClusterName">
+            <summary>
+            集群名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDto.LoadBalancingPolicy">
+            <summary>
+            负载均衡策略
+            FirstAlphabetical: 在不考虑负载的情况下选择按字母顺序排列的第一个可用目的地。这对于双目的地故障转移系统很有用。
+            Random: 随机选择一个目的地。
+            PowerOfTwoChoices (默认): 选择两个随机目标，然后选择分配请求最少的目标。这避免了它选择繁忙目的地的开销LeastRequests和最坏情况。Random
+            RoundRobin: 通过按顺序循环选择目的地。
+            LeastRequests: 选择分配的请求最少的目标。这需要检查所有目的地。
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDto.ServiceGovernanceType">
+            <summary>
+            服务治理类型(Default、Nacos、Consul)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDto.ServiceGovernanceName">
+            <summary>
+            服务治理名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDto.ClusterDestinations">
+            <summary>
+            集群目的地
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterDto.HealthCheck">
+            <summary>
+            健康检查
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterHealthCheckDto.ClusterId">
+            <summary>
+            关联集群ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterHealthCheckDto.Enabled">
+            <summary>
+            是否开启健康检查
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterHealthCheckDto.Interval">
+            <summary>
+            检查间隔时间(秒)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterHealthCheckDto.Timeout">
+            <summary>
+            超时时间(秒)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.ClusterHealthCheckDto.Path">
+            <summary>
+            健康检查地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto.RouteName">
+            <summary>
+            路由名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto.UseState">
+            <summary>
+            状态(0.关闭 1.开启)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto.RouteMatchPath">
+            <summary>
+            路由路径规则
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto.Description">
+            <summary>
+            描述信息
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto.PathRemovePrefix">
+            <summary>
+            路由转换(移除路由路径前缀)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto.PathPrefix">
+            <summary>
+            路由转换(增加路由路径前缀)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto.LoadBalancingPolicy">
+            <summary>
+            负载均衡策略
+            FirstAlphabetical: 在不考虑负载的情况下选择按字母顺序排列的第一个可用目的地。这对于双目的地故障转移系统很有用。
+            Random: 随机选择一个目的地。
+            PowerOfTwoChoices (默认): 选择两个随机目标，然后选择分配请求最少的目标。这避免了它选择繁忙目的地的开销LeastRequests和最坏情况。
+            RoundRobin: 通过按顺序循环选择目的地。
+            LeastRequests: 选择分配的请求最少的目标。这需要检查所有目的地。
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto.ServiceGovernanceType">
+            <summary>
+            服务治理类型(0.Default  1.Consul  2.Nacos)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto.ClusterDestinationValue">
+            <summary>
+            集群目的地信息(ServiceGovernanceType!=Default 时为服务治理名称)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto.ClusterHealthCheck">
+            <summary>
+            健康检查设置
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteDto.Id">
+            <summary>
+            路由ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteDto.RouteName">
+            <summary>
+            路由名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteDto.UseState">
+            <summary>
+            服务状态(0.关闭 1.开启)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteDto.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteDto.RouteMatchPath">
+            <summary>
+            路由路径规则
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteDto.Created">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteDto.Updated">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteDto.Cluster">
+            <summary>
+            集群
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteDto.RouteTransforms">
+            <summary>
+            路由交换配置项
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteMainDto.Id">
+            <summary>
+            路由ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteMainDto.RouteName">
+            <summary>
+            路由名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteMainDto.UseState">
+            <summary>
+            服务状态(0.关闭 1.开启)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteMainDto.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteMainDto.RouteMatchPath">
+            <summary>
+            路由路径规则
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RoutePageDto.Id">
+            <summary>
+            路由ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RoutePageDto.RouteName">
+            <summary>
+            路由名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RoutePageDto.UseState">
+            <summary>
+            服务状态(0.关闭 1.开启)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RoutePageDto.RouteMatchPath">
+            <summary>
+            路由路径规则
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RoutePageDto.Description">
+            <summary>
+            备注信息
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RoutePageDto.Created">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RoutePageDto.ClusterId">
+            <summary>
+            集群ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RoutePageDto.ServiceGovernanceType">
+            <summary>
+            服务治理类型(0.Default  1.Consul  2.Nacos)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RoutePageDto.ServiceGovernanceName">
+            <summary>
+            服务治理名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RoutePageDto.LoadBalancingPolicy">
+            <summary>
+            负载均衡策略
+            FirstAlphabetical: 在不考虑负载的情况下选择按字母顺序排列的第一个可用目的地。这对于双目的地故障转移系统很有用。
+            Random: 随机选择一个目的地。
+            PowerOfTwoChoices (默认): 选择两个随机目标，然后选择分配请求最少的目标。这避免了它选择繁忙目的地的开销LeastRequests和最坏情况。
+            RoundRobin: 通过按顺序循环选择目的地。
+            LeastRequests: 选择分配的请求最少的目标。这需要检查所有目的地。
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteTransformDto.Id">
+            <summary>
+            交换配置ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteTransformDto.RouteId">
+            <summary>
+            关联服务ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteTransformDto.TransformsName">
+            <summary>
+            交换配置项名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.RouteTransformDto.TransformsValue">
+            <summary>
+            交换配置项值
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.RouteId">
+            <summary>
+            路由ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.RouteName">
+            <summary>
+            路由名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.UseState">
+            <summary>
+            状态(0.关闭 1.开启)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.RouteMatchPath">
+            <summary>
+            路由路径规则
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.Description">
+            <summary>
+            描述信息
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.PathRemovePrefix">
+            <summary>
+            路由转换(移除路由路径前缀)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.PathPrefix">
+            <summary>
+            路由转换(增加路由路径前缀)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.LoadBalancingPolicy">
+            <summary>
+            负载均衡策略
+            FirstAlphabetical: 在不考虑负载的情况下选择按字母顺序排列的第一个可用目的地。这对于双目的地故障转移系统很有用。
+            Random: 随机选择一个目的地。
+            PowerOfTwoChoices (默认): 选择两个随机目标，然后选择分配请求最少的目标。这避免了它选择繁忙目的地的开销LeastRequests和最坏情况。
+            RoundRobin: 通过按顺序循环选择目的地。
+            LeastRequests: 选择分配的请求最少的目标。这需要检查所有目的地。
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.ServiceGovernanceType">
+            <summary>
+            服务治理类型(0.Default  1.Consul  2.Nacos)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.ClusterDestinationValue">
+            <summary>
+            集群目的地信息(ServiceGovernanceType!=Default 时为服务治理名称)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto.ClusterHealthCheck">
+            <summary>
+            健康检查设置
+            </summary>
+        </member>
+        <member name="T:Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance.ServiceGovernanceConfigureDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance.ServiceGovernanceConfigureDto.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance.ServiceGovernanceConfigureDto.ConsulServer">
+            <summary>
+            Consul服务端地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance.ServiceGovernanceConfigureDto.ConsulDatacenter">
+            <summary>
+            Consul数据中心
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance.ServiceGovernanceConfigureDto.ConsulToken">
+            <summary>
+            Consul访问令牌
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance.ServiceGovernanceConfigureDto.NacosServer">
+            <summary>
+            Nacos服务器地址
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance.ServiceGovernanceConfigureDto.NacosGroupName">
+            <summary>
+            Nacos群组名
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance.ServiceGovernanceConfigureDto.NacosNamespaceId">
+            <summary>
+            Nacos命名空间ID
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ValidateTokenDto.AccessToken">
+            <summary>
+            请求token
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.ValidateTokenDto.ReuqestPath">
+            <summary>
+            请求路径
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.CreateWhitelistDto.RouteId">
+            <summary>
+            所属路由(为空则全局)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.CreateWhitelistDto.Name">
+            <summary>
+            白名单名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.CreateWhitelistDto.FilterText">
+            <summary>
+            过滤文本(根据类型保存的值为路径或者正则表达式)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.CreateWhitelistDto.RequestMethod">
+            <summary>
+            请求方式(多请求方式使用,分隔)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.CreateWhitelistDto.UseState">
+            <summary>
+            启用状态
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.UpdateWhitelistDto.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.UpdateWhitelistDto.RouteId">
+            <summary>
+            所属路由(为空则全局)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.UpdateWhitelistDto.Name">
+            <summary>
+            白名单名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.UpdateWhitelistDto.FilterText">
+            <summary>
+            过滤文本(根据类型保存的值为路径或者正则表达式)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.UpdateWhitelistDto.RequestMethod">
+            <summary>
+            请求方式(多请求方式使用,分隔)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.UpdateWhitelistDto.UseState">
+            <summary>
+            启用状态
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.WhitelistDto.RouteId">
+            <summary>
+            所属路由(为空则全局)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.WhitelistDto.Name">
+            <summary>
+            白名单名称
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.WhitelistDto.FilterText">
+            <summary>
+            过滤文本(根据类型保存的值为路径或者正则表达式)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.WhitelistDto.RequestMethod">
+            <summary>
+            请求方式(多请求方式使用,分隔)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.WhitelistDto.UseState">
+            <summary>
+            启用状态
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.WhitelistDto.Created">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.WhitelistDto.RouteName">
+            <summary>
+            关联路由名称
+            </summary>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.LoginAsync(Kite.Gateway.Application.Contracts.Dtos.Administrator.LoginAdministratorDto)">
+            <summary>
+            管理员登录
+            </summary>
+            <param name="loginAdministrator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.GetAsync(System.Guid)">
+            <summary>
+            获取管理员账号详情信息
+            </summary>
+            <param name="id">节点ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.UpdateAsync(Kite.Gateway.Application.Contracts.Dtos.Administrator.UpdateAdministratorDto)">
+            <summary>
+            更新管理员账号数据
+            </summary>
+            <param name="updateAdministrator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.GetListAsync(System.Int32,System.Int32)">
+            <summary>
+            获取管理员账号列表
+            </summary>
+            <param name="page"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.DeleteAsync(System.Guid)">
+            <summary>
+            删除管理员账号
+            </summary>
+            <param name="id">管理员ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.CreateAsync(Kite.Gateway.Application.Contracts.Dtos.Administrator.CreateAdministratorDto)">
+            <summary>
+            创建管理员账号
+            </summary>
+            <param name="createAdministrator"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Kite.Gateway.Application.Contracts.IAuthorizationAppService">
+            <summary>
+            授权相关接口
+            </summary>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IAuthorizationAppService.GetAuthenticationAsync">
+            <summary>
+            获取身份认证配置信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IAuthorizationAppService.SaveAuthenticationAsync(Kite.Gateway.Application.Contracts.Dtos.Authorization.SaveAuthenticationDto)">
+            <summary>
+            保存身份认证配置信息
+            </summary>
+            <param name="authenticationDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IConfigureAppService.GetConfigureAsync(Kite.Gateway.Application.Contracts.Dtos.Node.ReloadConfigureDto)">
+            <summary>
+            根据推送配置获取配置项数据
+            </summary>
+            <param name="reloadConfigure"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Kite.Gateway.Application.Contracts.IMiddlewareAppService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.GetListAsync(System.String,System.Int32,System.Int32)">
+            <summary>
+            获取中间件列表
+            </summary>
+            <param name="kw">关键字</param>
+            <param name="page">当前页码</param>
+            <param name="pageSize">每页记录数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.GetAsync(System.Guid)">
+            <summary>
+            根据ID获取中间件信息
+            </summary>
+            <param name="id">中间件ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.UpdateAsync(Kite.Gateway.Application.Contracts.Dtos.Middleware.UpdateMiddlewareDto)">
+            <summary>
+            更新中间件信息
+            </summary>
+            <param name="middlewareDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.UpdateUseStateAsync(System.Guid,System.Boolean)">
+            <summary>
+            更新中间件状态
+            </summary>
+            <param name="id">中间件ID</param>
+            <param name="useState">状态</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.CreateAsync(Kite.Gateway.Application.Contracts.Dtos.Middleware.CreateMiddlewareDto)">
+            <summary>
+            创建中间件信息
+            </summary>
+            <param name="middlewareDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.DeleteAsync(System.Guid)">
+            <summary>
+            根据ID删除中间件信息
+            </summary>
+            <param name="id">中间件ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.INodeAppService.GetAsync">
+            <summary>
+            获取所有节点数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.INodeAppService.GetAsync(System.Guid)">
+            <summary>
+            获取节点详情信息
+            </summary>
+            <param name="id">节点ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.INodeAppService.UpdateAsync(Kite.Gateway.Application.Contracts.Dtos.Node.UpdateNodeDto)">
+            <summary>
+            更新节点数据
+            </summary>
+            <param name="updateNode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.INodeAppService.GetNodesAsync(System.Int32,System.Int32)">
+            <summary>
+            获取节点列表
+            </summary>
+            <param name="page"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.INodeAppService.DeleteAsync(System.Guid)">
+            <summary>
+            删除节点
+            </summary>
+            <param name="id">节点ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.INodeAppService.CreateAsync(Kite.Gateway.Application.Contracts.Dtos.Node.CreateNodeDto)">
+            <summary>
+            创建节点
+            </summary>
+            <param name="createNode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IRefreshAppService.RefreshConfigureAsync(Kite.Gateway.Application.Contracts.Dtos.RefreshConfigureDto)">
+            <summary>
+            刷新配置数据
+            </summary>
+            <param name="refreshConfigure"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Kite.Gateway.Application.Contracts.IRouteAppService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.GetAsync">
+            <summary>
+            获取全部路由数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.GetPageAsync(System.String,System.Int32,System.Int32)">
+            <summary>
+            获取路由列表
+            </summary>
+            <param name="kw">关键字</param>
+            <param name="page">当前页码</param>
+            <param name="pageSize">每页记录数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.GetAsync(System.Guid)">
+            <summary>
+            根据路由ID获取路由信息
+            </summary>
+            <param name="routeId">路由ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.CreateAsync(Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto)">
+            <summary>
+            创建路由
+            </summary>
+            <param name="createRouteDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.DeleteAsync(System.Guid)">
+            <summary>
+            删除路由
+            </summary>
+            <param name="routeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.UpdateAsync(Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto)">
+            <summary>
+            更新路由信息
+            </summary>
+            <param name="updateRouteDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.UpdateStateAsync(System.Guid,System.Boolean)">
+            <summary>
+            更新路由状态
+            </summary>
+            <param name="routeId">路由ID</param>
+            <param name="useState">路由状态</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kite.Gateway.Application.Contracts.IServiceGovernanceAppService">
+            <summary>
+            服务治理相关配置
+            </summary>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IServiceGovernanceAppService.GetServiceGovernanceConfigureAsync">
+            <summary>
+            获取服务治理配置信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IServiceGovernanceAppService.SaveServiceGovernanceConfigureAsync(Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance.ServiceGovernanceConfigureDto)">
+            <summary>
+            保存服务治理相关配置信息
+            </summary>
+            <param name="configure"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Kite.Gateway.Application.Contracts.IWhitelistAppService">
+            <summary>
+            白名单
+            </summary>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.GetAsync(System.Guid)">
+            <summary>
+            获取白名单详情信息
+            </summary>
+            <param name="id">白名单ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.UpdateUseStateAsync(System.Guid,System.Boolean)">
+            <summary>
+            更新启用状态
+            </summary>
+            <param name="id">白名单ID</param>
+            <param name="useState">状态</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.UpdateAsync(Kite.Gateway.Application.Contracts.Dtos.Whitelist.UpdateWhitelistDto)">
+            <summary>
+            更新白名单数据
+            </summary>
+            <param name="updateWhiteList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.GetListAsync(System.String,System.Int32,System.Int32)">
+            <summary>
+            获取白名单列表
+            </summary>
+            <param name="kw"></param>
+            <param name="page"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.DeleteAsync(System.Guid)">
+            <summary>
+            删除白名单
+            </summary>
+            <param name="id">白名单ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.CreateAsync(Kite.Gateway.Application.Contracts.Dtos.Whitelist.CreateWhitelistDto)">
+            <summary>
+            创建白名单
+            </summary>
+            <param name="createWhiteList"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Kite.Gateway.Application.SimpleHttpException">
+            <summary>
+            简易Http响应异常
+            </summary>
+        </member>
+        <member name="M:Kite.Gateway.Application.SimpleHttpException.#ctor(System.String)">
+            <summary>
+            简易Http响应异常
+            </summary>
+            <param name="message">异常消息</param>
+        </member>
+        <member name="P:Kite.Gateway.Application.KitePageResult`1.Count">
+            <summary>
+            分页获取数据时有作用
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.KiteResult`1.Code">
+            <summary>
+            结果码(为0则表示请求成功)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.KiteResult`1.Message">
+            <summary>
+            结果消息
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.KiteResult`1.Data">
+            <summary>
+            结果数据
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.KiteResult.Code">
+            <summary>
+            结果码(为0则表示请求成功)
+            </summary>
+        </member>
+        <member name="P:Kite.Gateway.Application.KiteResult.Message">
+            <summary>
+            结果消息
+            </summary>
+        </member>
+    </members>
+</doc>
