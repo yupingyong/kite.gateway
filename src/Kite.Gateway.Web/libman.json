@@ -1,0 +1,39 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "layui@2.8.0-rc.6",
+      "destination": "wwwroot/lib/layui/",
+      "files": [
+        "dist/layui.js",
+        "dist/css/layui.css",
+        "dist/font/iconfont.eot",
+        "dist/font/iconfont.svg",
+        "dist/font/iconfont.ttf",
+        "dist/font/iconfont.woff",
+        "dist/font/iconfont.woff2"
+      ]
+    },
+    {
+      "library": "jquery@3.6.3",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "dist/jquery.js",
+        "dist/jquery.min.js",
+        "dist/jquery.min.map",
+        "dist/jquery.slim.js",
+        "dist/jquery.slim.min.js",
+        "dist/jquery.slim.min.map"
+      ]
+    },
+    {
+      "library": "jquery-form@4.3.0",
+      "destination": "wwwroot/lib/jquery-form/",
+      "files": [
+        "dist/jquery.form.min.js",
+        "dist/jquery.form.min.js.map"
+      ]
+    }
+  ]
+}
