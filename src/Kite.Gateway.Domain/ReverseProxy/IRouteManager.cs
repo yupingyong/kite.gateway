@@ -25,6 +25,6 @@ namespace Kite.Gateway.Domain.ReverseProxy
         /// <param name="transformsName">交换项名称</param>
         /// <param name="transformsValue">交换项值</param>
         /// <returns></returns>
-        Task<RouteTransform> CreateRouteTransformAsync(Guid routeId,string transformsName,string transformsValue);
+        Task<RouteTransform> CreateRouteTransformAsync(int routeId,string transformsName,string transformsValue);
     }
 }

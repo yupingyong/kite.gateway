@@ -36,13 +36,15 @@ using Kite.Gateway.Application.Contracts.Dtos;
 using Kite.Gateway.Application.Contracts;
 using Serilog;
 using Microsoft.AspNetCore.HttpOverrides;
+using Kite.Gateway.EntityFrameworkCore;
 
 namespace Kite.Gateway.Web
 {
     [DependsOn(
          typeof(AbpAutofacModule),
          typeof(ApplicationModule),
-         typeof(AbpSwashbuckleModule)
+         typeof(AbpSwashbuckleModule),
+         typeof(EntityFrameworkCoreModule)
      )]
     public class WebModule:AbpModule
     {

@@ -7,13 +7,8 @@ using Volo.Abp.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 namespace Kite.Gateway.Domain.Entities
 {
-    public class AuthenticationConfigure : Entity<Guid>
+    public class AuthenticationConfigure : Entity<int>
     {
-        public AuthenticationConfigure() { }
-        public AuthenticationConfigure(Guid id) : base(id)
-        {
-            
-        }
         /// <summary>
         /// 是否开启
         /// </summary>

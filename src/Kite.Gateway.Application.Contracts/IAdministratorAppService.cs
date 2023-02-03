@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Kite.Gateway.Application.Contracts
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IAdministratorAppService
     {
         /// <summary>
@@ -20,7 +23,7 @@ namespace Kite.Gateway.Application.Contracts
         /// </summary>
         /// <param name="id">节点ID</param>
         /// <returns></returns>
-        Task<KiteResult<AdministratorDto>> GetAsync(Guid id);
+        Task<KiteResult<AdministratorDto>> GetAsync(int id);
         /// <summary>
         /// 更新管理员账号数据
         /// </summary>
@@ -39,7 +42,7 @@ namespace Kite.Gateway.Application.Contracts
         /// </summary>
         /// <param name="id">管理员ID</param>
         /// <returns></returns>
-        Task<KiteResult> DeleteAsync(Guid id);
+        Task<KiteResult> DeleteAsync(int id);
         /// <summary>
         /// 创建管理员账号
         /// </summary>

@@ -8,12 +8,8 @@ using Volo.Abp.Domain.Entities;
 
 namespace Kite.Gateway.Domain.Entities
 {
-    public class Administrator : Entity<Guid>
+    public class Administrator : Entity<int>
     {
-        public Administrator() { }
-        public Administrator(Guid id) : base(id)
-        {
-        }
         /// <summary>
         /// 管理员名
         /// </summary>

@@ -14,7 +14,7 @@ namespace Kite.Gateway.Application.Contracts.Dtos.ReverseProxy
         /// 路由ID
         /// </summary>
         [Required]
-        public Guid RouteId { get; set; }
+        public int RouteId { get; set; }
         /// <summary>
         /// 路由名称
         /// </summary>

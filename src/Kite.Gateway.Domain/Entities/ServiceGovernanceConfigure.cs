@@ -10,13 +10,8 @@ namespace Kite.Gateway.Domain.Entities
     /// <summary>
     /// 服务治理配置
     /// </summary>
-    public class ServiceGovernanceConfigure : Entity<Guid>
+    public class ServiceGovernanceConfigure : Entity<int>
     {
-        public ServiceGovernanceConfigure() { }
-        public ServiceGovernanceConfigure(Guid id) : base(id)
-        {
-
-        }
         /// <summary>
         /// Consul服务端地址
         /// </summary>

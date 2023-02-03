@@ -29,7 +29,7 @@ namespace Kite.Gateway.Domain.Node
             {
                 throw new ArgumentException("节点服务器地址已经存在");
             }
-            return new Entities.Node(GuidGenerator.Create())
+            return new Entities.Node()
             {
                 Created = DateTime.Now,
                 Updated = DateTime.Now,
@@ -40,7 +40,7 @@ namespace Kite.Gateway.Domain.Node
             };
         }
 
-        public async Task<Entities.Node> UpdateAsync(Guid id, string nodeName, string server)
+        public async Task<Entities.Node> UpdateAsync(int id, string nodeName, string server)
         {
             if (await _repository.AnyAsync(x => x.NodeName == nodeName && x.Id != id))
             {

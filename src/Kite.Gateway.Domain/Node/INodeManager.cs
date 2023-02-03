@@ -15,7 +15,7 @@ namespace Kite.Gateway.Domain.Node
         /// <param name="nodeName">节点名称</param>
         /// <param name="server">服务地址</param>
         /// <returns></returns>
-        Task<Entities.Node> UpdateAsync(Guid id,string nodeName, string server);
+        Task<Entities.Node> UpdateAsync(int id,string nodeName, string server);
         /// <summary>
         /// 创建网关节点
         /// </summary>

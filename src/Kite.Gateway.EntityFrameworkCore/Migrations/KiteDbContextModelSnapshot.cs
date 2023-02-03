@@ -18,12 +18,13 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.Sqlite)
-                .HasAnnotation("ProductVersion", "6.0.7");
+                .HasAnnotation("ProductVersion", "7.0.2");
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Administrator", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("AdminName")
                         .HasMaxLength(32)
@@ -50,8 +51,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.AuthenticationConfigure", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Audience")
                         .HasMaxLength(512)
@@ -107,8 +109,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Cluster", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClusterName")
                         .HasMaxLength(128)
@@ -118,8 +121,8 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("RouteId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("RouteId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ServiceGovernanceName")
                         .HasMaxLength(128)
@@ -135,11 +138,12 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.ClusterDestination", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("ClusterId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ClusterId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("DestinationAddress")
                         .HasMaxLength(1024)
@@ -156,11 +160,12 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.ClusterHealthCheck", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("ClusterId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ClusterId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("Enabled")
                         .HasColumnType("INTEGER");
@@ -186,8 +191,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Middleware", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
@@ -223,8 +229,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Node", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("AccessToken")
                         .HasMaxLength(512)
@@ -255,8 +262,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Route", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
@@ -290,11 +298,12 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.RouteTransform", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("RouteId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("RouteId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("TransformsName")
                         .HasMaxLength(128)
@@ -311,8 +320,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.ServiceGovernanceConfigure", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ConsulDatacenter")
                         .HasMaxLength(128)
@@ -345,8 +355,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Kite.Gateway.Domain.Entities.Whitelist", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
@@ -363,8 +374,8 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("RouteId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("RouteId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("UseState")
                         .HasColumnType("INTEGER");

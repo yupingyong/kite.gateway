@@ -15,7 +15,7 @@ namespace Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance
         /// <summary>
         /// ID
         /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// Consul服务端地址
         /// </summary>

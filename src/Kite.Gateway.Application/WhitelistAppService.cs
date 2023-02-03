@@ -44,7 +44,7 @@ namespace Kite.Gateway.Application
             var routes = await _routeRepository.GetListAsync();
             foreach (var item in result)
             {
-                if (item.RouteId != default(Guid))
+                if (item.RouteId != 0)
                 {
                     item.RouteName = routes.Where(x => x.Id == item.RouteId).Select(x => x.RouteName).FirstOrDefault();
                 }
@@ -56,7 +56,7 @@ namespace Kite.Gateway.Application
             return Ok(result, totalCount);
         }
 
-        public async Task<KiteResult> DeleteAsync(Guid id)
+        public async Task<KiteResult> DeleteAsync(int id)
         {
             var model = await _whiteListRepository.FirstOrDefaultAsync(x => x.Id == id);
             if (model != null)
@@ -85,7 +85,7 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<KiteResult<WhitelistDto>> GetAsync(Guid id)
+        public async Task<KiteResult<WhitelistDto>> GetAsync(int id)
         {
             var result = (await _whiteListRepository.GetQueryableAsync())
                 .Where(x => x.Id == id)
@@ -94,7 +94,7 @@ namespace Kite.Gateway.Application
             return Ok(result);
         }
 
-        public async Task<KiteResult> UpdateUseStateAsync(Guid id, bool useState)
+        public async Task<KiteResult> UpdateUseStateAsync(int id, bool useState)
         {
             var model = await _whiteListRepository.FirstOrDefaultAsync(x => x.Id == id);
             if (model == null)

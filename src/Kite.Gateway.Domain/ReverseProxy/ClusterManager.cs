@@ -21,14 +21,14 @@ namespace Kite.Gateway.Domain.ReverseProxy
             _clusterRepository = clusterRepository;
         }
 
-        public async Task<Cluster> CreateAsync(Guid routeId, string clusterName, ServiceGovernanceType serviceGovernanceType, string serviceGovernanceName,string loadBalancingPolicy)
+        public async Task<Cluster> CreateAsync(int routeId, string clusterName, ServiceGovernanceType serviceGovernanceType, string serviceGovernanceName,string loadBalancingPolicy)
         {
             var cluster = await _clusterRepository.FindAsync(x => x.RouteId == routeId);
             if (cluster != null)
             {
                 throw  new Exception("同一个路由下只能创建一个集群");
             }
-            return  new Cluster(GuidGenerator.Create())
+            return  new Cluster()
             {
                 ClusterName= clusterName,
                 RouteId= routeId,
@@ -37,10 +37,10 @@ namespace Kite.Gateway.Domain.ReverseProxy
                 LoadBalancingPolicy= loadBalancingPolicy
             };
         }
-        public Task<ClusterDestination> CreateClusterDestinationAsync(Guid clusterId, string destinationName, string destinationAddress)
+        public Task<ClusterDestination> CreateClusterDestinationAsync(int clusterId, string destinationName, string destinationAddress)
         {
             return Task.Factory.StartNew(() => {
-                return new ClusterDestination(GuidGenerator.Create())
+                return new ClusterDestination()
                 {
                     DestinationAddress = destinationAddress,
                     ClusterId = clusterId,
@@ -52,7 +52,7 @@ namespace Kite.Gateway.Domain.ReverseProxy
         public Task<ClusterHealthCheck> CreateHealthCheckAsync<TDto>(TDto healthCheck) where TDto : class
         {
             return Task.Factory.StartNew(() => {
-                var model= new ClusterHealthCheck(GuidGenerator.Create());
+                var model= new ClusterHealthCheck();
                 model.Policy = HealthCheckConstants.ActivePolicy.ConsecutiveFailures;
                 TypeAdapter.Adapt(healthCheck, model);
                 return model;

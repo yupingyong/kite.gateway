@@ -12,12 +12,8 @@ namespace Kite.Gateway.Domain.Entities
     /// <summary>
     /// 中间件信息记录表
     /// </summary>
-    public class Middleware : Entity<Guid>
+    public class Middleware : Entity<int>
     {
-        public Middleware() { }
-        public Middleware(Guid id) : base(id)
-        {
-        }
         /// <summary>
         /// 中间件名称
         /// </summary>

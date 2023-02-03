@@ -33,9 +33,9 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<KiteResult> DeleteAsync(Guid id)
+        public async Task<KiteResult> DeleteAsync(int id)
         {
-            await _repository.DeleteAsync(x=>x.Id==id);
+            await _repository.DeleteAsync(x => x.Id == id);
             return Ok();
         }
 
@@ -48,7 +48,7 @@ namespace Kite.Gateway.Application
             return Ok(result);
         }
 
-        public async Task<KiteResult<NodeDto>> GetAsync(Guid id)
+        public async Task<KiteResult<NodeDto>> GetAsync(int id)
         {
             var result= (await _repository.GetQueryableAsync())
                 .Where(x => x.Id == id)

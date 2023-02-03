@@ -16,7 +16,7 @@ namespace Kite.Gateway.Application.Contracts.Dtos.Authorization
         /// ID
         /// </summary>
         [Required]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 是否开启
         /// </summary>

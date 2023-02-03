@@ -20,7 +20,7 @@ namespace Kite.Gateway.Application.Contracts
         /// </summary>
         /// <param name="id">节点ID</param>
         /// <returns></returns>
-        Task<KiteResult<NodeDto>> GetAsync(Guid id);
+        Task<KiteResult<NodeDto>> GetAsync(int id);
         /// <summary>
         /// 更新节点数据
         /// </summary>
@@ -40,7 +40,7 @@ namespace Kite.Gateway.Application.Contracts
         /// </summary>
         /// <param name="id">节点ID</param>
         /// <returns></returns>
-        Task<KiteResult> DeleteAsync(Guid id);
+        Task<KiteResult> DeleteAsync(int id);
         /// <summary>
         /// 创建节点
         /// </summary>

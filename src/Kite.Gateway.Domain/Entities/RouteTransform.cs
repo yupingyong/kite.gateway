@@ -11,16 +11,12 @@ namespace Kite.Gateway.Domain.Entities
     /// <summary>
     /// 服务交换配置表
     /// </summary>
-    public class RouteTransform : Entity<Guid>
+    public class RouteTransform : Entity<int>
     {
-        public RouteTransform() { }
-        public RouteTransform(Guid id) : base(id)
-        {
-        }
         /// <summary>
         /// 关联路由ID
         /// </summary>
-        public Guid RouteId { get; set; }
+        public int RouteId { get; set; }
         /// <summary>
         /// 交换配置项名称
         /// </summary>

@@ -12,7 +12,7 @@ namespace Kite.Gateway.Application.Contracts.Dtos.ReverseProxy
         /// <summary>
         /// 路由ID
         /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 路由名称
         /// </summary>
@@ -38,7 +38,7 @@ namespace Kite.Gateway.Application.Contracts.Dtos.ReverseProxy
         /// <summary>
         /// 集群ID
         /// </summary>
-        public Guid ClusterId { get; set; }
+        public int ClusterId { get; set; }
         /// <summary>
         /// 服务治理类型(0.Default  1.Consul  2.Nacos)
         /// </summary>

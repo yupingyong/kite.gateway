@@ -26,7 +26,7 @@ namespace Kite.Gateway.Application.Contracts
         /// </summary>
         /// <param name="id">中间件ID</param>
         /// <returns></returns>
-        Task<KiteResult<MiddlewareDto>> GetAsync(Guid id);
+        Task<KiteResult<MiddlewareDto>> GetAsync(int id);
         /// <summary>
         /// 更新中间件信息
         /// </summary>
@@ -39,7 +39,7 @@ namespace Kite.Gateway.Application.Contracts
         /// <param name="id">中间件ID</param>
         /// <param name="useState">状态</param>
         /// <returns></returns>
-        Task<KiteResult> UpdateUseStateAsync(Guid id,bool useState);
+        Task<KiteResult> UpdateUseStateAsync(int id,bool useState);
         /// <summary>
         /// 创建中间件信息
         /// </summary>
@@ -51,6 +51,6 @@ namespace Kite.Gateway.Application.Contracts
         /// </summary>
         /// <param name="id">中间件ID</param>
         /// <returns></returns>
-        Task<KiteResult> DeleteAsync(Guid id);
+        Task<KiteResult> DeleteAsync(int id);
     }
 }

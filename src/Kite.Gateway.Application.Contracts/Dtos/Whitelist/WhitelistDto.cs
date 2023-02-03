@@ -9,11 +9,14 @@ namespace Kite.Gateway.Application.Contracts.Dtos.Whitelist
 {
     public class WhitelistDto
     {
-        public Guid Id { get; set; }
         /// <summary>
-        /// 所属路由(为空则全局)
+        /// 白名单ID
         /// </summary>
-        public Guid? RouteId { get; set; }
+        public int Id { get; set; }
+        /// <summary>
+        /// 所属路由(为 0 则全局)
+        /// </summary>
+        public int RouteId { get; set; }
         /// <summary>
         /// 白名单名称
         /// </summary>

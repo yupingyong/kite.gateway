@@ -37,7 +37,7 @@ namespace Kite.Gateway.Application
             var model = await _repository.FirstOrDefaultAsync();
             if (model == null)
             {
-                model = new ServiceGovernanceConfigure(GuidGenerator.Create());
+                model = new ServiceGovernanceConfigure();
                 TypeAdapter.Adapt(configure, model);
                 await _repository.InsertAsync(model);
             }

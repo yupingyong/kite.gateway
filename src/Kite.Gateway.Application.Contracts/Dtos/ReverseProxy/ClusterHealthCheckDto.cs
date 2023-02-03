@@ -12,7 +12,7 @@ namespace Kite.Gateway.Application.Contracts.Dtos.ReverseProxy
         /// <summary>
         /// 关联集群ID
         /// </summary>
-        public Guid ClusterId { get; set; }
+        public int ClusterId { get; set; }
         /// <summary>
         /// 是否开启健康检查
         /// </summary>

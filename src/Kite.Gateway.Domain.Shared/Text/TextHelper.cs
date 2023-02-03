@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography;
-namespace Kite.Gateway.Domain.Shared
+
+namespace Kite.Gateway.Domain.Shared.Text
 {
     public class TextHelper
     {
@@ -15,7 +16,7 @@ namespace Kite.Gateway.Domain.Shared
         {
             string tempStr = "";
             MD5 md5 = MD5.Create();
-            byte[] data = System.Text.Encoding.UTF8.GetBytes(SourceText);//将字符编码为一个字节序列 
+            byte[] data = Encoding.UTF8.GetBytes(SourceText);//将字符编码为一个字节序列 
             byte[] md5data = md5.ComputeHash(data);//计算data字节数组的哈希值 
             md5.Dispose();
 
@@ -51,7 +52,7 @@ namespace Kite.Gateway.Domain.Shared
         public static string HmacSHA256(string message, string secret)
         {
             secret = secret ?? "";
-            var encoding = new System.Text.UTF8Encoding();
+            var encoding = new UTF8Encoding();
             byte[] keyByte = encoding.GetBytes(secret);
             byte[] messageBytes = encoding.GetBytes(message);
             using (var hmacsha256 = new HMACSHA256(keyByte))

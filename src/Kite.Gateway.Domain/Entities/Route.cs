@@ -11,12 +11,8 @@ namespace Kite.Gateway.Domain.Entities
     /// <summary>
     /// 服务配置表
     /// </summary>
-    public class Route : Entity<Guid>
+    public class Route : Entity<int>
     {
-        public Route() { }
-        public Route(Guid id) : base(id)
-        {
-        }
         /// <summary>
         /// 路由ID同主键ID
         /// </summary>

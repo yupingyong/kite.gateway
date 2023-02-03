@@ -11,13 +11,8 @@ namespace Kite.Gateway.Domain.Entities
     /// <summary>
     /// 网关集群部署节点信息表
     /// </summary>
-    public class Node : Entity<Guid>
+    public class Node : Entity<int>
     {
-        public Node() { }
-        public Node(Guid id) : base(id)
-        {
-
-        }
         /// <summary>
         /// 节点名称
         /// </summary>

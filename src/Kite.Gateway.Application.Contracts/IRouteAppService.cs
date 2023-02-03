@@ -31,7 +31,7 @@ namespace Kite.Gateway.Application.Contracts
         /// </summary>
         /// <param name="routeId">路由ID</param>
         /// <returns></returns>
-        Task<KiteResult<RouteDto>> GetAsync(Guid routeId);
+        Task<KiteResult<RouteDto>> GetAsync(int routeId);
         /// <summary>
         /// 创建路由
         /// </summary>
@@ -43,7 +43,7 @@ namespace Kite.Gateway.Application.Contracts
         /// </summary>
         /// <param name="routeId"></param>
         /// <returns></returns>
-        Task<KiteResult> DeleteAsync(Guid routeId);
+        Task<KiteResult> DeleteAsync(int routeId);
         /// <summary>
         /// 更新路由信息
         /// </summary>
@@ -56,6 +56,6 @@ namespace Kite.Gateway.Application.Contracts
         /// <param name="routeId">路由ID</param>
         /// <param name="useState">路由状态</param>
         /// <returns></returns>
-        Task<KiteResult> UpdateStateAsync(Guid routeId, bool useState);
+        Task<KiteResult> UpdateStateAsync(int routeId, bool useState);
     }
 }

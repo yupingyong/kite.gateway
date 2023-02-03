@@ -26,8 +26,7 @@ namespace Kite.Gateway.Domain.ReverseProxy
             {
                 throw new Exception("路由名称或者路由路径已经存在");
             }
-            var id = GuidGenerator.Create();
-            return new Route(id) 
+            return new Route() 
             {
                 Created=DateTime.Now,
                 RouteMatchPath = routeMatchPath,
@@ -35,15 +34,15 @@ namespace Kite.Gateway.Domain.ReverseProxy
                 RouteName = routeName,
                 Updated=DateTime.Now,
                 Description=string.IsNullOrEmpty(description)?"":description,
-                RouteId= id.ToString(),
+                RouteId= GuidGenerator.Create().ToString(),
             };
         }
 
-        public Task<RouteTransform> CreateRouteTransformAsync(Guid routeId, string transformsName, string transformsValue)
+        public Task<RouteTransform> CreateRouteTransformAsync(int routeId, string transformsName, string transformsValue)
         {
             return Task.Run(() => 
             {
-                return new RouteTransform(GuidGenerator.Create()) 
+                return new RouteTransform() 
                 {
                     RouteId = routeId,
                     TransformsName = transformsName,

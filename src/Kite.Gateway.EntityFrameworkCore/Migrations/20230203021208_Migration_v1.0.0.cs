@@ -5,15 +5,18 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kite.Gateway.EntityFrameworkCore.Migrations
 {
-    public partial class Migration_v100 : Migration
+    /// <inheritdoc />
+    public partial class Migrationv100 : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
                 name: "Administrators",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     AdminName = table.Column<string>(type: "TEXT", maxLength: 32, nullable: true),
                     Password = table.Column<string>(type: "TEXT", maxLength: 64, nullable: true),
                     NickName = table.Column<string>(type: "TEXT", maxLength: 64, nullable: true),
@@ -29,7 +32,8 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 name: "AuthenticationConfigures",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     UseState = table.Column<bool>(type: "INTEGER", nullable: false),
                     Issuer = table.Column<string>(type: "TEXT", maxLength: 512, nullable: true),
                     Audience = table.Column<string>(type: "TEXT", maxLength: 512, nullable: true),
@@ -54,8 +58,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 name: "ClusterDestinations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ClusterId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ClusterId = table.Column<int>(type: "INTEGER", nullable: false),
                     DestinationName = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
                     DestinationAddress = table.Column<string>(type: "TEXT", maxLength: 1024, nullable: true)
                 },
@@ -68,8 +73,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 name: "ClusterHealthChecks",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ClusterId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ClusterId = table.Column<int>(type: "INTEGER", nullable: false),
                     Enabled = table.Column<bool>(type: "INTEGER", nullable: false),
                     Interval = table.Column<int>(type: "INTEGER", nullable: false),
                     Timeout = table.Column<int>(type: "INTEGER", nullable: false),
@@ -85,8 +91,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 name: "Clusters",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    RouteId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RouteId = table.Column<int>(type: "INTEGER", nullable: false),
                     ClusterName = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
                     LoadBalancingPolicy = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
                     ServiceGovernanceType = table.Column<int>(type: "INTEGER", nullable: false),
@@ -101,7 +108,8 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 name: "Middlewares",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 64, nullable: true),
                     Server = table.Column<string>(type: "TEXT", maxLength: 1024, nullable: true),
                     SignalType = table.Column<int>(type: "INTEGER", nullable: false),
@@ -120,11 +128,12 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 name: "Nodes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     NodeName = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
                     Description = table.Column<string>(type: "TEXT", maxLength: 512, nullable: true),
                     Server = table.Column<string>(type: "TEXT", maxLength: 1024, nullable: true),
-                    Token = table.Column<string>(type: "TEXT", maxLength: 512, nullable: true),
+                    AccessToken = table.Column<string>(type: "TEXT", maxLength: 512, nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Updated = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
@@ -137,7 +146,8 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 name: "Routes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     RouteId = table.Column<string>(type: "TEXT", maxLength: 64, nullable: true),
                     RouteName = table.Column<string>(type: "TEXT", maxLength: 64, nullable: true),
                     Description = table.Column<string>(type: "TEXT", maxLength: 512, nullable: true),
@@ -155,8 +165,9 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 name: "RouteTransforms",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    RouteId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RouteId = table.Column<int>(type: "INTEGER", nullable: false),
                     TransformsName = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
                     TransformsValue = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true)
                 },
@@ -169,10 +180,14 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 name: "ServiceGovernanceConfigures",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     ConsulServer = table.Column<string>(type: "TEXT", maxLength: 512, nullable: true),
                     ConsulDatacenter = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
-                    ConsulToken = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true)
+                    ConsulToken = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
+                    NacosServer = table.Column<string>(type: "TEXT", maxLength: 512, nullable: true),
+                    NacosGroupName = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
+                    NacosNamespaceId = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -183,10 +198,10 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 name: "Whitelists",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    RouteId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RouteId = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 64, nullable: true),
-                    FilterType = table.Column<int>(type: "INTEGER", nullable: false),
                     FilterText = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
                     RequestMethod = table.Column<string>(type: "TEXT", maxLength: 64, nullable: true),
                     UseState = table.Column<bool>(type: "INTEGER", nullable: false),
@@ -198,6 +213,7 @@ namespace Kite.Gateway.EntityFrameworkCore.Migrations
                 });
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

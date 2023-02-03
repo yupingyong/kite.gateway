@@ -12,16 +12,12 @@ namespace Kite.Gateway.Domain.Entities
     /// <summary>
     /// 集群配置表
     /// </summary>
-    public class Cluster : Entity<Guid>
+    public class Cluster : Entity<int>
     {
-        public Cluster() { }
-        public Cluster(Guid id) : base(id)
-        {
-        }
         /// <summary>
         /// 关联路由ID
         /// </summary>
-        public Guid RouteId { get; set; }
+        public int RouteId { get; set; }
         /// <summary>
         /// 集群名称
         /// </summary>

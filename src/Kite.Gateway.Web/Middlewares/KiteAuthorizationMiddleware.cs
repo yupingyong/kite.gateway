@@ -72,16 +72,16 @@ namespace Kite.Gateway.Web.Middlewares
             var reqeustMethod = context.Request.Method.ToUpper();
             
             //白名单优先匹配局部作用域
-            if (_whitelistOptions.Any(x => x.RouteId == proxyFeature.Route.Config.RouteId))
+            if (_whitelistOptions.Any(x => x.RouteId.ToString() == proxyFeature.Route.Config.RouteId))
             {
                 Log.Warning($"CheckWhitelist:{requestPath}|{reqeustMethod}");
                 //如果局部作用域中有带*的项则直接匹配通过
-                if (_whitelistOptions.Any(x => x.RouteId == proxyFeature.Route.Config.RouteId && x.FilterText == "*"))
+                if (_whitelistOptions.Any(x => x.RouteId.ToString() == proxyFeature.Route.Config.RouteId && x.FilterText == "*"))
                 {
                     return true;
                 }
                 //如果没有带*匹配的则每项都需要匹配
-                if (_whitelistOptions.Any(x => x.RouteId == proxyFeature.Route.Config.RouteId
+                if (_whitelistOptions.Any(x => x.RouteId.ToString() == proxyFeature.Route.Config.RouteId
                     && requestPath == $"/{x.FilterText.ToLower().TrimStart('/')}"
                     && x.RequestMethod.Contains(reqeustMethod)))
                 {
@@ -91,12 +91,12 @@ namespace Kite.Gateway.Web.Middlewares
             else
             {
                 //如果全局作用域中有带*的项则直接匹配通过
-                if (_whitelistOptions.Any(x => x.RouteId == "00000000-0000-0000-0000-000000000000" && x.FilterText == "*"))
+                if (_whitelistOptions.Any(x => x.RouteId == 0 && x.FilterText == "*"))
                 {
                     return true;
                 }
                 //匹配全局
-                if (_whitelistOptions.Any(x => x.RouteId == "00000000-0000-0000-0000-000000000000"
+                if (_whitelistOptions.Any(x => x.RouteId == 0
                     && requestPath == $"/{x.FilterText.ToLower().TrimStart('/')}"
                     && x.RequestMethod.Contains(reqeustMethod)))
                 {

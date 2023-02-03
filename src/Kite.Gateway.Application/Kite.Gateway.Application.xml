@@ -71,11 +71,11 @@
             <param name="createRouteDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.RouteAppService.DeleteAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.RouteAppService.DeleteAsync(System.Int32)">
             <summary>
             删除路由
             </summary>
-            <param name="routeId">路由ID</param>
+            <param name="id">路由ID</param>
             <returns></returns>
         </member>
         <member name="M:Kite.Gateway.Application.RouteAppService.GetPageAsync(System.String,System.Int32,System.Int32)">
@@ -87,7 +87,7 @@
             <param name="pageSize">每页记录数</param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.RouteAppService.GetAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.RouteAppService.GetAsync(System.Int32)">
             <summary>
             根据路由ID获取路由信息
             </summary>
@@ -101,11 +101,11 @@
             <param name="updateRouteDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.RouteAppService.UpdateStateAsync(System.Guid,System.Boolean)">
+        <member name="M:Kite.Gateway.Application.RouteAppService.UpdateStateAsync(System.Int32,System.Boolean)">
             <summary>
             更新路由状态
             </summary>
-            <param name="routeId">路由ID</param>
+            <param name="id">路由ID</param>
             <param name="useState">路由状态(1.开启 0.关闭)</param>
             <returns></returns>
         </member>

@@ -14,7 +14,7 @@ namespace Kite.Gateway.Domain.Shared.Options
         /// <summary>
         /// ID
         /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 是否开启
         /// </summary>

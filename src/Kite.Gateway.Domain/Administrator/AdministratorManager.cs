@@ -36,7 +36,7 @@ namespace Kite.Gateway.Domain.Administrator
             {
                 throw new ArgumentException("管理员账号已经存在");
             }
-            return new Entities.Administrator(GuidGenerator.Create())
+            return new Entities.Administrator()
             { 
                 Created = DateTime.Now,
                 Updated=DateTime.Now
@@ -45,7 +45,7 @@ namespace Kite.Gateway.Domain.Administrator
 
         
 
-        public async Task<Entities.Administrator> UpdateAsync(Guid id, string adminName)
+        public async Task<Entities.Administrator> UpdateAsync(int id, string adminName)
         {
             if (await _repository.AnyAsync(x => x.AdminName == adminName && x.Id!=id))
             {

@@ -24,6 +24,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Kite.Gateway.Application\Kite.Gateway.Application.csproj" />
+		<ProjectReference Include="..\Kite.Gateway.EntityFrameworkCore\Kite.Gateway.EntityFrameworkCore.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -35,6 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="data\db\" />
 	  <Folder Include="data\logs\" />
 	</ItemGroup>
 </Project>

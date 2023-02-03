@@ -16,11 +16,11 @@ namespace Kite.Gateway.Domain.Shared.Options
         /// <summary>
         /// ID
         /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
-        /// 所属路由(为空则全局)
+        /// 所属路由(为 0 则全局)
         /// </summary>
-        public string RouteId { get; set; }
+        public int RouteId { get; set; }
         /// <summary>
         /// 白名单名称
         /// </summary>

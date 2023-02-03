@@ -11,7 +11,7 @@ namespace Kite.Gateway.Application.Contracts.Dtos.Node
         /// <summary>
         /// ID
         /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 节点名称
         /// </summary>

@@ -19,7 +19,7 @@ namespace Kite.Gateway.Domain.Whitelist
         }
         public async Task<Entities.Whitelist> CreateAsync<T>(T whiteList)
         {
-            var model= new Entities.Whitelist(GuidGenerator.Create())
+            var model= new Entities.Whitelist()
             {
                 Created = DateTime.Now
             };

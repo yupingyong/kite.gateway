@@ -11,16 +11,12 @@ namespace Kite.Gateway.Domain.Entities
     /// <summary>
     /// 集群健康检查表
     /// </summary>
-    public class ClusterHealthCheck : Entity<Guid>
+    public class ClusterHealthCheck : Entity<int>
     {
-        public ClusterHealthCheck() { }
-        public ClusterHealthCheck(Guid id) : base(id)
-        {
-        }
         /// <summary>
         /// 关联集群ID
         /// </summary>
-        public Guid ClusterId { get; set; }
+        public int ClusterId { get; set; }
         /// <summary>
         /// 是否开启健康检查
         /// </summary>

@@ -33,13 +33,13 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<KiteResult> DeleteAsync(Guid id)
+        public async Task<KiteResult> DeleteAsync(int id)
         {
             await _repository.DeleteAsync(x => x.Id == id);
             return Ok();
         }
 
-        public async Task<KiteResult<MiddlewareDto>> GetAsync(Guid id)
+        public async Task<KiteResult<MiddlewareDto>> GetAsync(int id)
         {
             var result = (await _repository.GetQueryableAsync())
                 .Where(x => x.Id == id)
@@ -70,9 +70,9 @@ namespace Kite.Gateway.Application
             return Ok();
         }
 
-        public async Task<KiteResult> UpdateUseStateAsync(Guid id, bool useState)
+        public async Task<KiteResult> UpdateUseStateAsync(int id, bool useState)
         {
-            var model = await _repository.FirstOrDefaultAsync(x=>x.Id==id);
+            var model = await _repository.FirstOrDefaultAsync(x => x.Id == id);
             model.UseState = useState;
             model.Updated = DateTime.Now;
             await _repository.UpdateAsync(model);

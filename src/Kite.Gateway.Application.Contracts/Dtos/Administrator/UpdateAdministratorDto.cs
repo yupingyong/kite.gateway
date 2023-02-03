@@ -13,7 +13,7 @@ namespace Kite.Gateway.Application.Contracts.Dtos.Administrator
         /// 账号ID
         /// </summary>
         [Required]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 管理员名
         /// </summary>

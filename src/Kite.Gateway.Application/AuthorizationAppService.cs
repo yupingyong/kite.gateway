@@ -40,7 +40,7 @@ namespace Kite.Gateway.Application
             var model =await _authenticationRepository.FirstOrDefaultAsync();
             if (model == null)
             {
-                model = new AuthenticationConfigure(GuidGenerator.Create());
+                model = new AuthenticationConfigure();
                 TypeAdapter.Adapt(authenticationDto, model);
                 await _authenticationRepository.InsertAsync(model);
             }

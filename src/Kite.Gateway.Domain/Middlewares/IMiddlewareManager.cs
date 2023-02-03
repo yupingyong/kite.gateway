@@ -21,7 +21,7 @@ namespace Kite.Gateway.Domain.Middlewares
         /// <param name="name">中间件名称</param>
         /// <param name="server">服务端地址</param>
         /// <returns></returns>
-        Task<Middleware> UpdateAsync(Guid id,string name, string server);
+        Task<Middleware> UpdateAsync(int id,string name, string server);
         /// <summary>
         /// 创建中间件
         /// </summary>

@@ -99,11 +99,11 @@ namespace Kite.Gateway.Application
         /// <summary>
         /// 删除路由
         /// </summary>
-        /// <param name="routeId">路由ID</param>
+        /// <param name="id">路由ID</param>
         /// <returns></returns>
-        public async Task<KiteResult> DeleteAsync(Guid routeId)
+        public async Task<KiteResult> DeleteAsync(int id)
         {
-            await _routeRepository.DeleteAsync(x=>x.Id==routeId);
+            await _routeRepository.DeleteAsync(x => x.Id == id);
             return Ok();
         }
         /// <summary>
@@ -150,7 +150,7 @@ namespace Kite.Gateway.Application
         /// </summary>
         /// <param name="id">路由ID</param>
         /// <returns></returns>
-        public async Task<KiteResult<RouteDto>> GetAsync(Guid id)
+        public async Task<KiteResult<RouteDto>> GetAsync(int id)
         {
             var query = await _routeRepository.GetQueryableAsync();
             //查询基本信息
@@ -233,12 +233,12 @@ namespace Kite.Gateway.Application
         /// <summary>
         /// 更新路由状态
         /// </summary>
-        /// <param name="routeId">路由ID</param>
+        /// <param name="id">路由ID</param>
         /// <param name="useState">路由状态(1.开启 0.关闭)</param>
         /// <returns></returns>
-        public async Task<KiteResult> UpdateStateAsync(Guid routeId, bool useState)
+        public async Task<KiteResult> UpdateStateAsync(int id, bool useState)
         {
-            var model = await _routeRepository.FindAsync(x => x.Id == routeId);
+            var model = await _routeRepository.FindAsync(x => x.Id == id);
             model.UseState = useState;
             model.Updated = DateTime.Now;
             await _routeRepository.UpdateAsync(model);

@@ -846,7 +846,7 @@
         </member>
         <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.CreateWhitelistDto.RouteId">
             <summary>
-            所属路由(为空则全局)
+            所属路由(为0则全局)
             </summary>
         </member>
         <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.CreateWhitelistDto.Name">
@@ -876,7 +876,7 @@
         </member>
         <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.UpdateWhitelistDto.RouteId">
             <summary>
-            所属路由(为空则全局)
+            所属路由(为 0 则全局)
             </summary>
         </member>
         <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.UpdateWhitelistDto.Name">
@@ -899,9 +899,14 @@
             启用状态
             </summary>
         </member>
+        <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.WhitelistDto.Id">
+            <summary>
+            白名单ID
+            </summary>
+        </member>
         <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.WhitelistDto.RouteId">
             <summary>
-            所属路由(为空则全局)
+            所属路由(为 0 则全局)
             </summary>
         </member>
         <member name="P:Kite.Gateway.Application.Contracts.Dtos.Whitelist.WhitelistDto.Name">
@@ -934,6 +939,11 @@
             关联路由名称
             </summary>
         </member>
+        <member name="T:Kite.Gateway.Application.Contracts.IAdministratorAppService">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.LoginAsync(Kite.Gateway.Application.Contracts.Dtos.Administrator.LoginAdministratorDto)">
             <summary>
             管理员登录
@@ -941,7 +951,7 @@
             <param name="loginAdministrator"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.GetAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.GetAsync(System.Int32)">
             <summary>
             获取管理员账号详情信息
             </summary>
@@ -963,7 +973,7 @@
             <param name="pageSize"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.DeleteAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.Contracts.IAdministratorAppService.DeleteAsync(System.Int32)">
             <summary>
             删除管理员账号
             </summary>
@@ -1016,7 +1026,7 @@
             <param name="pageSize">每页记录数</param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.GetAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.GetAsync(System.Int32)">
             <summary>
             根据ID获取中间件信息
             </summary>
@@ -1030,7 +1040,7 @@
             <param name="middlewareDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.UpdateUseStateAsync(System.Guid,System.Boolean)">
+        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.UpdateUseStateAsync(System.Int32,System.Boolean)">
             <summary>
             更新中间件状态
             </summary>
@@ -1045,7 +1055,7 @@
             <param name="middlewareDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.DeleteAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.Contracts.IMiddlewareAppService.DeleteAsync(System.Int32)">
             <summary>
             根据ID删除中间件信息
             </summary>
@@ -1058,7 +1068,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.INodeAppService.GetAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.Contracts.INodeAppService.GetAsync(System.Int32)">
             <summary>
             获取节点详情信息
             </summary>
@@ -1080,7 +1090,7 @@
             <param name="pageSize"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.INodeAppService.DeleteAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.Contracts.INodeAppService.DeleteAsync(System.Int32)">
             <summary>
             删除节点
             </summary>
@@ -1121,7 +1131,7 @@
             <param name="pageSize">每页记录数</param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.GetAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.GetAsync(System.Int32)">
             <summary>
             根据路由ID获取路由信息
             </summary>
@@ -1135,7 +1145,7 @@
             <param name="createRouteDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.DeleteAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.DeleteAsync(System.Int32)">
             <summary>
             删除路由
             </summary>
@@ -1149,7 +1159,7 @@
             <param name="updateRouteDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.UpdateStateAsync(System.Guid,System.Boolean)">
+        <member name="M:Kite.Gateway.Application.Contracts.IRouteAppService.UpdateStateAsync(System.Int32,System.Boolean)">
             <summary>
             更新路由状态
             </summary>
@@ -1180,14 +1190,14 @@
             白名单
             </summary>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.GetAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.GetAsync(System.Int32)">
             <summary>
             获取白名单详情信息
             </summary>
             <param name="id">白名单ID</param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.UpdateUseStateAsync(System.Guid,System.Boolean)">
+        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.UpdateUseStateAsync(System.Int32,System.Boolean)">
             <summary>
             更新启用状态
             </summary>
@@ -1211,7 +1221,7 @@
             <param name="pageSize"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.DeleteAsync(System.Guid)">
+        <member name="M:Kite.Gateway.Application.Contracts.IWhitelistAppService.DeleteAsync(System.Int32)">
             <summary>
             删除白名单
             </summary>

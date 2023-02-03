@@ -26,7 +26,7 @@ namespace Kite.Gateway.Domain.ReverseProxy
         /// <param name="serviceGovernanceName">服务名称</param>
         /// <param name="loadBalancingPolicy">负载均衡策略</param>
         /// <returns></returns>
-        Task<Cluster> CreateAsync(Guid routeId,string clusterName, ServiceGovernanceType serviceGovernanceType,string serviceGovernanceName, string loadBalancingPolicy);
+        Task<Cluster> CreateAsync(int routeId,string clusterName, ServiceGovernanceType serviceGovernanceType,string serviceGovernanceName, string loadBalancingPolicy);
         /// <summary>
         /// 创建集群目的地
         /// </summary>
@@ -34,6 +34,6 @@ namespace Kite.Gateway.Domain.ReverseProxy
         /// <param name="destinationName">目的地名称</param>
         /// <param name="destinationAddress">目的地地址</param>
         /// <returns></returns>
-        Task<ClusterDestination> CreateClusterDestinationAsync(Guid clusterId,string destinationName,string destinationAddress);
+        Task<ClusterDestination> CreateClusterDestinationAsync(int clusterId,string destinationName,string destinationAddress);
     }
 }

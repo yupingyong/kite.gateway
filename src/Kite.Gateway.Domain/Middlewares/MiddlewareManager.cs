@@ -47,7 +47,7 @@ namespace Kite.Gateway.Domain.Middlewares
             {
                 throw new ArgumentException("中间件远程调用服务端地址不能重复");
             }
-            return new Middleware(GuidGenerator.Create())
+            return new Middleware()
             {
                 Created = DateTime.Now,
                 Updated = DateTime.Now
@@ -56,7 +56,7 @@ namespace Kite.Gateway.Domain.Middlewares
 
         
 
-        public async Task<Middleware> UpdateAsync(Guid id, string name, string server)
+        public async Task<Middleware> UpdateAsync(int id, string name, string server)
         {
 
             if (await _repository.AnyAsync(x => x.Name == name && x.Id != id))

@@ -11,11 +11,11 @@ namespace Kite.Gateway.Application.Contracts.Dtos.ReverseProxy
         /// <summary>
         /// 集群目的地ID
         /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 集群ID
         /// </summary>
-        public Guid ClusterId { get; set; }
+        public int ClusterId { get; set; }
         /// <summary>
         /// 目的地名称
         /// </summary>

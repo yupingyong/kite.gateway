@@ -22,7 +22,7 @@ namespace Kite.Gateway.Domain.Administrator
         /// <param name="id"></param>
         /// <param name="adminName"></param>
         /// <returns></returns>
-        Task<Entities.Administrator> UpdateAsync(Guid id, string adminName);
+        Task<Entities.Administrator> UpdateAsync(int id, string adminName);
         /// <summary>
         /// 创建管理员账号
         /// </summary>

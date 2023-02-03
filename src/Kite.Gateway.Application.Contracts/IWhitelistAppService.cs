@@ -18,14 +18,14 @@ namespace Kite.Gateway.Application.Contracts
         /// </summary>
         /// <param name="id">白名单ID</param>
         /// <returns></returns>
-        Task<KiteResult<WhitelistDto>> GetAsync(Guid id);
+        Task<KiteResult<WhitelistDto>> GetAsync(int id);
         /// <summary>
         /// 更新启用状态
         /// </summary>
         /// <param name="id">白名单ID</param>
         /// <param name="useState">状态</param>
         /// <returns></returns>
-        Task<KiteResult> UpdateUseStateAsync(Guid id,bool useState);
+        Task<KiteResult> UpdateUseStateAsync(int id,bool useState);
         /// <summary>
         /// 更新白名单数据
         /// </summary>
@@ -45,7 +45,7 @@ namespace Kite.Gateway.Application.Contracts
         /// </summary>
         /// <param name="id">白名单ID</param>
         /// <returns></returns>
-        Task<KiteResult> DeleteAsync(Guid id);
+        Task<KiteResult> DeleteAsync(int id);
         /// <summary>
         /// 创建白名单
         /// </summary>

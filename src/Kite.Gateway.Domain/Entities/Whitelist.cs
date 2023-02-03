@@ -12,16 +12,12 @@ namespace Kite.Gateway.Domain.Entities
     /// <summary>
     /// 白名单
     /// </summary>
-    public class Whitelist : Entity<Guid>
+    public class Whitelist : Entity<int>
     {
-        public Whitelist() { }
-        public Whitelist(Guid id) : base(id)
-        {
-        }
         /// <summary>
-        /// 所属路由(为空则全局)
+        /// 所属路由(为0则全局)
         /// </summary>
-        public Guid? RouteId { get; set; }
+        public int RouteId { get; set; }
         /// <summary>
         /// 白名单名称
         /// </summary>

@@ -14,7 +14,7 @@ namespace Kite.Gateway.Application.Contracts.Dtos.Middleware
         /// ID
         /// </summary>
         [Required]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 中间件名称
         /// </summary>

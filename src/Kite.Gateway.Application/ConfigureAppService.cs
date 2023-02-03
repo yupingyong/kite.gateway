@@ -53,7 +53,7 @@ namespace Kite.Gateway.Application
                         Id = x.Id,
                         Name = x.Name,
                         RequestMethod = x.RequestMethod,
-                        RouteId = x.RouteId.HasValue ? x.RouteId.ToString().ToLower() : "00000000-0000-0000-0000-000000000000"
+                        RouteId =  x.RouteId
                     })
                     .ToList();
             }

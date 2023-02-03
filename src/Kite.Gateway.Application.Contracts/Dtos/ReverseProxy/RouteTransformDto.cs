@@ -11,11 +11,11 @@ namespace Kite.Gateway.Application.Contracts.Dtos.ReverseProxy
         /// <summary>
         /// 交换配置ID
         /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 关联服务ID
         /// </summary>
-        public Guid RouteId { get; set; }
+        public int RouteId { get; set; }
         /// <summary>
         /// 交换配置项名称
         /// </summary>
