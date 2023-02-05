@@ -8,14 +8,6 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 		<PackageReference Include="Volo.Abp.AspNetCore" Version="7.0.1" />
 		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="7.0.1" />
 		<PackageReference Include="Volo.Abp.Autofac" Version="7.0.1" />
@@ -36,7 +28,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="data\db\" />
 	  <Folder Include="data\logs\" />
 	</ItemGroup>
 </Project>

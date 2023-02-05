@@ -43,8 +43,7 @@ namespace Kite.Gateway.Web
     [DependsOn(
          typeof(AbpAutofacModule),
          typeof(ApplicationModule),
-         typeof(AbpSwashbuckleModule),
-         typeof(EntityFrameworkCoreModule)
+         typeof(AbpSwashbuckleModule)
      )]
     public class WebModule:AbpModule
     {
@@ -64,12 +63,10 @@ namespace Kite.Gateway.Web
             //注入会话
             context.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //
-            ConfigureConventionalControllers();
             ConfigureCore();
             ConfigureCors();
             ConfigureMvc();
             ConfigureReverseProxy();
-            ConfigureSwaggerGen();
         }
         /// <summary>
         /// 网关核心配置项
@@ -99,7 +96,6 @@ namespace Kite.Gateway.Web
         /// </summary>
         private void ConfigureMvc()
         {
-            _context.Services.AddRazorPages();
             _context.Services.AddControllers(options =>
             {
                 // 移除 AbpValidationActionFilter
@@ -151,44 +147,6 @@ namespace Kite.Gateway.Web
                 });
             });
         }
-        /// <summary>
-        /// 配置Swagger文档
-        /// </summary>
-        /// <param name="context"></param>
-        private void ConfigureSwaggerGen()
-        {
-            //在此处注入依赖项
-            _context.Services.AddSwaggerGen(
-                options =>
-                {
-                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Kite Gateway Api", Version = "v1" });
-                    var appServicesXmlPath = Path.Combine(AppContext.BaseDirectory, $"Kite.Gateway.Application.xml");
-                    if (File.Exists(appServicesXmlPath))
-                    {
-                        options.IncludeXmlComments(appServicesXmlPath, true);
-                    }
-                    var appContractsServicesXmlPath = Path.Combine(AppContext.BaseDirectory, $"Kite.Gateway.Application.Contracts.xml");
-                    if (File.Exists(appContractsServicesXmlPath))
-                    {
-                        options.IncludeXmlComments(appContractsServicesXmlPath, true);
-                    }
-                    options.DocInclusionPredicate((docName, description) => true);
-                    options.CustomSchemaIds(type => type.FullName);
-                });
-        }
-        /// <summary>
-        /// 自动API控制器
-        /// </summary>
-        private void ConfigureConventionalControllers()
-        {
-            Configure<AbpAspNetCoreMvcOptions>(options =>
-            {
-                options.ConventionalControllers.Create(typeof(ApplicationModule).Assembly, opts =>
-                {
-                    opts.RootPath = "yarp";
-                });
-            });
-        }
         #endregion
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
@@ -201,24 +159,17 @@ namespace Kite.Gateway.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    options.SwaggerEndpoint("v1/swagger.json", "Kite Gateway Api");
-                });
             }
             else
             {
                 app.UseExceptionHandler("/Error");
             }
-            app.UseStaticFiles();
             app.UseForwardedHeaders();
             app.UseCors();
             app.UseRouting();
            
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 
                 endpoints.MapReverseProxy(proxyPipeline =>

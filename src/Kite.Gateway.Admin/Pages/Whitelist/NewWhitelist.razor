@@ -1,0 +1,110 @@
+﻿@using Kite.Gateway.Application.Contracts
+@using Kite.Gateway.Application.Contracts.Dtos.Whitelist
+@inject ToastService ToastService
+@inject IWhitelistAppService WhitelistAppService
+@inject IRouteAppService RouteAppService
+<div class="row">
+    <ValidateForm Model="@Model" OnValidSubmit="@OnSaveAsync" OnInvalidSubmit="@OnInvalidSubmitAsync">
+            <div class="col-12">
+                   <BootstrapInput @bind-Value="Model.Name" DisplayText="白名单名称" IsTrim="true" />
+             </div>
+             <div class="col-12"  style="margin-top:5px;" >
+                   <Select @bind-Value="Model.RouteId" Items="@Routes" DisplayText="所属作用域">
+                         
+                   </Select>
+             </div>
+            <div class="col-12"  style="margin-top:5px;" >
+                    <BootstrapInput @bind-Value="Model.FilterText" DisplayText="过滤文本(根据类型保存的值为路径或者正则表达式)" IsTrim="true"/>
+            </div>
+            <div class="col-12"  style="margin-top:5px;">
+                   <CheckboxList @bind-Value="@Model.RequestMethod" Items="@RequestMethods" DisplayText="请求方式"></CheckboxList>
+            </div>
+            <div class="col-12"  style="margin-top:5px;">
+                   <Switch OnColor="Color.Success" @bind-Value="Model.UseState" DisplayText="状态" OnText="开启" OffText="关闭"></Switch>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-12">
+                    <Button ButtonType="ButtonType.Submit"  IsAsync="true" Color="Color.Primary">保 存</Button>
+                </div>
+            </div>
+           </ValidateForm>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+
+
+    //表单数据
+    private CreateWhitelistDto Model { get; set; }
+
+    private List<SelectedItem> RequestMethods{ get; set; }
+    private List<SelectedItem> Routes { get; set; }
+
+    /// <summary>
+    /// OnInitialized 方法
+    /// </summary>
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+        Model = new CreateWhitelistDto()
+        {
+            UseState=true
+        };
+        //初始化请求方式数据
+        var requestMethods = new string[] { "POST", "GET", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD" };
+        RequestMethods = new List<SelectedItem>();
+        foreach (var m in requestMethods)
+        {
+            RequestMethods.Add(new SelectedItem()
+            {
+                Text=m,
+                Value=m
+            });
+        }
+        //初始化路由数据
+        Routes = new List<SelectedItem>()
+        {
+            new SelectedItem()
+            {
+                Text="全局",
+                Value="00000000-0000-0000-0000-000000000000"
+            }
+        };
+        var routeResult =await RouteAppService.GetAsync();
+        if (routeResult.Code == 0)
+        {
+            foreach (var item in routeResult.Data)
+            {
+                Routes.Add(new SelectedItem()
+                    {
+                        Text = item.RouteName,
+                        Value = item.Id.ToString()
+                    });
+            }
+        }
+    }
+    private Task OnInvalidSubmitAsync(EditContext context)
+    {
+        return Task.CompletedTask;
+    }
+    private async Task OnSaveAsync(EditContext context)
+    {
+        var result= await WhitelistAppService.CreateAsync(Model);
+        if (result.Code != 0)
+        {
+            await ToastService.Warning(result.Message);
+        }
+        else
+        {
+            await OnClickCallback.InvokeAsync();
+            await ToastService.Success("保存成功");
+            Model = new CreateWhitelistDto()
+            {
+                UseState=true
+            };
+        }
+    }
+}
