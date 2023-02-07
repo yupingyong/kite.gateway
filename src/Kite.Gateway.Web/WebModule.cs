@@ -151,7 +151,7 @@ namespace Kite.Gateway.Web
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             
-            //LoadMainConfigureAsync(context);
+            LoadMainConfigureAsync(context);
             //
             var app = context.GetApplicationBuilder();
             var env = context.GetEnvironment();
@@ -194,6 +194,7 @@ namespace Kite.Gateway.Web
                 if (options != null)
                 {
                     var httpClientFactory = context.ServiceProvider.GetService<IHttpClientFactory>();
+                    
                     var httpClient = httpClientFactory.CreateClient();
                     var configureResult =  httpClient.GetFromJsonAsync<KiteResult<RefreshConfigureDto>>($"{options.Value.AdminServer}/api/kite/refresh/configure").Result;
                     if (configureResult != null && configureResult.Code == 0)

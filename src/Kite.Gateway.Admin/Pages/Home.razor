@@ -21,16 +21,9 @@
 
 <Timeline Items="AlternateTimelineItems" />
 
-<InputFile OnChange="@LoadFiles" multiple />
 
 @code {
-    private async void LoadFiles(InputFileChangeEventArgs e)
-    {
-        var aaa = e.File;
-        var stream = e.File.OpenReadStream();
-        var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-    }
+
     private List<TimelineItem> AlternateTimelineItems { get; set; }
 
     protected override void OnInitialized()

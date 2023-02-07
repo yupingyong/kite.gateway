@@ -93,7 +93,7 @@
         if (file.File != null)
         {
             //保存证书文件
-            var filePath = Path.Combine(WebHostEnvironment.WebRootPath, $"upload/{file.File.Name}");
+            var filePath = Path.Combine(WebHostEnvironment.ContentRootPath, $"data/upload/{file.File.Name}");
             await file.SaveToFileAsync(filePath);
             //读取文件并且转换为BASE64字符串存储
             using var fs = new FileStream(filePath, FileMode.Open);

@@ -24,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="data\upload\微信图片_20230107141853.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BootstrapBlazor" Version="7.3.0" />
     <PackageReference Include="BootstrapBlazor.FontAwesome" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
@@ -44,7 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\upload\" />
+    <Folder Include="data\upload\" />
   </ItemGroup>
 
 </Project>

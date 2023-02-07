@@ -21,6 +21,7 @@ using Kite.Gateway.Application.Contracts;
 using Kite.Gateway.EntityFrameworkCore;
 using BootstrapBlazor.Components;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Kite.Gateway.Admin
 {
@@ -43,6 +44,10 @@ namespace Kite.Gateway.Admin
         private void ConfigureMvc(ServiceConfigurationContext context)
         {
             context.Services.AddControllers();
+            Configure<HubOptions>(options =>
+            {
+                options.DisableImplicitFromServicesParameters = true;
+            });
         }
         /// <summary>
         /// Blazor
