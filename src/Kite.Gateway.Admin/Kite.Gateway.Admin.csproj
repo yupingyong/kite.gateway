@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BootstrapBlazor" Version="7.4.4" />
+    <PackageReference Include="BootstrapBlazor" Version="7.4.5" />
     <PackageReference Include="BootstrapBlazor.FontAwesome" Version="7.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
       <PrivateAssets>all</PrivateAssets>
