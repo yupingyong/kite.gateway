@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
-@inject SwalService swalService
-@inject NavigationManager navigationManager
+@inject SwalService _swalService
+@inject NavigationManager _navigationManager
 
 <Layout SideWidth="0" IsPage="true" ShowGotoTop="true" ShowCollapseBar="true"
         IsFullSide="@IsFullSide" IsFixedHeader="@IsFixedHeader" IsFixedFooter="@IsFixedFooter" ShowFooter="@ShowFooter"
@@ -47,21 +47,18 @@
                 {
                     Category = SwalCategory.Warning,
                     Title = "你还未登录,请先登录",
-                    ShowClose = false
+                    ShowClose = true,
+                    OnCloseAsync = OpenLoginPage
                 };
-            op.ButtonTemplate = new RenderFragment(builder =>
-            {
-                builder.OpenComponent<Button>(0);
-                builder.AddAttribute(1, nameof(Button.Text), "前往登录");
-                builder.AddAttribute(2, nameof(Button.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () =>
-                {
-                    navigationManager.NavigateTo("/Login");
-                }));
-                builder.CloseComponent();
-            });
-            await swalService.Show(op);
+            await _swalService.Show(op);
+
         }
         await base.OnAfterRenderAsync(firstRender);
-	}
- 
+    }
+    private Task OpenLoginPage()
+    {
+        _navigationManager.NavigateTo("/Login");
+        return Task.CompletedTask;
+    }
+
 }
