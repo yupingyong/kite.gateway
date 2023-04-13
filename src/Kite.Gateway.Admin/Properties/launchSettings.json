@@ -1,21 +1,21 @@
-{
+﻿{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:29547",
+      "applicationUrl": "http://localhost:52278",
       "sslPort": 0
     }
   },
   "profiles": {
-    "Kite.Gateway.Admin": {
+    "http": {
       "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
+      "applicationUrl": "http://localhost:5133",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:55661",
-      "dotnetRunMessages": true
+      }
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -23,12 +23,6 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
-    },
-    "Docker": {
-      "commandName": "Docker",
-      "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "publishAllPorts": true
     }
   }
 }
