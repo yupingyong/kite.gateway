@@ -4,10 +4,10 @@
 }
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo layui-hide-xs layui-bg-black">任务调度中心-管理后台</div>
+        <div class="layui-logo layui-hide-xs layui-bg-black">Api网关-管理后台</div>
         <!-- 头部区域（可配合layui 已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item layui-hide-xs"><a href="/admin/home">后台首页</a></li>
+            <li class="layui-nav-item layui-hide-xs"><a href="/home">后台首页</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item layui-hide layui-show-md-inline-block">
@@ -25,13 +25,19 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree">
                 <li class="layui-nav-item layui-nav-itemed layui-this">
-                    <a class="" href="javascript:;" mokk-menu-event="open" data-menu-id="tab_0" data-menu-name="首页" data-menu-url="/admin/home/main">首页</a>
+                    <a class="" href="javascript:;" mokk-menu-event="open" data-menu-id="tab_0" data-menu-name="首页" data-menu-url="/home/main">首页</a>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">任务管理</a>
+                    <a class="" href="javascript:;">基础配置</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" mokk-menu-event="open" data-menu-id="tab_1" data-menu-name="任务管理" data-menu-url="/admin/task">任务管理</a></dd>
-                        <dd><a href="javascript:;" mokk-menu-event="open" data-menu-id="tab_2" data-menu-name="任务调度日志" data-menu-url="/admin/scheduled/log">任务调度日志</a></dd>
+                        <dd><a href="javascript:;" mokk-menu-event="open" data-menu-id="tab_1" data-menu-name="账号管理" data-menu-url="/user">任务管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">网关配置</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" mokk-menu-event="open" data-menu-id="tab_2" data-menu-name="任务管理" data-menu-url="/admin/task">任务管理</a></dd>
+                        <dd><a href="javascript:;" mokk-menu-event="open" data-menu-id="tab_3" data-menu-name="任务调度日志" data-menu-url="/admin/scheduled/log">任务调度日志</a></dd>
                     </dl>
                 </li>
             </ul>
