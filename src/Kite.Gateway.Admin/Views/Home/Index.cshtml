@@ -1,8 +1,123 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Microsoft.AspNetCore.Http
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
 }
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">任务调度中心-管理后台</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item layui-hide-xs"><a href="/admin/home">后台首页</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                <a href="javascript:;">
+                     @(ViewContext.HttpContext.Session.GetString("UserName"))
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" id="LogoutEvent">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree">
+                <li class="layui-nav-item layui-nav-itemed layui-this">
+                    <a class="" href="javascript:;" mokk-menu-event="open" data-menu-id="tab_0" data-menu-name="首页" data-menu-url="/admin/home/main">首页</a>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">任务管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" mokk-menu-event="open" data-menu-id="tab_1" data-menu-name="任务管理" data-menu-url="/admin/task">任务管理</a></dd>
+                        <dd><a href="javascript:;" mokk-menu-event="open" data-menu-id="tab_2" data-menu-name="任务调度日志" data-menu-url="/admin/scheduled/log">任务调度日志</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div class="layui-tab layui-tab-brief" lay-filter="mokk-tab" lay-allowclose="true">
+            <ul class="layui-tab-title" id="mokk_tab_menu">
+            </ul>
+            <div class="layui-tab-content">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        欢迎使用-任务调度中心.
+    </div>
+
 </div>
+
+<script>
+    //JS
+    layui.use(['element', 'layer', 'util'], function () {
+        var element = layui.element
+            , layer = layui.layer
+            , util = layui.util
+            , $ = layui.$;
+        //头部事件
+        util.event('mokk-menu-event', {
+            //左侧菜单事件
+            open: function () {
+                var id = $(this).attr("data-menu-id");
+                var name = $(this).attr("data-menu-name");
+                var url = $(this).attr("data-menu-url");
+
+                AddTab(id, name, url);
+            }
+        });
+        //新增一个Tab项
+        function AddTab(id, name, url) {
+            let tab_node = $("#mokk_tab_menu").find("li[lay-id='" + id + "']");
+            if (tab_node.length == 0) {
+                let frameHeight = $(window).height() - 170;
+                let frameHtml = '<iframe src="' + url + '" style="width:100%;border:0px;height:' + frameHeight + 'px;" id="frameBox"></iframe>';
+                element.tabAdd('mokk-tab', {
+                    title: name
+                    , content: frameHtml
+                    , id: id
+                });
+            }
+            element.tabChange('mokk-tab', id);
+        }
+        //tab删除事件监控
+        element.on('tabDelete(mokk-tab)', function (data) {
+            if (data.index > 0) {
+                return true;
+            }
+            return false;
+        });
+        //插入默认首页
+        AddTab("tab_0", "首页", "/admin/home/main");
+    });
+    $("#LogoutEvent").click(function(){
+        layer.confirm('确认退出当前登录吗？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            var index = layer.load(1);
+            $.ajax({
+                type:'post',
+                url: '/api/mokk/user/logout',
+                success:function(res){
+                    if(res.code==0){
+                        window.location.href='/admin/home/login';
+                    }
+                    else{
+                        layer.msg(res.message);
+                    }
+                    layer.close(index);
+                }
+            });
+        }, function(){
+           return true;
+        });
+    });
+</script>
+
