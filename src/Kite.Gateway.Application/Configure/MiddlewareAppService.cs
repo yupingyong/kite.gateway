@@ -10,7 +10,7 @@ using Kite.Gateway.Domain.Middlewares;
 using Mapster;
 using Volo.Abp.Domain.Repositories;
 
-namespace Kite.Gateway.Application
+namespace Kite.Gateway.Application.Configure
 {
     /// <summary>
     /// 中间件管理服务
@@ -27,8 +27,8 @@ namespace Kite.Gateway.Application
 
         public async Task<KiteResult> CreateAsync(CreateMiddlewareDto middlewareDto)
         {
-            var model =await _middlewareManager.CreateAsync(middlewareDto.Name, middlewareDto.Server);
-            TypeAdapter.Adapt(middlewareDto, model);
+            var model = await _middlewareManager.CreateAsync(middlewareDto.Name, middlewareDto.Server);
+            middlewareDto.Adapt(model);
             await _repository.InsertAsync(model);
             return Ok();
         }
@@ -63,8 +63,8 @@ namespace Kite.Gateway.Application
 
         public async Task<KiteResult> UpdateAsync(UpdateMiddlewareDto middlewareDto)
         {
-            var model =await _middlewareManager.UpdateAsync(middlewareDto.Id, middlewareDto.Name, middlewareDto.Server);
-            TypeAdapter.Adapt(middlewareDto, model);
+            var model = await _middlewareManager.UpdateAsync(middlewareDto.Id, middlewareDto.Name, middlewareDto.Server);
+            middlewareDto.Adapt(model);
             model.Updated = DateTime.Now;
             await _repository.UpdateAsync(model);
             return Ok();

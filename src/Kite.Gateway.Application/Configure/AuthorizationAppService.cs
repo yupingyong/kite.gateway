@@ -8,7 +8,8 @@ using Kite.Gateway.Application.Contracts.Dtos.Authorization;
 using Kite.Gateway.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 using Mapster;
-namespace Kite.Gateway.Application
+
+namespace Kite.Gateway.Application.Configure
 {
     public class AuthorizationAppService : BaseApplicationService, IAuthorizationAppService
     {
@@ -22,12 +23,12 @@ namespace Kite.Gateway.Application
 
         public async Task<KiteResult<SaveAuthenticationDto>> GetAuthenticationAsync()
         {
-            var result= (await _authenticationRepository.GetQueryableAsync())
+            var result = (await _authenticationRepository.GetQueryableAsync())
                 .ProjectToType<SaveAuthenticationDto>()
                 .FirstOrDefault();
             if (result == null)
             {
-                result = new SaveAuthenticationDto() 
+                result = new SaveAuthenticationDto()
                 {
                     UseState = true
                 };
@@ -37,17 +38,17 @@ namespace Kite.Gateway.Application
 
         public async Task<KiteResult> SaveAuthenticationAsync(SaveAuthenticationDto authenticationDto)
         {
-            var model =await _authenticationRepository.FirstOrDefaultAsync();
+            var model = await _authenticationRepository.FirstOrDefaultAsync();
             if (model == null)
             {
                 model = new AuthenticationConfigure();
-                TypeAdapter.Adapt(authenticationDto, model);
+                authenticationDto.Adapt(model);
                 await _authenticationRepository.InsertAsync(model);
             }
             else
             {
-                TypeAdapter.Adapt(authenticationDto, model);
-                
+                authenticationDto.Adapt(model);
+
                 await _authenticationRepository.UpdateAsync(model);
             }
             return Ok();

@@ -9,7 +9,7 @@ using Volo.Abp.Domain.Repositories;
 using Kite.Gateway.Domain.Entities;
 using Mapster;
 
-namespace Kite.Gateway.Application
+namespace Kite.Gateway.Application.Configure
 {
     public class ServiceGovernanceAppService : BaseApplicationService, IServiceGovernanceAppService
     {
@@ -38,12 +38,12 @@ namespace Kite.Gateway.Application
             if (model == null)
             {
                 model = new ServiceGovernanceConfigure();
-                TypeAdapter.Adapt(configure, model);
+                configure.Adapt(model);
                 await _repository.InsertAsync(model);
             }
             else
             {
-                TypeAdapter.Adapt(configure, model);
+                configure.Adapt(model);
                 await _repository.UpdateAsync(model);
             }
             return Ok();

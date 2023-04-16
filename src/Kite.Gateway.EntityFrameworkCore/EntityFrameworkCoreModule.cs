@@ -10,6 +10,7 @@ using Volo.Abp.EntityFrameworkCore.Sqlite;
 using Volo.Abp.Modularity;
 using Volo.Abp;
 using Microsoft.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.DependencyInjection;
 
 namespace Kite.Gateway.EntityFrameworkCore
 {
@@ -30,6 +31,9 @@ namespace Kite.Gateway.EntityFrameworkCore
             {
                 options.AddDefaultRepositories(includeAllEntities: true);
             });
+            //将Entity注入到默认仓储
+            var options = new AbpDbContextRegistrationOptions(typeof(KiteDbContext), context.Services);
+            new EFCoreRepositoryCustomerRegister(options).AddRepositories();
         }
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {

@@ -14,12 +14,12 @@ using Kite.Gateway.Domain.Entities;
 using Kite.Gateway.Domain.Whitelist;
 using Kite.Gateway.Application.Contracts.Dtos.Whitelist;
 
-namespace Kite.Gateway.Application
+namespace Kite.Gateway.Application.Configure
 {
     /// <summary>
     /// 
     /// </summary>
-    public class WhitelistAppService: BaseApplicationService, IWhitelistAppService
+    public class WhitelistAppService : BaseApplicationService, IWhitelistAppService
     {
         private readonly IWhiteListManager _whiteListManager;
         private readonly IRepository<Whitelist> _whiteListRepository;
@@ -75,12 +75,12 @@ namespace Kite.Gateway.Application
 
         public async Task<KiteResult> UpdateAsync(UpdateWhitelistDto updateWhiteList)
         {
-            var model =await _whiteListRepository.FirstOrDefaultAsync(x => x.Id == updateWhiteList.Id);
-            if (model==null)
+            var model = await _whiteListRepository.FirstOrDefaultAsync(x => x.Id == updateWhiteList.Id);
+            if (model == null)
             {
                 ThrownFailed("白名单信息不存在");
             }
-            TypeAdapter.Adapt(updateWhiteList, model);
+            updateWhiteList.Adapt(model);
             await _whiteListRepository.UpdateAsync(model);
             return Ok();
         }

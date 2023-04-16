@@ -54,31 +54,31 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="T:Kite.Gateway.Application.MiddlewareAppService">
+        <member name="T:Kite.Gateway.Application.Configure.MiddlewareAppService">
             <summary>
             中间件管理服务
             </summary>
         </member>
-        <member name="T:Kite.Gateway.Application.RouteAppService">
+        <member name="T:Kite.Gateway.Application.Configure.RouteAppService">
             <summary>
             路由相关接口
             </summary>
         </member>
-        <member name="M:Kite.Gateway.Application.RouteAppService.CreateAsync(Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto)">
+        <member name="M:Kite.Gateway.Application.Configure.RouteAppService.CreateAsync(Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.CreateRouteDto)">
             <summary>
             创建路由
             </summary>
             <param name="createRouteDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.RouteAppService.DeleteAsync(System.Int32)">
+        <member name="M:Kite.Gateway.Application.Configure.RouteAppService.DeleteAsync(System.Int32)">
             <summary>
             删除路由
             </summary>
             <param name="id">路由ID</param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.RouteAppService.GetPageAsync(System.String,System.Int32,System.Int32)">
+        <member name="M:Kite.Gateway.Application.Configure.RouteAppService.GetPageAsync(System.String,System.Int32,System.Int32)">
             <summary>
             获取路由列表
             </summary>
@@ -87,21 +87,21 @@
             <param name="pageSize">每页记录数</param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.RouteAppService.GetAsync(System.Int32)">
+        <member name="M:Kite.Gateway.Application.Configure.RouteAppService.GetAsync(System.Int32)">
             <summary>
             根据路由ID获取路由信息
             </summary>
             <param name="id">路由ID</param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.RouteAppService.UpdateAsync(Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto)">
+        <member name="M:Kite.Gateway.Application.Configure.RouteAppService.UpdateAsync(Kite.Gateway.Application.Contracts.Dtos.ReverseProxy.UpdateRouteDto)">
             <summary>
             更新路由信息
             </summary>
             <param name="updateRouteDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Kite.Gateway.Application.RouteAppService.UpdateStateAsync(System.Int32,System.Boolean)">
+        <member name="M:Kite.Gateway.Application.Configure.RouteAppService.UpdateStateAsync(System.Int32,System.Boolean)">
             <summary>
             更新路由状态
             </summary>
@@ -109,7 +109,7 @@
             <param name="useState">路由状态(1.开启 0.关闭)</param>
             <returns></returns>
         </member>
-        <member name="T:Kite.Gateway.Application.WhitelistAppService">
+        <member name="T:Kite.Gateway.Application.Configure.WhitelistAppService">
             <summary>
             
             </summary>

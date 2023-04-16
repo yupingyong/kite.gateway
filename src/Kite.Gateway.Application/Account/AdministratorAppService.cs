@@ -11,7 +11,7 @@ using Volo.Abp.Domain.Repositories;
 using Mapster;
 using Kite.Gateway.Domain.Shared.Text;
 
-namespace Kite.Gateway.Application
+namespace Kite.Gateway.Application.Account
 {
     public class AdministratorAppService : BaseApplicationService, IAdministratorAppService
     {
@@ -38,14 +38,14 @@ namespace Kite.Gateway.Application
                 });
                 await CurrentUnitOfWork.SaveChangesAsync();
             }
-            var administrator =await _administratorManager.LoginAsync(loginAdministrator.AdminName, TextHelper.MD5Encrypt(loginAdministrator.Password));
-            var result = TypeAdapter.Adapt<AdministratorDto>(administrator);
+            var administrator = await _administratorManager.LoginAsync(loginAdministrator.AdminName, TextHelper.MD5Encrypt(loginAdministrator.Password));
+            var result = administrator.Adapt<AdministratorDto>();
             return Ok(result);
         }
 
         public async Task<KiteResult> CreateAsync(CreateAdministratorDto createAdministrator)
         {
-            var model =await _administratorManager.CreateAsync(createAdministrator.AdminName);
+            var model = await _administratorManager.CreateAsync(createAdministrator.AdminName);
             model.AdminName = createAdministrator.AdminName;
             model.NickName = createAdministrator.NickName;
             model.Password = TextHelper.MD5Encrypt(createAdministrator.Password);
@@ -70,7 +70,7 @@ namespace Kite.Gateway.Application
 
         public async Task<KitePageResult<List<AdministratorDto>>> GetListAsync(int page = 1, int pageSize = 10)
         {
-            var query = (await _repository.GetQueryableAsync());
+            var query = await _repository.GetQueryableAsync();
             var result = query.OrderByDescending(x => x.Created)
                 .PageBy((page - 1) * pageSize, pageSize)
                 .ProjectToType<AdministratorDto>()
@@ -78,7 +78,7 @@ namespace Kite.Gateway.Application
             return Ok(result, query.Count());
         }
 
-        
+
 
         public async Task<KiteResult> UpdateAsync(UpdateAdministratorDto updateAdministrator)
         {

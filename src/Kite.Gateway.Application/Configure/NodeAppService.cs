@@ -11,7 +11,7 @@ using Volo.Abp.Domain.Repositories;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Kite.Gateway.Application
+namespace Kite.Gateway.Application.Configure
 {
     public class NodeAppService : BaseApplicationService, INodeAppService
     {
@@ -27,8 +27,8 @@ namespace Kite.Gateway.Application
         public async Task<KiteResult> CreateAsync(CreateNodeDto createNode)
         {
             createNode.Server = createNode.Server.TrimEnd('/');
-            var model =await _nodeManager.CreateAsync(createNode.NodeName, createNode.Server);
-            TypeAdapter.Adapt(createNode, model);
+            var model = await _nodeManager.CreateAsync(createNode.NodeName, createNode.Server);
+            createNode.Adapt(model);
             await _repository.InsertAsync(model);
             return Ok();
         }
@@ -50,7 +50,7 @@ namespace Kite.Gateway.Application
 
         public async Task<KiteResult<NodeDto>> GetAsync(int id)
         {
-            var result= (await _repository.GetQueryableAsync())
+            var result = (await _repository.GetQueryableAsync())
                 .Where(x => x.Id == id)
                 .ProjectToType<NodeDto>()
                 .FirstOrDefault();
@@ -70,8 +70,8 @@ namespace Kite.Gateway.Application
         public async Task<KiteResult> UpdateAsync(UpdateNodeDto updateNode)
         {
             updateNode.Server = updateNode.Server.TrimEnd('/');
-            var model =await _nodeManager.UpdateAsync(updateNode.Id, updateNode.NodeName, updateNode.Server);
-            TypeAdapter.Adapt(updateNode, model);
+            var model = await _nodeManager.UpdateAsync(updateNode.Id, updateNode.NodeName, updateNode.Server);
+            updateNode.Adapt(model);
             model.Updated = DateTime.Now;
             await _repository.UpdateAsync(model);
             return Ok();

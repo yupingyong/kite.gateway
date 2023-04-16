@@ -16,13 +16,13 @@ using Mapster;
 using Kite.Gateway.Domain.Shared.Options;
 using Kite.Gateway.Domain.Entities;
 
-namespace Kite.Gateway.Application
+namespace Kite.Gateway.Application.Configure
 {
     public class RefreshAppService : BaseApplicationService, IRefreshAppService
     {
         private readonly IRefreshManager _refreshManager;
         private readonly IConfigureManager _configureManager;
-        public RefreshAppService( IConfigureManager configureManager, IRefreshManager refreshManager)
+        public RefreshAppService(IConfigureManager configureManager, IRefreshManager refreshManager)
         {
             _configureManager = configureManager;
             _refreshManager = refreshManager;
@@ -34,7 +34,7 @@ namespace Kite.Gateway.Application
             {
                 _configureManager.ReloadAuthentication(refreshConfigure.Authentication);
             }
-            if (refreshConfigure.Whitelists!=null)
+            if (refreshConfigure.Whitelists != null)
             {
                 _configureManager.ReloadWhitelist(refreshConfigure.Whitelists);
             }

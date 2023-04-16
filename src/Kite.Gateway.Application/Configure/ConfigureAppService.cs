@@ -14,9 +14,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
 
-namespace Kite.Gateway.Application
+namespace Kite.Gateway.Application.Configure
 {
-    public class ConfigureAppService: BaseApplicationService,IConfigureAppService
+    public class ConfigureAppService : BaseApplicationService, IConfigureAppService
     {
         private readonly IServiceProvider _serviceProvider;
         public ConfigureAppService(IServiceProvider serviceProvider)
@@ -53,7 +53,7 @@ namespace Kite.Gateway.Application
                         Id = x.Id,
                         Name = x.Name,
                         RequestMethod = x.RequestMethod,
-                        RouteId =  x.RouteId
+                        RouteId = x.RouteId
                     })
                     .ToList();
             }

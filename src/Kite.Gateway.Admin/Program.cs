@@ -1,18 +1,13 @@
 ﻿using Kite.Gateway.Admin;
 using Serilog.Events;
 using Serilog;
+using Kite.Gateway.Domain.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Logging.ClearProviders();
-Log.Logger = new LoggerConfiguration()
-          .Enrich.FromLogContext()
-          .WriteTo.Console()
-          .WriteTo.File($"data/logs/log-.txt", restrictedToMinimumLevel: LogEventLevel.Warning, rollingInterval: RollingInterval.Day)
-          .MinimumLevel.Information()
-          .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-          .CreateLogger();
+Log.Logger = LoggerManager.CreateLogger();
 builder.Host
      .UseSerilog(dispose: true)
      .UseAutofac();

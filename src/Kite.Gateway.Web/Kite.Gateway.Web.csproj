@@ -7,6 +7,13 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\yupin\.nuget\packages\volo.abp.aspnetcore.mvc\7.1.1\contentFiles\any\net7.0\Volo.Abp.AspNetCore.Mvc.abppkg.analyze.json" />
+    <Content Remove="C:\Users\yupin\.nuget\packages\volo.abp.aspnetcore.mvc\7.1.1\contentFiles\any\net7.0\Volo.Abp.AspNetCore.Mvc.abppkg.json" />
+    <Content Remove="C:\Users\yupin\.nuget\packages\volo.abp.aspnetcore\7.1.1\contentFiles\any\net7.0\Volo.Abp.AspNetCore.abppkg.analyze.json" />
+    <Content Remove="C:\Users\yupin\.nuget\packages\volo.abp.aspnetcore\7.1.1\contentFiles\any\net7.0\Volo.Abp.AspNetCore.abppkg.json" />
+  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Volo.Abp.AspNetCore" Version="7.1.1" />
 		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="7.1.1" />
