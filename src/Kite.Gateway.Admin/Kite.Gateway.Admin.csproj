@@ -29,5 +29,9 @@
   <ItemGroup>
     <Folder Include="Views\Account\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\lib\layui\font\iconfont.svg" />
+    <None Include="wwwroot\lib\layui\font\iconfont.woff2" />
+  </ItemGroup>
 
 </Project>
