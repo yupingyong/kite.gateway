@@ -1,0 +1,92 @@
+﻿@using Kite.Gateway.Application.Contracts
+@using Kite.Gateway.Application.Contracts.Dtos.ReverseProxy
+@using Mapster;
+@inject ToastService ToastService
+@inject IRouteAppService RouteAppService
+
+<div class="row">
+    <ValidateForm Model="@Model" class="form-inline"  OnValidSubmit="@OnSaveAsync" OnInvalidSubmit="@OnInvalidSubmitAsync">
+            <div class="col-12">
+                    <GroupBox Title="路由基础信息"  class="col-12">
+                        <BootstrapInput @bind-Value="Model.RouteName" DisplayText="路由名称" IsTrim="true" />
+                        <BootstrapInput @bind-Value="Model.RouteMatchPath" DisplayText="路由规则" IsTrim="true"  style="margin-top:5px;" />
+                        <Switch OnColor="Color.Success" @bind-Value="Model.UseState" DisplayText="开启状态" OnText="开启" OffText="关闭"  style="margin-top:5px;"></Switch>
+                    </GroupBox>
+                    
+                </div>
+             <div class="col-12">
+                    <GroupBox Title="路由转换"  class="col-12">
+                       <BootstrapInput @bind-Value="Model.PathRemovePrefix" DisplayText="移除路径前缀" IsTrim="true" />
+                       <BootstrapInput @bind-Value="Model.PathPrefix" DisplayText="添加加路径前缀" IsTrim="true"  style="margin-top:5px;" />
+                    </GroupBox>
+             </div>
+            <div class="col-12">
+                    <GroupBox Title="集群配置"  class="col-12">
+                        <Select @bind-Value="Model.LoadBalancingPolicy" DisplayText="集群策略">
+                            <Options>
+                                <SelectOption Text="默认" Value="PowerOfTwoChoices"/>
+                                <SelectOption Text="第一可用" Value="FirstAlphabetical" />
+                                <SelectOption Text="随机" Value="Random" />
+                                <SelectOption Text="顺序循环" Value="RoundRobin" />
+                                 <SelectOption Text="请求最少" Value="LeastRequests" />
+                            </Options>
+                        </Select>
+                       <Select @bind-Value="Model.ServiceGovernanceType" DisplayText="服务治理类型"  style="margin-top:5px;" >
+                        </Select>
+                       <BootstrapInput @bind-Value="Model.ClusterDestinationValue" ShowLabel="true" DisplayText="集群目的地" IsTrim="true"   style="margin-top:5px;" />
+                       <Tag Icon="fa fa-fw fa-question-circle" Color="Color.Info">如果治理类型为默认时多个目的地用,(逗号,半角)分隔,否则为服务治理名称</Tag>
+                    </GroupBox>
+                </div>
+            <div class="col-12">
+                    <GroupBox Title="集群健康检查配置"  class="col-12">
+                       <Switch OnColor="Color.Success" @bind-Value="Model.ClusterHealthCheck.Enabled" DisplayText="是否开启" OnText="开启" OffText="关闭"></Switch>
+                       <BootstrapInputNumber @bind-Value="Model.ClusterHealthCheck.Interval" DisplayText="间隔时间(秒)" IsSelectAllTextOnFocus="true" style="margin-top:5px;" />
+                       <BootstrapInputNumber @bind-Value="Model.ClusterHealthCheck.Timeout" DisplayText="超时时间(秒)" IsSelectAllTextOnFocus="true"  style="margin-top:5px;" />
+                       <BootstrapInput @bind-Value="Model.ClusterHealthCheck.Path" DisplayText="路径" IsTrim="true" style="margin-top:5px;" />
+                    </GroupBox>
+                </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-12">
+                    <Button ButtonType="ButtonType.Submit"  IsAsync="true" Color="Color.Primary">保 存</Button>
+                </div>
+            </div>
+           </ValidateForm>
+</div>
+
+
+@code {
+
+
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+
+    //表单数据
+    [Parameter]
+    public UpdateRouteDto Model { get; set; }
+
+    /// <summary>
+    /// OnInitialized 方法
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+    
+    private Task OnInvalidSubmitAsync(EditContext context)
+    {
+        return Task.CompletedTask;
+    }
+    private async Task OnSaveAsync(EditContext context)
+    {
+        var result= await RouteAppService.UpdateAsync(Model);
+        if (result.Code != 0)
+        {
+            await ToastService.Warning(result.Message);
+        }
+        else
+        {
+            await OnClickCallback.InvokeAsync();
+            await ToastService.Success("保存成功");
+        }
+    }
+}

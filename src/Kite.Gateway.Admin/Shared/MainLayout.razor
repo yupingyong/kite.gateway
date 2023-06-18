@@ -1,0 +1,64 @@
+﻿@inherits LayoutComponentBase
+@inject SwalService _swalService
+@inject NavigationManager _navigationManager
+
+<Layout SideWidth="0" IsPage="true" ShowGotoTop="true" ShowCollapseBar="true"
+        IsFullSide="@IsFullSide" IsFixedHeader="@IsFixedHeader" IsFixedFooter="@IsFixedFooter" ShowFooter="@ShowFooter"
+        TabDefaultUrl="/"
+        Menus="@Menus"  UseTabSet="@UseTabSet" AdditionalAssemblies="new[] { GetType().Assembly }" class="@Theme">
+    <Header>
+        <span class="ms-3 flex-sm-fill d-none d-sm-block">Kite Gateway</span>
+        <div class="flex-fill d-sm-none">
+        </div>
+        <Logout ImageUrl="images/kitelogo.png" DisplayName="@(Administrator.NickName)" UserName="@(Administrator.AdminName)">
+            <LinkTemplate>
+                <LogoutLink Url="/Logout" />
+            </LinkTemplate>
+        </Logout>
+    </Header>
+    <Side>
+        <div class="layout-banner">
+            <div class="layout-title">
+                <span>后台管理</span>
+            </div>
+        </div>
+    </Side>
+    <Main>
+        <CascadingValue Value="this" IsFixed="true">
+            @Body
+        </CascadingValue>
+    </Main>
+    <Footer>
+        <div class="text-center flex-fill">
+            
+        </div>
+    </Footer>
+    <NotFound>
+        <p>Sorry, there's nothing at this address.</p>
+    </NotFound>
+</Layout>
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Administrator.Id ==0)
+        {
+
+            var op = new SwalOption()
+                {
+                    Category = SwalCategory.Warning,
+                    Title = "你还未登录,请先登录",
+                    ShowClose = true,
+                    OnCloseAsync = OpenLoginPage
+                };
+            await _swalService.Show(op);
+
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+    private Task OpenLoginPage()
+    {
+        _navigationManager.NavigateTo("/Login");
+        return Task.CompletedTask;
+    }
+
+}

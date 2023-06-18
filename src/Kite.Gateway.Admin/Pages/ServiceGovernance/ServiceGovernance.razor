@@ -1,0 +1,72 @@
+﻿@page "/ServiceGovernance"
+
+@using Kite.Gateway.Application.Contracts
+@using Kite.Gateway.Application.Contracts.Dtos.ServiceGovernance
+@inject ToastService ToastService
+@inject IServiceGovernanceAppService ServiceGovernanceAppService
+<div class="row">
+    <ValidateForm Model="@Model" OnValidSubmit="@OnSaveAsync" OnInvalidSubmit="@OnInvalidSubmitAsync">
+            <div class="col-5">
+                   <BootstrapInput @bind-Value="Model.ConsulServer" DisplayText="Consul服务端地址" IsTrim="true" />
+             </div>
+             <div class="col-5"  style="margin-top:5px;" >
+                   <BootstrapInput @bind-Value="Model.ConsulDatacenter" DisplayText="Consul数据中心" IsTrim="true" />
+             </div>
+             <div class="col-5"  style="margin-top:5px;" >
+                   <BootstrapInput @bind-Value="Model.ConsulToken" DisplayText="Consul访问令牌" IsTrim="true" />
+             </div>
+            <div class="col-5">
+                   <BootstrapInput @bind-Value="Model.NacosServer" DisplayText="Nacos服务端地址" IsTrim="true" />
+             </div>
+             <div class="col-5">
+                   <BootstrapInput @bind-Value="Model.NacosNamespaceId" DisplayText="Nacos命名空间ID" IsTrim="true" />
+             </div>
+             <div class="col-5">
+                   <BootstrapInput @bind-Value="Model.NacosGroupName" DisplayText="Nacos服务端地址" IsTrim="true" />
+             </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-5">
+                    <Button ButtonType="ButtonType.Submit"  IsAsync="true" Color="Color.Primary">保 存</Button>
+                </div>
+            </div>
+           </ValidateForm>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+    //表单数据
+    private ServiceGovernanceConfigureDto Model { get; set; }
+    /// <summary>
+    /// OnInitialized 方法
+    /// </summary>
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+        var result = await ServiceGovernanceAppService.GetServiceGovernanceConfigureAsync();
+        if (result.Code == 0)
+        {
+            Model = result.Data;
+        }
+    }
+    private Task OnInvalidSubmitAsync(EditContext context)
+    {
+        return Task.CompletedTask;
+    }
+    private async Task OnSaveAsync(EditContext context)
+    {
+        var result= await ServiceGovernanceAppService.SaveServiceGovernanceConfigureAsync(Model);
+        if (result.Code != 0)
+        {
+            await ToastService.Warning(result.Message);
+        }
+        else
+        {
+            await OnClickCallback.InvokeAsync();
+            await ToastService.Success("保存成功");
+        }
+    }
+}
+

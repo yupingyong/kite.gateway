@@ -1,0 +1,254 @@
+﻿@page "/Route"
+
+@using Kite.Gateway.Application.Contracts
+@using Kite.Gateway.Application.Contracts.Dtos.ReverseProxy
+@using Mapster
+@using Kite.Gateway.Domain.Shared.Enums
+@inject ToastService ToastService
+@inject IRouteAppService RouteAppService
+@inject NavigationManager NavigationManager
+@inject DialogService? DialogService
+
+<div class="row">
+    <div class="col-4">
+        <BootstrapInputGroup>
+            <BootstrapInput @bind-Value="@SearchKw" PlaceHolder="路由名称" />
+            <Button Icon="fa fa-search" IsAsync="true" @onclick="OnSearchAsync"></Button>
+        </BootstrapInputGroup>
+    </div>
+    <div class="col-2">
+         <Button OnClick="@OnAddAsync" Color="Color.Primary">添加路由</Button>
+    </div>
+</div>
+<div class="row" style="margin-top:10px;">
+    <table class="table">
+      <thead class="table-light">
+        <tr>
+            <th>路由名称</th>
+            <th>路由路径</th>
+            <th>负载均衡策略</th>
+            <th>服务治理类型</th>
+            <th>服务治理名称</th>
+            <th>状态</th>
+            <th>创建时间</th>
+            <th>描述</th>
+            <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+          @if(Routes!=null&&Routes.Any())
+          {
+              foreach(var item in Routes)
+              {
+                <tr>
+                    <td>@item.RouteName</td>
+                    <td>@item.RouteMatchPath</td>
+                    <td>
+                        @switch(item.LoadBalancingPolicy)
+                        {
+                            case "FirstAlphabetical" :
+                                <div>第一个可用</div>
+                            break;
+                            case "Random":
+                                <div>随机</div>
+                            break;
+                            case "RoundRobin":
+                                <div>顺序循环</div>
+                            break;
+                            case "LeastRequests":
+                                <div>请求最少</div>
+                            break;
+                            default:
+                                <div>默认</div>
+                            break;
+                        }
+                    </td>
+                    <td>
+                        @switch(item.ServiceGovernanceType)
+                            {
+                                case ServiceGovernanceType.Consul:
+                                    <div>Consul</div>
+                                    break;
+                                default:
+                                    <div>默认</div>
+                                    break;
+                            }
+                        </td>
+                    <td>@item.ServiceGovernanceName</td>
+                    <td>
+                        <Switch  OnValueChanged="@(async (val)=>{ OnUpdateStateAsync(item.Id,val);await Task.CompletedTask; })" OnColor="Color.Success" @bind-Value="item.UseState" ShowLabel="false" style="max-height:18px;" ></Switch>
+                    </td>
+                    <td>@item.Created</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <Button Color="Color.Info" Size="Size.ExtraSmall" OnClick="@(e=>OnUpdateAsync(item.Id))">编辑</Button>
+                            <PopConfirmButton  Size="Size.ExtraSmall" Placement="Placement.Bottom" Color="Color.Danger" ConfirmIcon="fa fa-exclamation-triangle text-danger"
+                  ConfirmButtonColor="Color.Danger" Text="删除" Content="确定删除数据吗？" Icon="fa fa-fa fa-fw" IsAsync="true"
+                  OnConfirm="@(()=>OnDeleteAsync(item.Id))" />
+                        </div>
+                    </td>
+                </tr>
+              }
+            }
+        </tbody>
+    </table>
+    
+</div>
+<div class="row col-12"  style="margin-top:15px;">
+    <Pagination PageItems="@PageSize" PageItemsSource="@(new int[] { 10,20 })" TotalCount="@TotalCount" OnPageClick="@OnPageClick" OnPageItemsChanged="@OnPageItemsChanged"></Pagination>
+</div>
+
+
+<Modal @ref="Modal">
+    <ModalDialog  IsScrolling="true" Title="新增路由" IsCentered="true" Size="Size.Large" ShowCloseButton="false">
+        <BodyTemplate >
+           <NewRoute OnClickCallback="OnAddCallbackAsync"></NewRoute>
+        </BodyTemplate>
+    </ModalDialog>
+</Modal>
+
+<Modal @ref="UpdateModal">
+    <ModalDialog  IsScrolling="true" Title="编辑路由" IsCentered="true" Size="Size.Large" ShowCloseButton="false">
+        <BodyTemplate >
+           <UpdateRoute Model="@UpdateModel" OnClickCallback="OnUpdateCallbackAsync"></UpdateRoute>
+        </BodyTemplate>
+    </ModalDialog>
+</Modal>
+
+@code {
+    private Modal Modal;
+
+    private Modal UpdateModal;
+
+    public UpdateRouteDto UpdateModel { get; set; }
+    //分页数据
+
+    private List<RoutePageDto> Routes { get; set; }
+
+    private int TotalCount { get; set; } = 0;
+    private int PageSize { get; set; } = 10;
+    private int PageIndex { get; set; } = 1;
+    private string SearchKw { get; set; } = "";
+    /// <summary>
+    /// OnInitialized 方法
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        OnQueryAsync();
+        base.OnInitialized();
+    }
+    #region 路由编辑更新
+    private async void OnUpdateStateAsync(int id, bool val)
+    {
+        var result = await RouteAppService.UpdateStateAsync(id, val);
+        if (result.Code != 0)
+        {
+            await ToastService.Warning("系统警告",result.Message);
+        }
+        else
+        {
+            await ToastService.Success("系统通知","保存成功");
+        }
+    }
+    private async void OnUpdateAsync(int id)
+    {
+        UpdateModel= await GetUpdateRouteDataAsync(id);
+        await UpdateModal.Toggle();
+    }
+    private async Task<UpdateRouteDto> GetUpdateRouteDataAsync(int id)
+    {
+        var result =await RouteAppService.GetAsync(id);
+        if (result.Code != 0 || result.Data == null)
+        {
+            await ToastService.Warning("系统警告","信息获取失败");
+        }
+        var data = result.Data;
+        var updateDataModel = new UpdateRouteDto()
+            {
+                ClusterHealthCheck = TypeAdapter.Adapt<ClusterHealthCheckDto>(data.Cluster.HealthCheck),
+                Description = "",
+                UseState = data.UseState,
+                LoadBalancingPolicy = data.Cluster.LoadBalancingPolicy,
+                PathPrefix = data.RouteTransforms.Where(x => x.TransformsName == "PathPrefix").Select(x => x.TransformsValue).FirstOrDefault(),
+                PathRemovePrefix = data.RouteTransforms.Where(x => x.TransformsName == "PathRemovePrefix").Select(x => x.TransformsValue).FirstOrDefault(),
+                RouteId = data.Id,
+                RouteMatchPath = data.RouteMatchPath,
+                RouteName = data.RouteName,
+                ServiceGovernanceType = data.Cluster.ServiceGovernanceType
+            };
+        if (data.Cluster.ServiceGovernanceType == ServiceGovernanceType.Default)
+        {
+            updateDataModel.ClusterDestinationValue = string.Join(',', data.Cluster.ClusterDestinations.Select(x => x.DestinationAddress).ToList());
+        }
+        else
+        {
+            updateDataModel.ClusterDestinationValue = data.Cluster.ServiceGovernanceName;
+        }
+        return updateDataModel;
+    }
+    private async void OnUpdateCallbackAsync()
+    {
+        await UpdateModal.Close();
+        OnQueryAsync();
+    }
+    #endregion
+    #region 新增路由
+    private async void OnAddAsync()
+    {
+        await Modal.Toggle();
+    }
+    private async void OnAddCallbackAsync()
+    {
+        await Modal.Close();
+        OnQueryAsync();
+    }
+    #endregion
+    private async Task OnDeleteAsync(int routeId)
+    {
+        var result= await RouteAppService.DeleteAsync(routeId);
+        if (result.Code == 0)
+        {
+            OnQueryAsync();
+            await ToastService.Success("系统通知","数据删除成功!");
+            return;
+        }
+        await ToastService.Warning("系统警告","数据删除失败");
+    }
+
+    private Task OnPageClick(int pageIndex, int pageItems)
+    {
+        PageIndex = pageIndex;
+        OnQueryAsync();
+        return Task.CompletedTask;
+    }
+    private Task OnPageItemsChanged(int pageItems)
+    {
+        PageIndex=1;
+        PageSize = pageItems;
+        OnQueryAsync();
+        return Task.CompletedTask;
+    }
+
+    private void OnSearchAsync()
+    {
+        PageIndex = 1;
+        OnQueryAsync();
+    }
+    private async void OnQueryAsync()
+    {
+        var result = await RouteAppService.GetPageAsync(SearchKw, PageIndex, PageSize);
+
+        if (result.Code == 0)
+        {
+            Routes = result.Data;
+            TotalCount = result.Count;
+            StateHasChanged();
+        }
+        else
+        {
+            await ToastService.Warning("系统警告", "路由数据加载失败");
+        }
+    }
+
+}

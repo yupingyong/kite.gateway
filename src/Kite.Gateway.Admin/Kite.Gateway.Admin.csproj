@@ -4,35 +4,52 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;8601;8602;8618;8625;</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;8601;8602;8618;8625;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="C:\Users\yupin\.nuget\packages\volo.abp.aspnetcore\7.1.1\contentFiles\any\net7.0\Volo.Abp.AspNetCore.abppkg.analyze.json" />
-    <Content Remove="C:\Users\yupin\.nuget\packages\volo.abp.aspnetcore\7.1.1\contentFiles\any\net7.0\Volo.Abp.AspNetCore.abppkg.json" />
+    <Compile Remove="Models\**" />
+    <Content Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
   </ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Volo.Abp.AspNetCore" Version="7.2.1" />
-		<PackageReference Include="Volo.Abp.Autofac" Version="7.2.1" />
-		<PackageReference Include="Volo.Abp.Swashbuckle" Version="7.2.1" />
-	</ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Kite.Gateway.Application\Kite.Gateway.Application.csproj" />
-    <ProjectReference Include="..\Kite.Gateway.EntityFrameworkCore\Kite.Gateway.EntityFrameworkCore.csproj" />
+    <Content Include="data\upload\微信图片_20230107141853.png" />
   </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="Views\Account\" />
+    <PackageReference Include="BootstrapBlazor" Version="7.4.5" />
+    <PackageReference Include="BootstrapBlazor.FontAwesome" Version="7.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MudBlazor" Version="6.3.1" />
+    <PackageReference Include="Volo.Abp.AspNetCore" Version="7.2.2" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="7.2.2" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="wwwroot\lib\layui\font\iconfont.svg" />
-    <None Include="wwwroot\lib\layui\font\iconfont.woff2" />
+    <ProjectReference Include="..\..\src\Kite.Gateway.Application\Kite.Gateway.Application.csproj" />
+    <ProjectReference Include="..\..\src\Kite.Gateway.EntityFrameworkCore\Kite.Gateway.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="data\upload\" />
   </ItemGroup>
 
 </Project>
