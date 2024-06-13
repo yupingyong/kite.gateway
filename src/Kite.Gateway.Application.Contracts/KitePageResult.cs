@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kite.Gateway.Application
+namespace Kite
 {
     public class KitePageResult<TResult> : KiteResult<TResult>
     {

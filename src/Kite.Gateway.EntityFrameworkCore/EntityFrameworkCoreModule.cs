@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.Sqlite;
 using Volo.Abp.Modularity;
 using Volo.Abp;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.DependencyInjection;
+using Volo.Abp.EntityFrameworkCore.Sqlite;
 
 namespace Kite.Gateway.EntityFrameworkCore
 {
@@ -25,7 +25,7 @@ namespace Kite.Gateway.EntityFrameworkCore
             var configuration = context.Services.GetConfiguration();
             Configure<AbpDbContextOptions>(options =>
             {
-                options.UseSqlite();
+                options.UseSqlite(x => x.MigrationsAssembly("Kite.Gateway.Migrations"));
             });
             context.Services.AddAbpDbContext<KiteDbContext>(options =>
             {
@@ -35,9 +35,9 @@ namespace Kite.Gateway.EntityFrameworkCore
             var options = new AbpDbContextRegistrationOptions(typeof(KiteDbContext), context.Services);
             new EFCoreRepositoryCustomerRegister(options).AddRepositories();
         }
-        public override void OnApplicationInitialization(ApplicationInitializationContext context)
+        public override void OnApplicationInitialization(ApplicationInitializationContext app)
         {
-            var dbContext = context.ServiceProvider.GetService<KiteDbContext>();
+            var dbContext = app.ServiceProvider.GetService<KiteDbContext>();
             if (dbContext != null)
             {
                 dbContext.Database.Migrate();

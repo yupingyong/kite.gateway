@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Modularity;
 
-namespace Kite.Gateway.Domain.Shared
+namespace Kite.Gateway.Domain
 {
     [DependsOn(
         

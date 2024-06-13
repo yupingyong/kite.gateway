@@ -1,4 +1,4 @@
-using Kite.Gateway.Domain.Shared;
+using Kite.Gateway.Management.Web;
 using Kite.Gateway.Web;
 using Microsoft.AspNetCore.Http.Features;
 using Serilog;
@@ -8,7 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 //日志配置
 builder.Logging.ClearProviders();
-Log.Logger = LoggerManager.CreateLogger();
+Log.Logger = new LoggerConfiguration()
+          .Enrich.FromLogContext()
+          .WriteTo.Console()// 日志输出到控制台
+          .WriteTo.File($"data/logs/log-.txt", restrictedToMinimumLevel: LogEventLevel.Warning, rollingInterval: RollingInterval.Day)
+          .MinimumLevel.Information()
+          .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+          .CreateLogger();
 builder.Host
      .UseSerilog(dispose: true)
      .UseAutofac();
@@ -26,7 +32,9 @@ builder.Services.Configure<FormOptions>(options =>
 builder.Services.ReplaceConfiguration(builder.Configuration);//修正配置错误
 
 builder.Services.AddApplication<WebModule>();
+
 var app = builder.Build();
+
 app.InitializeApplication();
-app.MapGet("/", context => context.Response.WriteAsync("kite gateway run success!"));
 app.Run();
+

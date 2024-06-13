@@ -1,0 +1,113 @@
+﻿@page "/Auth/Account"
+
+<script type="text/html" id="dgbb_toolbar">
+    <div class="layui-btn-container">
+         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+    </div>
+</script>
+<script type="text/html" id="dgbb_bar">
+    <div class="layui-clear-space">
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    </div>
+</script>
+<script type="text/html" id="dgbb_state_show">
+    <input type="checkbox" name="isUse" value="{{= d.id }}" title="是|否" lay-skin="switch" lay-filter="dgbb_state_show" {{= d.isUse ? "checked" : "" }}>
+</script>
+<div id="viewer">
+    <table id="dgbb_table" lay-filter="dgbb_table"></table>
+</div>
+<script>
+    layui.use(['form', 'table'], function () {
+        var table = layui.table, form = layui.form;
+        table.render({
+            elem: '#dgbb_table'
+            , url: '/api/kite/auth/account/page'
+            , height: 'full-10'
+            , toolbar: '#dgbb_toolbar'
+            , page: true
+            , cols: [[
+                { field: 'accountName', title: '账号名' },
+                { field: 'nickName', title: '昵称' },
+                { field: 'headUrl', title: '头像' },
+                { field: 'isUse', title: '是否启用', width: 112, templet: '#dgbb_state_show' },
+                { field: 'roleName', title: '角色名称' },
+                { field: 'created', title: '创建时间', width: 160 },
+                { field: 'updated', title: '更新时间', width: 160 },
+                { title: '操作', width: 300, templet: '#dgbb_bar' }
+            ]]
+            , height: 600
+        });
+        //触发单元格工具事件
+        table.on('tool(dgbb_table)', function (obj) { // 双击 toolDouble
+            var data = obj.data;
+            if (obj.event === 'delete') {
+                layer.confirm('确认进行删除操作?', function (index) {
+
+                    $.ajax({
+                        type: 'delete',
+                        url: '/api/kite/auth/account/' + data.id,
+                        success: function (res) {
+                            if (res.code == 0) {
+                                layer.msg("数据删除成功", function () {
+                                    table.reloadData('dgbb_table');
+                                    obj.del();
+                                });
+                            }
+                            else {
+                                layer.msg(res.message);
+                            }
+                        }
+                    });
+                });
+            }
+            else if (obj.event === 'edit') {
+                layer.open({
+                    type: 2,
+                    title: '账号编辑',
+                    shadeClose: true,
+                    area: ['900px', '600px'],
+                    content: '/Auth/Account/Edit/' + data.id,
+                    end: function () {
+                        table.reloadData('dgbb_table');
+                    }
+                });
+            }
+        });
+        // 头工具栏事件
+        table.on('toolbar(dgbb_table)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
+            switch (obj.event) {
+                case 'add':
+                    layer.open({
+                        type: 2,
+                        title: '添加账号',
+                        shadeClose: true,
+                        area: ['900px', '600px'],
+                        content: '/Auth/Account/Edit/@(Guid.Empty.ToString())',
+                        end: function () {
+                            table.reloadData('dgbb_table');
+                        }
+                    });
+                    break;
+            };
+        });
+        // 状态 - 开关操作
+        form.on('switch(dgbb_state_show)', function (obj) {
+            var id = this.value;
+            var requestData = {
+                id: id,
+                isUse: obj.elem.checked
+            };
+            $.ajax({
+                type: 'put',
+                url: '/api/kite/auth/account/state',
+                data: JSON.stringify(requestData),
+                contentType: 'application/json;charset=utf-8',
+                success: function (res) {
+                    layer.msg("操作成功");
+                }
+            });
+        });
+    })
+</script>

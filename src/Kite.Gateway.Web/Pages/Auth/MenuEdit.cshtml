@@ -1,0 +1,105 @@
+﻿@page "/Auth/Menu/Edit/{id}"
+
+<form class="layui-form layui-col-xs10" style="margin-top:5px;" action="" lay-filter="dgbbForm" id="dgbbForm">
+    <input type="hidden" id="Id" name="Id" />
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名<em style="color:red;">*</em></label>
+        <div class="layui-input-block">
+            <input type="text" name="MenuName" id="MenuName" lay-verify="required" placeholder="请输入菜单名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">授权码<em style="color:red;">*</em></label>
+        <div class="layui-input-block">
+            <input type="text" name="AuthCode" id="AuthCode" lay-verify="required" placeholder="授权码(路由地址/按钮标识)" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属角色<em style="color:red;">*</em></label>
+        <div class="layui-input-block">
+            <select id="ParentId" name="ParentId">
+                <option value="00000000-0000-0000-0000-000000000000">无上级</option>
+            </select>
+        </div>
+    </div>
+   @*  <div class="layui-form-item">
+        <label class="layui-form-label">是否为菜单</label>
+        <div class="layui-input-block">
+            <input type="radio" name="IsMenu" value="true" title="是" checked>
+            <input type="radio" name="IsMenu" value="false" title="否">
+        </div>
+    </div> *@
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="btn_SaveData" id="btn_SaveData">保存</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use(function () {
+        var form = layui.form;
+        var layer = layui.layer
+            , util = layui, element = layui.element
+            , $ = layui.$;
+        //获取ID
+        var id = '@(Html.ViewContext.HttpContext.Request.RouteValues["id"])';
+        //加载一级分类数据
+        $.ajax({
+            type: 'get',
+            url: '/api/kite/auth/menu/one',
+            async: false,
+            success: function (res) {
+                if (res.code == 0) {
+                    for (var i = 0; i < res.data.length; i++) {
+                        $("#ParentId").append("<option value='" + res.data[i].id + "'>" + res.data[i].menuName + "</option>");
+                    }
+                }
+            }
+        });
+        //加载数据
+
+        if (id == '@(Guid.Empty)') {
+            form.val('dgbbForm', {
+                "Id": id
+            });
+        }
+        else {
+            $.get("/api/kite/auth/menu/" + id, function (res) {
+                if (res.code == 0) {
+                    form.val('dgbbForm', {
+                        "Id": id, // "name": "value"
+                        "MenuName": res.data.menuName,
+                        "AuthCode": res.data.authCode,
+                        "ParentId": res.data.parentId,
+                        "IsMenu": '' + res.data.isMenu
+                    });
+                }
+            });
+        }
+        // 提交事件
+        form.on('submit(btn_SaveData)', function (data) {
+            var loadIndex = layer.load(2);
+            // 此处可执行 Ajax 等操作
+            $.ajax({
+                url: '/api/kite/auth/menu/edit',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify(data.field),
+                success: function (res) {
+                    layer.close(loadIndex);
+                    if (res.code == 0) {
+                        layer.msg("操作成功", function () {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                    }
+                    else {
+                        layer.msg(res.message);
+                    }
+                }
+            });
+            // …
+            return false; // 阻止默认 form 跳转
+        });
+    });
+</script>

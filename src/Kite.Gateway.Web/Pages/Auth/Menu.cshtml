@@ -1,0 +1,99 @@
+﻿@page "/Auth/Menu"
+
+<script type="text/html" id="dgbb_toolbar">
+    <div class="layui-btn-container">
+         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+    </div>
+</script>
+<script type="text/html" id="dgbb_bar">
+    <div class="layui-clear-space">
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    </div>
+</script>
+<script type="text/html" id="dgbb_state_show">
+    <input type="checkbox" name="isMenu" value="{{= d.id }}" title="是|否" lay-skin="switch" lay-filter="dgbb_state_show" {{= d.isMenu ? "checked" : "" }}>
+</script>
+<div id="viewer">
+    <table id="dgbb_table" lay-filter="dgbb_table"></table>
+</div>
+<script>
+    layui.use(function () {
+        var treeTable = layui.treeTable, form = layui.form;
+        var inst = treeTable.render({
+            elem: '#dgbb_table'
+            , url: '/api/kite/auth/menu/tree'
+            , height: 'full-10'
+            , toolbar: '#dgbb_toolbar'
+            , tree: {
+                customName: {
+                    name: 'menuName'
+                }
+            }
+            , page: false
+            , cols: [[
+                { field: 'menuName', title: '菜单名称' },
+                { field: 'authCode', title: '授权码' },
+                // { field: 'isMenu', title: '是否为菜单', width: 112, templet: '#dgbb_state_show' },
+                { field: 'created', title: '创建时间', width: 160 },
+                { field: 'updated', title: '更新时间', width: 160 },
+                { title: '操作', width: 300, templet: '#dgbb_bar' }
+            ]]
+            , height: 'full-10'
+        });
+        //触发单元格工具事件
+        treeTable.on('tool(dgbb_table)', function (obj) { // 双击 toolDouble
+            var data = obj.data;
+            if (obj.event === 'delete') {
+                layer.confirm('确认进行删除操作?', function (index) {
+
+                    $.ajax({
+                        type: 'delete',
+                        url: '/api/kite/auth/menu/' + data.id,
+                        success: function (res) {
+                            if (res.code == 0) {
+                                layer.msg("数据删除成功", function () {
+                                    treeTable.reloadData('dgbb_table');
+                                    obj.del();
+                                });
+                            }
+                            else {
+                                layer.msg(res.message);
+                            }
+                        }
+                    });
+                });
+            }
+            else if (obj.event === 'edit') {
+                layer.open({
+                    type: 2,
+                    title: '菜单编辑',
+                    shadeClose: true,
+                    area: ['700px', '380px'],
+                    content: '/Auth/Menu/Edit/' + data.id,
+                    end: function () {
+                        treeTable.reloadData('dgbb_table');
+                    }
+                });
+            }
+        });
+        // 头工具栏事件
+        treeTable.on('toolbar(dgbb_table)', function (obj) {
+            var checkStatus = treeTable.checkStatus(obj.config.id); //获取选中行状态
+            switch (obj.event) {
+                case 'add':
+                    layer.open({
+                        type: 2,
+                        title: '添加菜单',
+                        shadeClose: true,
+                        area: ['700px', '380px'],
+                        content: '/Auth/Menu/Edit/@(Guid.Empty.ToString())',
+                        end: function () {
+                            treeTable.reloadData('dgbb_table');
+                        }
+                    });
+                    break;
+            };
+        });
+    });
+</script>

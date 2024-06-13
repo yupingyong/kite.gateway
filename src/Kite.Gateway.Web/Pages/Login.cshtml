@@ -1,0 +1,76 @@
+﻿@page
+
+<style>
+    .demo-login-container {
+        width: 320px;
+        margin: 21px auto 0;
+    }
+
+    .demo-login-other .layui-icon {
+        position: relative;
+        display: inline-block;
+        margin: 0 2px;
+        top: 2px;
+        font-size: 26px;
+    }
+</style>
+<form class="layui-form" style="margin-top:18%">
+    <div class="demo-login-container">
+        <div class="layui-form-item">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="AccountName" id="AccountName" value="" lay-verify="required" placeholder="账号" lay-reqtext="请填写管理员账号" autocomplete="off" class="layui-input" lay-affix="clear">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-password"></i>
+                </div>
+                <input type="password" name="Password" id="Password" value="" lay-verify="required" placeholder="密   码" lay-reqtext="请填写密码" autocomplete="off" class="layui-input" lay-affix="eye">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="kite-login">登录</button>
+        </div>
+    </div>
+</form>
+
+<!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
+<script>
+    layui.use(function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        // 提交事件
+        form.on('submit(kite-login)', function (data) {
+            var field = data.field; // 获取表单字段值
+            var loadIndex = layer.load(2);
+            // 此处可执行 Ajax 等操作
+            $.ajax({
+                type: 'post',
+                url: '/api/kite/auth/login',
+                contentType: 'application/json',
+                data: JSON.stringify(field),
+                success: function (res) {
+                    layer.close(loadIndex);
+                    if (res.code == 0) {
+                        window.location.href = '/';
+                    }
+                    else {
+                        layer.msg(res.message);
+                    }
+                    console.log(res);
+                },
+                error: function (ex) {
+                    layer.close(loadIndex);
+                    console.log(ex);
+                    layer.msg("系统异常");
+                }
+            });
+            // …
+            return false; // 阻止默认 form 跳转
+        });
+    });
+</script>

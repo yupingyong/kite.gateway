@@ -1,0 +1,134 @@
+﻿@page
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">网关后台管理系统</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            @* <li class="layui-nav-item layui-hide-xs"><a href="/">后台首页</a></li> *@
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                <a href="javascript:;">
+                    @(Html.ViewContext.HttpContext.User.Claims.Where(x => x.Type == "AccountName").Select(x => x.Value).FirstOrDefault())
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:void(0)" id="btn_SignOut">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" id="authMenu">
+                <li class="layui-nav-item">
+                    <a href="javascript:;" kite-menu-event="open" data-menu-id="tab_home" data-menu-name="首页" data-menu-url="/Home">首页</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div class="layui-tab layui-tab-brief" lay-filter="kite-tab" lay-allowclose="true">
+            <ul class="layui-tab-title" id="kite_tab_menu">
+            </ul>
+            <div class="layui-tab-content">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        底部固定区域
+    </div>
+
+</div>
+
+<script>
+    //JS
+    layui.use(function () {
+        var element = layui.element
+            , layer = layui.layer
+            , util = layui.util
+            , $ = layui.$;
+        //加载权限菜单
+        $.ajax({
+            type: 'get',
+            url: '/api/kite/auth/menu/tree',
+            success: function (res) {
+                if (res.code == 0) {
+                    for (var c = 0; c < res.data.length; c++) {
+                        var menuHtml = $('<li class="layui-nav-item" id="' + res.data[c].id + '"></li>');
+                        $("#authMenu").append(menuHtml);
+                        $(menuHtml).append('<a class="" href="javascript:;">' + res.data[c].menuName + '</a>');
+                        for (var i = 0; i < res.data[c].children.length; i++) {
+                            $(menuHtml).append('<dl class="layui-nav-child"><dd><a href="javascript:;" kite-menu-event="open" data-menu-id="' + res.data[c].children[i].id + '" data-menu-name="' + res.data[c].children[i].menuName + '" data-menu-url="' + res.data[c].children[i].authCode + '" >' + res.data[c].children[i].menuName + '</a></dd></dl>');
+                        }
+                    }
+                    element.render('nav');
+                }
+            }
+        });
+        //头部事件
+        util.event('kite-menu-event', {
+            //左侧菜单事件
+            open: function () {
+                var id = $(this).attr("data-menu-id");
+                var name = $(this).attr("data-menu-name");
+                var url = $(this).attr("data-menu-url");
+
+                AddTab(id, name, url);
+            }
+        });
+        //新增一个Tab项
+        function AddTab(id, name, url) {
+            let tab_node = $("#kite_tab_menu").find("li[lay-id='" + id + "']");
+            if (tab_node.length == 0) {
+                let frameHeight = $(window).height() - 170;
+                let frameHtml = '<iframe src="' + url + '" style="width:100%;border:0px;height:' + frameHeight + 'px;" id="frameBox"></iframe>';
+                element.tabAdd('kite-tab', {
+                    title: name
+                    , content: frameHtml
+                    , id: id
+                });
+            }
+            element.tabChange('kite-tab', id);
+        }
+        //tab删除事件监控
+        element.on('tabDelete(kite-tab)', function (data) {
+            console.log(data); //得到当前的Tab大容器
+            if (data.index > 0) {
+                return true;
+            }
+            return false;
+
+        });
+        //插入默认首页
+        AddTab("tab_home", "首页", "/Home");
+        //退出登录
+        $("#btn_SignOut").click(function () {
+            layer.confirm('一个询问框的示例？', {
+                btn: ['退出登录', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/api/kite/auth/login/out',
+                    success: function (res) {
+                        if (res.code == 0) {
+                            layer.msg("退出登录成功,即将跳转到登录页面", function () {
+                                window.location.href = '/Login';
+                            });
+                        }
+                        else {
+                            layer.msg(res.message);
+                        }
+                    }
+                });
+            }, function () {
+                return true;
+            });
+        });
+    });
+</script>
+

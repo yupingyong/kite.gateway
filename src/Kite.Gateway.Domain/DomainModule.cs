@@ -1,14 +1,14 @@
-﻿using Kite.Gateway.Domain.Shared;
-using Kite.Gateway.Domain;
+﻿using Kite.Gateway.Domain.Services.Auth;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Data;
+using Volo.Abp;
 using Volo.Abp.Modularity;
-using Microsoft.Extensions.DependencyInjection;
-using Yarp.ReverseProxy.Configuration;
-using Kite.Gateway.Domain.ReverseProxy;
 
 namespace Kite.Gateway.Domain
 {
@@ -19,6 +19,9 @@ namespace Kite.Gateway.Domain
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            var configuration =context.Services.GetConfiguration();
+            //注册默认配置项
         }
+        
     }
 }

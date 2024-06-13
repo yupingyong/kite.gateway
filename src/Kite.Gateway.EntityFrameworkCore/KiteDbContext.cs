@@ -1,5 +1,4 @@
-﻿using Kite.Gateway.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
 using Serilog;
 using System.Reflection;

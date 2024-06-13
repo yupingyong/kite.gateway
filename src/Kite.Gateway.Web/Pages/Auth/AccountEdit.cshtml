@@ -1,0 +1,213 @@
+﻿@page "/Auth/Account/Edit/{id}"
+
+<form class="layui-form layui-col-xs10" style="margin-top:5px;" action="" lay-filter="dgbbForm" id="dgbbForm">
+    <input type="hidden" id="Id" name="Id" />
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号名<em style="color:red;">*</em></label>
+        <div class="layui-input-block">
+            <input type="text" name="AccountName" id="AccountName" lay-verify="required" placeholder="请输入账号名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="text" name="Password" id="Password" placeholder="编辑时,不修改密码请保持为空" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称<em style="color:red;">*</em></label>
+        <div class="layui-input-block">
+            <input type="text" name="NickName" id="NickName" lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属角色<em style="color:red;">*</em></label>
+        <div class="layui-input-block">
+            <select id="RoleId" name="RoleId">
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否启用</label>
+        <div class="layui-input-block">
+            <input type="radio" name="IsUse" value="true" title="是" checked>
+            <input type="radio" name="IsUse" value="false" title="否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">头像<em style="color:red;">*</em></label>
+        <div class="layui-input-block">
+            <input type="hidden" id="HeadUrl" name="HeadUrl" />
+            <button type="button" class="layui-btn layui-btn-normal  layui-btn-sm" id="upload_btn_choose_HeadUrl">选择文件</button>
+            <button type="button" class="layui-btn  layui-btn-sm" id="upload_btn_HeadUrl">
+                <i class="layui-icon layui-icon-upload"></i> 上传文件
+            </button>
+            <div style="width: 132px;">
+                <div class="layui-upload-list">
+                    <img class="layui-upload-img" id="upload_show_HeadUrl" style="width: 100%; height: 92px;">
+                    <div id="upload_text_HeadUrl"></div>
+                </div>
+                <div class="layui-progress layui-progress-big" lay-showPercent="yes" lay-filter="upload_progress_HeadUrl">
+                    <div class="layui-progress-bar" lay-percent=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="btn_SaveData" id="btn_SaveData">保存</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use(function () {
+        var form = layui.form;
+        var layer = layui.layer
+            , util = layui, element = layui.element
+            , $ = layui.$;
+        //获取ID
+        var id = '@(Html.ViewContext.HttpContext.Request.RouteValues["id"])';
+        //加载一级分类数据
+        $.ajax({
+            type: 'get',
+            url: '/api/kite/auth/role',
+            async: false,
+            success: function (res) {
+                if (res.code == 0) {
+                    for (var i = 0; i < res.data.length; i++) {
+                        $("#RoleId").append("<option value='" + res.data[i].id + "'>" + res.data[i].roleName + "</option>");
+                    }
+                }
+            }
+        });
+        //加载数据
+
+        if (id == '@(Guid.Empty)') {
+            form.val('dgbbForm', {
+                "Id": id
+            });
+        }
+        else {
+            $.get("/api/kite/auth/account/" + id, function (res) {
+                if (res.code == 0) {
+                    form.val('dgbbForm', {
+                        "Id": id, // "name": "value"
+                        "AccountName": res.data.accountName,
+                        "NickName": res.data.nickName,
+                        "Password": res.data.password,
+                        "RoleId": res.data.roleId,
+                        "HeadUrl": res.data.headUrl,
+                        "IsUse": '' + res.data.isUse
+                    });
+                    //填充图片
+                    $("#upload_show_HeadUrl").attr('src', res.data.headUrl);
+                }
+            });
+        }
+        // 提交事件
+        form.on('submit(btn_SaveData)', function (data) {
+            var loadIndex = layer.load(2);
+            // 此处可执行 Ajax 等操作
+            $.ajax({
+                url: '/api/kite/auth/account/edit',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify(data.field),
+                success: function (res) {
+                    layer.close(loadIndex);
+                    if (res.code == 0) {
+                        layer.msg("操作成功", function () {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                    }
+                    else {
+                        layer.msg(res.message);
+                    }
+                }
+            });
+            // …
+            return false; // 阻止默认 form 跳转
+        });
+    });
+</script>
+<script>
+    var fileDomainName = "http://fs.help.top";
+</script>
+<!--客服二维码图上传-->
+<script>
+    layui.use(function () {
+        var form = layui.form;
+        var layer = layui.layer
+            , $ = layui.$
+            , upload = layui.upload
+            , element = layui.element;
+        // 单图片上传
+        let uploadOptions = {
+            elem: '#upload_btn_choose_HeadUrl',
+            url: 'https://upload.qiniup.com', // 实际使用时改成您自己的上传接口即可。
+            data: {
+                key: '',  //自定义文件名
+                token: function () {
+                    var token;
+                    $.ajax({
+                        async: false,//ajax 非异步获取taken
+                        type: 'get',
+                        url: '/api/kite/file/qiniu-token',
+                        success: function (res) {
+                            token = res.data;
+                        }
+                    });
+                    return token;
+                }
+            },
+            auto: false,
+            bindAction: '#upload_btn_HeadUrl',
+            choose: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#upload_show_HeadUrl').attr('src', result);
+                    $.ajax({
+                        async: false,//ajax 非异步获取taken
+                        type: 'get',
+                        url: '/api/kite/file/qiniu-file-key',
+                        data: 'fileName=' + file.name,
+                        success: function (res) {
+                            uploadOptions.data.key = res.data;
+                        }
+                    });
+
+                });
+            },
+            before: function (obj) {
+                element.progress('upload_progress_HeadUrl', '0%'); // 进度条复位
+            },
+            done: function (res) {
+                // 若上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                // 上传成功的一些操作
+                var fileUrl = fileDomainName + '/' + uploadOptions.data.key;
+                $("#HeadUrl").val(fileUrl);
+                // …
+                $('#upload_text_HeadUrl').html(''); // 置空上传失败的状态
+            },
+            error: function () {
+                // 演示失败状态，并实现重传
+                var demoText = $('#upload_text_HeadUrl');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            },
+            // 进度条
+            progress: function (n, elem, e) {
+                element.progress('upload_progress_HeadUrl', n + '%'); // 可配合 layui 进度条元素使用
+                if (n == 100) {
+                    layer.msg('上传完毕', { icon: 1 });
+                }
+            }
+        };
+        let uploadInst = upload.render(uploadOptions);
+    });
+</script>

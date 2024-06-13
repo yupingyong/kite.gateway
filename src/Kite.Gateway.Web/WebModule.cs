@@ -1,217 +1,136 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+﻿using Autofac.Core;
+using DGBB.Migrations;
 using Kite.Gateway.Application;
-using Kite.Gateway.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Kite.Gateway.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Autofac;
+using Volo.Abp.Json;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using Microsoft.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc.Validation;
-using Volo.Abp.AspNetCore.Mvc.ExceptionHandling;
-using Kite.Gateway.Web.Filters;
-using Newtonsoft.Json;
-using Volo.Abp.Json;
-using Consul;
-using Kite.Gateway.Domain.Authorization;
-using Yarp.ReverseProxy.Configuration;
-using Kite.Gateway.Domain.ReverseProxy;
-using Kite.Gateway.Domain.Shared.Options;
-using Kite.Gateway.Web.Middlewares;
-using Kite.Gateway.Domain.Shared.Enums;
-using Microsoft.Extensions.Options;
-using Kite.Gateway.Application.Contracts.Dtos;
-using Kite.Gateway.Application.Contracts;
-using Serilog;
-using Microsoft.AspNetCore.HttpOverrides;
-using Kite.Gateway.EntityFrameworkCore;
 
 namespace Kite.Gateway.Web
 {
     [DependsOn(
          typeof(AbpAutofacModule),
          typeof(ApplicationModule),
-         typeof(AbpSwashbuckleModule)
+        typeof(AbpSwashbuckleModule),
+        typeof(MigrationsModule)
      )]
-    public class WebModule:AbpModule
+    public class WebModule : AbpModule
     {
-        #region 中间件注入
         private ServiceConfigurationContext _context;
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             _context = context;
-            context.Services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders =
-                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-                options.KnownNetworks.Clear();
-                options.KnownProxies.Clear();
-            });
-            context.Services.AddHttpClient();
-            //注入会话
-            context.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //
             ConfigureCore();
-            ConfigureCors();
-            ConfigureMvc();
-            ConfigureReverseProxy();
+            ConfigureRazorPage();
+            ConfigureAbpApi();
+            _context.Services.AddKiteApi();
+            _context.Services.AddKiteAuth();
+            _context.Services.AddKiteSwagger();
         }
-        /// <summary>
-        /// 网关核心配置项
-        /// </summary>
         private void ConfigureCore()
         {
-            //注入网关基础配置
-            _context.Services.Configure<KiteGatewayOption>(_context.Services.GetConfiguration().GetSection("KiteGateway"));
-            //白名单配置
-            _context.Services.Configure<List<WhitelistOption>>(opt => { });
-            //中间件配置
-            _context.Services.Configure<List<MiddlewareOption>>(opt => { });
-            //Jwt身份认证配置
-            _context.Services.Configure<AuthenticationOption>(opt =>
+            var configuration = _context.Services.GetConfiguration();
+            _context.Services.AddMemoryCache();
+            _context.Services.AddHttpClient();
+            _context.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        }
+        private void ConfigureRazorPage()
+        {
+            var configuration = _context.Services.GetConfiguration();
+            _context.Services.AddRazorPages(options =>
             {
-                opt.UseState = false;
+                //设置授权访问
+                options.Conventions.AllowAnonymousToPage("/Login");
+                options.Conventions.AllowAnonymousToPage("/Error");
+                options.Conventions.AuthorizePage("/Index");
+                options.Conventions.AuthorizePage("/Home");
+                options.Conventions.AuthorizeFolder("/Auth");
             });
-            _context.Services.Configure<TokenValidationParameters>(opt => { });
-            //Yarp反向代理配置
-            _context.Services.Configure<YarpOption>(opt => 
-            {
-                opt.Routes = new List<RouteOption>();
-            });
+            
         }
         /// <summary>
-        /// MVC中间件注入配置
+        /// Abp接口服务配置
         /// </summary>
-        private void ConfigureMvc()
+        private void ConfigureAbpApi() 
         {
-            _context.Services.AddControllers(options =>
+            Configure<AbpAspNetCoreMvcOptions>(options =>
             {
-                // 移除 AbpValidationActionFilter
-                var filterMetadata = options.Filters.FirstOrDefault(x => x is ServiceFilterAttribute attribute && attribute.ServiceType.Equals(typeof(AbpValidationActionFilter)));
-                if (filterMetadata != null)
-                    options.Filters.Remove(filterMetadata);
-                //移除全局异常过滤器
-                var errIndex = options.Filters.ToList().FindIndex(filter => filter is ServiceFilterAttribute attr && attr.ServiceType.Equals(typeof(AbpExceptionFilter)));
-                if (errIndex > -1)
-                    options.Filters.RemoveAt(errIndex);
-                //
-                options.Filters.Add(typeof(AbpCoreExceptionFilter));
-                options.Filters.Add<KiteCoreActionFilter>();
-            })
-            .AddJsonOptions(opt => { });
-            Configure<AbpJsonOptions>(options => 
-            {
-                options.InputDateTimeFormats = new List<string>() 
+                options.ConventionalControllers.Create(typeof(ApplicationModule).Assembly, opts =>
                 {
-                    "yyyy-MM-dd HH:mm:ss"
-                };
-                options.OutputDateTimeFormat = "yyyy-MM-dd HH:mm:ss";
-            });
-        }
-        /// <summary>
-        /// 配置反向代理
-        /// </summary>
-        private void ConfigureReverseProxy()
-        {
-            //注入反向代理
-            _context.Services.AddSingleton<IProxyConfigProvider, InDatabaseStoreConfigProvider>();
-            _context.Services.AddReverseProxy();
-        }
-        /// <summary>
-        /// 跨域注入
-        /// </summary>
-        private void ConfigureCors()
-        {
-            //跨域配置
-            _context.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(policy =>
-                {
-                    policy
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .SetIsOriginAllowed(o => true)
-                    .AllowCredentials();
+                    opts.RootPath = "kite";
+                    opts.UrlControllerNameNormalizer = (controller) =>
+                    {
+                        return GetControllerRoute(controller.ControllerName);
+                    };
                 });
             });
+            Configure<AbpJsonOptions>(options =>
+            {
+                options.OutputDateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+                options.InputDateTimeFormats.Add("yyyy-MM-dd HH:mm:ss");
+            });
         }
-        #endregion
+        /// <summary>
+        /// 处理路由
+        /// </summary>
+        /// <param name="controllerName"></param>
+        /// <returns></returns>
+        private string GetControllerRoute(string controllerName)
+        {
+            var chars = new List<string>();
+            var str = new List<string>();
+            foreach (char c in controllerName)
+            {
+                if (Char.IsUpper(c))
+                {
+                    if (chars.Any())
+                    {
+                        str.Add(string.Join("", chars));
+                        chars.Clear();
+                    }
+                }
+                chars.Add(c.ToString().ToLower());
+            }
+            str.Add(string.Join("", chars));
+            if (str.Count > 1)
+            {
+                return string.Join("/", str);
+            }
+            return controllerName.ToLower();
+        }
+        /// <summary>
+        /// 应用服务初始化
+        /// </summary>
+        /// <param name="context"></param>
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
-            
-            LoadMainConfigureAsync(context);
-            //
             var app = context.GetApplicationBuilder();
             var env = context.GetEnvironment();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
             else
             {
                 app.UseExceptionHandler("/Error");
             }
-            app.UseForwardedHeaders();
             app.UseCors();
+            app.UseStaticFiles();
             app.UseRouting();
-           
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                
-                endpoints.MapReverseProxy(proxyPipeline =>
-                {
-                    proxyPipeline.UseMiddleware<KiteAuthorizationMiddleware>();
-                    proxyPipeline.UseMiddleware<KiteExternalMiddleware>();
-                });
+                endpoints.MapRazorPages();
             });
-        }
-        /// <summary>
-        /// 加载基础配置项
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        private void LoadMainConfigureAsync(ApplicationInitializationContext context)
-        {
-            try
-            {
-
-                //初始化时刷新所有数据配置项
-                var options = context.ServiceProvider.GetService<IOptions<KiteGatewayOption>>();
-                if (options != null)
-                {
-                    var httpClientFactory = context.ServiceProvider.GetService<IHttpClientFactory>();
-                    
-                    var httpClient = httpClientFactory.CreateClient();
-                    var configureResult =  httpClient.GetFromJsonAsync<KiteResult<RefreshConfigureDto>>($"{options.Value.AdminServer}/api/kite/refresh/configure").Result;
-                    if (configureResult != null && configureResult.Code == 0)
-                    {
-                        var refreshAppService = context.ServiceProvider.GetService<IRefreshAppService>();
-                        if (refreshAppService != null)
-                        {
-                           var res= refreshAppService.RefreshConfigureAsync(configureResult.Data).Result;
-                        }
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, ex.Message);
-            }
         }
     }
 }

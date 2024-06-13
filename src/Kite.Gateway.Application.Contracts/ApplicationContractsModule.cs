@@ -1,5 +1,4 @@
-﻿using Kite.Gateway.Application.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +7,9 @@ using Volo.Abp.Modularity;
 
 namespace Kite.Gateway.Application.Contracts
 {
+    [DependsOn(
+        
+    )]
     public class ApplicationContractsModule:AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)

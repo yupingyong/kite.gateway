@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Kite.Gateway.Application.Contracts": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:57038;http://localhost:57039"
+    }
+  }
+}

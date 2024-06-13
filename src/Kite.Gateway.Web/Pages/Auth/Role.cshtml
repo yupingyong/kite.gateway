@@ -1,0 +1,178 @@
+﻿@page "/Auth/Role"
+
+<script type="text/html" id="dgbb_toolbar">
+    <div class="layui-btn-container">
+         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+    </div>
+</script>
+<script type="text/html" id="dgbb_bar">
+    <div class="layui-clear-space">
+        <a class="layui-btn layui-btn-xs" lay-event="set">权限设置</a>
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    </div>
+</script>
+
+<div id="viewer">
+    <table id="dgbb_table" lay-filter="dgbb_table"></table>
+</div>
+<script>
+    layui.use(['form', 'table'], function () {
+        var table = layui.table, tree = layui.tree;
+        table.render({
+            elem: '#dgbb_table'
+            , url: '/api/kite/auth/role/page'
+            , height: 'full-10'
+            , toolbar: '#dgbb_toolbar'
+            , page: true
+            , cols: [[
+                { field: 'roleName', title: '角色名称' },
+                { field: 'created', title: '创建时间', width: 160 },
+                { field: 'updated', title: '更新时间', width: 160 },
+                { title: '操作', width: 300, templet: '#dgbb_bar' }
+            ]]
+            ,height: 600
+        });
+        //触发单元格工具事件
+        table.on('tool(dgbb_table)', function (obj) { // 双击 toolDouble
+            var data = obj.data;
+            if (obj.event === 'delete') {
+                layer.confirm('确认进行删除操作?', function (index) {
+
+                    $.ajax({
+                        type: 'delete',
+                        url: '/api/kite/auth/role/' + data.id,
+                        success: function (res) {
+                            if (res.code == 0) {
+                                layer.msg("数据删除成功", function () {
+                                    table.reloadData('dgbb_table');
+                                    obj.del();
+                                });
+                            }
+                            else {
+                                layer.msg(res.message);
+                            }
+                        }
+                    });
+                });
+            }
+            else if (obj.event === 'edit') {
+                layer.prompt({ title: '更新角色', formType: 0, value: data.roleName }, function (text, index) {
+                    var postData = {
+                        "Id": data.id,
+                        "RoleName": text
+                    };
+                    $.ajax({
+                        url: '/api/kite/auth/role',
+                        type: 'put',
+                        contentType: 'application/json',
+                        data: JSON.stringify(postData),
+                        success: function (res) {
+                            if (res.code == 0) {
+                                layer.close(index);
+                                table.reloadData('dgbb_table');
+                            }
+                            else {
+                                layer.msg(res.message);
+                            }
+                        }
+                    });
+                });
+            }
+            else if (obj.event === 'set') {
+                //权限设置
+                var loadIndex = layer.load(2);
+                $.ajax({
+                    type: 'get',
+                    url: '/api/kite/auth/role/' + data.id + '/tree',
+                    success: function (res) {
+
+                        treeData = res.data;
+                        let loadIndex2 = layer.open({
+                            type: 1,
+                            area: ['520px', '720px'], // 宽高
+                            title: "设置权限",
+                            content: '<div id="Auth-Tree"></div>',
+                            btn: ['保存设置'],
+                            btn1: function () {
+                                var checkedData = tree.getChecked('Auth-Tree'); // 获取选中节点的数据
+                                var reqData = {
+                                    roleId:data.id,
+                                    menuIds:[]
+                                };
+                                if (checkedData.length > 0) {
+                                    for (var c = 0; c < checkedData.length; c++) {
+                                        reqData.menuIds.push(checkedData[c].id);
+                                        for (var i = 0; i < checkedData[c].children.length; i++) {
+                                            reqData.menuIds.push(checkedData[c].children[i].id);
+                                        }
+                                    }
+                                    console.log(reqData);
+                                }
+                                loadIndex = layer.load(2);
+                                $.ajax({
+                                    type:'post',
+                                    url: '/api/kite/auth/role/set',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify(reqData),
+                                    success: function (res) {
+                                        if (res.code == 0) {
+                                            layer.msg("设置成功");
+                                        }
+                                        else {
+                                            layer.msg(res.message);
+                                        }
+                                        layer.close(loadIndex);
+                                        layer.close(loadIndex2);
+                                    }
+                                });
+                                
+                            }
+                        });
+                        tree.render({
+                            elem: '#Auth-Tree',
+                            data: treeData,
+                            showCheckbox: true,  // 是否显示复选框
+                            onlyIconControl: true,  // 是否仅允许节点左侧图标控制展开收缩
+                            id: 'Auth-Tree',
+                            isJump: false, // 是否允许点击节点时弹出新窗口跳转
+                            click: function (obj) {
+                                var data = obj.data;  //获取当前点击的节点数据
+                            }
+                        });
+                        layer.close(loadIndex);
+                    }
+                });
+            }
+        });
+        // 头工具栏事件
+        table.on('toolbar(dgbb_table)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
+            switch (obj.event) {
+                case 'add':
+                    layer.prompt({ title: '添加角色', formType: 0 }, function (text, index) {
+                        var data = {
+                            "RoleName": text
+                        };
+                        $.ajax({
+                            url: '/api/kite/auth/role',
+                            type: 'post',
+                            contentType: 'application/json',
+                            data: JSON.stringify(data),
+                            success: function (res) {
+                                if (res.code == 0) {
+                                    layer.close(index);
+                                    table.reloadData('dgbb_table');
+                                }
+                                else {
+                                    layer.msg(res.message);
+                                }
+                            }
+                        });
+                    });
+                    break;
+                
+            };
+        });
+    })
+</script>
