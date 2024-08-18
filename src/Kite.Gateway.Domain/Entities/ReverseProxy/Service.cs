@@ -7,36 +7,37 @@ using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
-namespace Kite.Gateway.Domain.Entities.Common
+namespace Kite.Gateway.Domain.Entities.ReverseProxy
 {
-    /// <summary>
-    /// SSL证书信息表
-    /// </summary>
-    public class SSLCertificates : Entity<Guid>, ISoftDelete
+    public class Service : Entity<Guid>, ISoftDelete
     {
-        public SSLCertificates() { }
-        public SSLCertificates(Guid id) : base(id)
+        public Service() { }
+        public Service(Guid id) : base(id)
         {
         }
         /// <summary>
-        /// 标题
+        /// 服务名
         /// </summary>
         [MaxLength(256)]
-        public string Title { get; set; }
+        public string ServiceName { get; set; }
         /// <summary>
-        /// 证书文件路径
+        /// 关联证书
         /// </summary>
-        [MaxLength(256)]
-        public string FilePath { get; set; }
+        public Guid SSLCertificateId { get; set; }
         /// <summary>
-        /// 证书密码
+        /// 域名解析
         /// </summary>
-        [MaxLength(128)]
-        public string Password { get; set; }
+        [MaxLength(2048)]
+        public string Hosts { get; set; }
         /// <summary>
-        /// 有效期
+        /// 描述
         /// </summary>
-        public DateOnly ExpirationDate { get; set; }
+        [MaxLength(512)]
+        public string Description { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public bool UseState { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

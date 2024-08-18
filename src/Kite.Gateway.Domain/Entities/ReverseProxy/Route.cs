@@ -18,25 +18,14 @@ namespace Kite.Gateway.Domain.Entities
         {
         }
         /// <summary>
-        /// 路由ID同主键ID
+        /// 所属服务ID
         /// </summary>
-        [MaxLength(64)]
-        public string RouteId { get; set; }
+        public Guid ServiceId { get; set; }
         /// <summary>
         /// 路由名称
         /// </summary>
         [MaxLength(64)]
         public string RouteName { get; set; }
-        /// <summary>
-        /// 描述
-        /// </summary>
-        [MaxLength(512)]
-        public string Description { get; set; }
-        /// <summary>
-        /// 状态
-        /// </summary>
-        public bool UseState { get; set; }
-
         /// <summary>
         /// 路由路径规则
         /// </summary>
