@@ -9,6 +9,9 @@ using Volo.Abp.Domain.Entities;
 
 namespace Kite.Gateway.Domain.Entities.ReverseProxy
 {
+    /// <summary>
+    /// 服务信息表
+    /// </summary>
     public class Service : Entity<Guid>, ISoftDelete
     {
         public Service() { }
